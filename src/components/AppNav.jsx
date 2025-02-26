@@ -1,7 +1,9 @@
+import styles from "./AppNav.module.css";
+
 function AppNav() {
     return(
         <div>
-            <nav>App Navigation</nav>
+            <nav className={styles.nav}> App Navigation</nav>
         </div>
     )
 }

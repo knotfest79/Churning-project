@@ -1,20 +1,26 @@
- /* Subscription Plans */
- .plans {
-    text-align: center;
-    padding: 50px 20px;
-  }
-  
-  .planGrid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-    gap: 20px;
-    max-width: 1100px;
-    margin: auto;
-  }
-  
-  .planCard {
-    background: white;
-    padding: 20px;
-    border-radius: 5px;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-  }
+#pricing {
+  background: #f8f9fa;
+  padding: 50px 20px;
+  text-align: center;
+}
+
+#pricing h2 {
+  font-size: 2rem;
+  font-weight: bold;
+  margin-bottom: 20px;
+}
+
+.planGrid {
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+}
+
+.planCard {
+  background: white;
+  padding: 20px;
+  border-radius: 8px;
+  width: 250px;
+  text-align: center;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}

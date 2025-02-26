@@ -1,0 +1,28 @@
+@import "https://unpkg.com/leaflet@1.7.1/dist/leaflet.css";
+@import "https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;700;800&display=swap";
+:root {
+    --color-brand--1: #ffb545;
+    --color-brand--2: #00c46a;
+
+    --color-dark--1: #242a2e; /* ✅ Dark background */
+    --color-dark--2: #2d3439; /* ✅ Slightly lighter dark */
+    --color-dark--3: #42484d; /* ✅ Input border */
+    --color-light--1: #aaa;
+    --color-light--2: #ececec;
+    --color-light--3: #d6dee0;
+}
+
+
+html, body {
+    overflow-x: hidden;  /* ✅ Fixes left-right scrolling */
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+/* Ensure all sections stay within the screen */
+* {
+    box-sizing: border-box; /* ✅ Prevents elements from overflowing */
+    max-width: 100%;
+}

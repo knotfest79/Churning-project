@@ -22,6 +22,8 @@ import AppLayout from "./pages/AppLayout";
       <Route path = "login" element = {<Login />}  />
       <Route path = "app" element = {<AppLayout />}  />
       <Route path = "*" element = {<PageNotFound />}  />
+    
+
     </Routes>
     </BrowserRouter>
   )

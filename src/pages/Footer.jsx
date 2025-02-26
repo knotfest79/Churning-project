@@ -5,7 +5,7 @@ export default function Footer () {
     return (
          
               <footer className={styles.footer}>
-                <p>© 2024 CRM Company. All Rights Reserved.</p>
+                <p>© 2025 CRM Company. All Rights Reserved.</p>
               </footer>
            
     )

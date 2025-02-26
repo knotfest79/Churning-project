@@ -1,9 +1,11 @@
 .nav {
     display: flex;
     align-items: center;
-    justify-content: space-between;
-   background: #333;
-   padding: 15px 20px;
+    justify-content: space-between; /* ✅ Fixes logo and nav alignment */
+    background: #e3dede;
+    padding: 15px 20px;
+    width: 100%;
+    z-index: 1000;  
 }
 
 .nav ul {
