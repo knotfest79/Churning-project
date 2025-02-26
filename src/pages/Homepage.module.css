@@ -1,0 +1,82 @@
+/* Hero Section */
+.hero {
+  margin-top: 80px;
+    background: linear-gradient(to right, #3b82f6, #6366f1);
+    color: white;
+    text-align: center;
+    padding: 50px 20px;
+  }
+  
+  .hero h1 {
+    font-size: 2rem;
+    margin-bottom: 10px;
+  }
+  
+  .hero p {
+    font-size: 1.2rem;
+    margin-bottom: 20px;
+  }
+  
+  .buttons {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+  
+  .primaryButton, .secondaryButton {
+    padding: 12px 20px;
+    border-radius: 5px;
+    font-size: 1rem;
+    cursor: pointer;
+  }
+  
+  .primaryButton {
+    background-color: white;
+    color: #3b82f6;
+    border: none;
+  }
+  
+  .secondaryButton {
+    background-color: black;
+    color: white;
+    border: none;
+  }
+  
+  
+  
+ 
+  
+  .planCard button {
+    background-color: #3b82f6;
+    color: white;
+    border: none;
+    padding: 10px 15px;
+    border-radius: 5px;
+    cursor: pointer;
+    width: 100%;
+  }
+  
+  
+ 
+  
+  /* ✅ RESPONSIVENESS FIX - Adjustments for smaller screens */
+  @media (max-width: 768px) {
+    .hero h1 {
+      font-size: 1.5rem;
+    }
+    
+    .hero p {
+      font-size: 1rem;
+    }
+  
+    .featureGrid,
+    .planGrid {
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    }
+  
+    .buttons {
+      flex-direction: column;
+    }
+  }
+  

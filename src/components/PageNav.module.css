@@ -1,0 +1,32 @@
+.nav {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+   background: #333;
+   padding: 15px 20px;
+}
+
+.nav ul {
+    list-style: none;
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    margin: 0;
+    padding: 0;
+}
+
+.nav li {
+    padding: 5px 10px;
+}
+.nav a:link,
+.nav a:visited {
+text-decoration: none;
+color: white;
+font-weight: bold;
+transition: color 0.3s ease;
+
+}
+
+.nav a:hover {
+    color: #5757ff;
+}

@@ -1,0 +1,63 @@
+.login {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100vh; /* Full-screen height */
+    background-color: #f5f5f5;
+    padding-top: 100px; /* ✅ Prevents navbar from overlapping */
+}
+
+/* Style the login form */
+.form {
+    background: white;
+    padding: 2rem;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    width: 320px;
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    position: relative;
+}
+
+
+
+/* Row for input fields */
+.row {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+/* Style the input fields */
+input {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 1rem;
+}
+
+/* Style the login button */
+button {
+    background-color: #3b82f6;
+    color: white;
+    border: none;
+    padding: 12px;
+    border-radius: 5px;
+    font-size: 1rem;
+    cursor: pointer;
+}
+
+button:hover {
+    background-color: #0056b3;
+}
+
+nav {
+    position: fixed; /* Keep navbar on top */
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 1000; /* Ensure navbar is above everything */
+}
