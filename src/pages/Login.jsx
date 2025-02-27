@@ -8,7 +8,7 @@ export default function Login() {
 
     return (
         <>
-            <PageNav /> {/* Navbar stays on top */}
+            <PageNav /> 
             
             <main className={styles.login}> 
                 <form className={styles.form}>
@@ -35,7 +35,8 @@ export default function Login() {
                     </div>
 
                     <div>
-                        <button>Login</button>
+                    <button className="cta cta-border">Login</button>
+
                     </div>
                 </form>
             </main>

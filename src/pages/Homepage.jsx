@@ -12,11 +12,10 @@ export default function Homepage() {
     const location = useLocation();
 
     useEffect(() => {
-        // Get section ID from URL query param
+        
         const params = new URLSearchParams(location.search);
         const scrollTo = params.get("scrollTo");
 
-        // If a valid section ID exists, scroll to it
         if (scrollTo) {
             document.getElementById(scrollTo)?.scrollIntoView({ behavior: "smooth" });
         }

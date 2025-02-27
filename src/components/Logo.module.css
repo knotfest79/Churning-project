@@ -4,6 +4,6 @@
 }
 
 .logo {
-    height: 50px;  /* ✅ Adjust height */
-    width: auto; /* ✅ Maintain aspect ratio */
+    height: 50px;  
+    width: auto; 
 }
