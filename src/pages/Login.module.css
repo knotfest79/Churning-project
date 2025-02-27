@@ -3,12 +3,12 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  min-height: 100vh; /* ✅ Instead of fixed height, use min-height */
+  min-height: 100vh; /* Instead of fixed height, use min-height */
   background-color: var(--color-dark--1);
   color: white;
   padding: 2rem;
-  position: relative; /* ✅ Prevents blocking navbar */
-  z-index: 0; /* ✅ Ensures it doesn't cover the navbar */
+  position: relative; /*  Prevents blocking navbar */
+  z-index: 0; /*  Ensures it doesn't cover the navbar */
 }
 
 /* Darker Form Box */
@@ -23,7 +23,7 @@ form {
   gap: 2rem;
   box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
   position: relative;
-  z-index: 10; /* ✅ Keeps form above background but below navbar */
+  z-index: 10; /*  Keeps form above background but below navbar */
 }
 
 .row {
@@ -35,10 +35,10 @@ form {
 input {
   width: 100%;
   padding: 12px;
-  border: 1px solid var(--color-dark--3); /* ✅ Darker input border */
+  border: 1px solid var(--color-dark--3); /*  Darker input border */
   border-radius: 6px;
   font-size: 1rem;
-  background: var(--color-dark--1); /* ✅ Dark input field */
+  background: var(--color-dark--1); /*  Dark input field */
   color: white;
   transition: border 0.3s ease;
 }
@@ -56,11 +56,11 @@ button {
 }
 button.cta {
   display: inline-block;
-  width: 100%; /* ✅ Ensures button is properly sized */
+  width: 100%; /*  Ensures button is properly sized */
   text-align: center;
 }
 
-/* ✅ Responsive Adjustments */
+/*  Responsive Adjustments */
 @media (max-width: 768px) {
   .login {
     padding: 2rem;
