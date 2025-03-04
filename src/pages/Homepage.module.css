@@ -46,7 +46,7 @@
   color: white;
 }
 
-  /* ✅ Talent Section */
+/* ✅ Talent Section */
 .talentSection {
   text-align: center;
   background-color: white;
@@ -61,14 +61,14 @@
   margin-top: 20px;
 }
 
-/* ✅ Right Talent, Right Time, Right Cost (Inline Layout) */
+/*  Right Talent, Right Time, Right Cost (Inline Layout) */
 .talentSection {
   text-align: center;
   background-color: white;
   padding: 40px 20px;
 }
 
-/* ✅ Display Items in a Single Line */
+/*  Display Items in a Single Line */
 .talentGrid {
   display: flex;
   justify-content: center;
@@ -77,76 +77,72 @@
   margin-top: 20px;
 }
 
-/* ✅ Individual Talent Items (No Box) */
+/*  Individual Talent Items (No Box) */
 .talentItem {
   text-align: center;
   max-width: 280px;
 }
 
-/* ✅ Adjust Icon Size */
+/*  Adjust Icon Size */
 .talentItem img {
   width: 60px;
   height: 60px;
   margin-bottom: 15px;
 }
 
-/* ✅ Title Styling */
+/*  Title Styling */
 .talentItem h3 {
   font-size: 1.4rem;
   color: #333;
   margin-bottom: 10px;
 }
 
-/* ✅ Description Styling */
+/*  Description Styling */
 .talentItem p {
   font-size: 1rem;
   color: #666;
 }
 
-/* ✅ Responsive Adjustments */
+/*  Responsive Adjustments */
 @media (max-width: 768px) {
   .talentGrid {
-      flex-direction: column;
-      gap: 30px;
+    flex-direction: column;
+    gap: 30px;
   }
 
   .talentItem {
-      width: 90%;
+    width: 90%;
   }
 }
 
-
-/* ✅ Responsive Adjustments */
+/*  Responsive Adjustments */
 @media (max-width: 768px) {
   .talentGrid {
-      flex-direction: column;
-      align-items: center;
+    flex-direction: column;
+    align-items: center;
   }
 
   .talentCard {
-      width: 90%;
+    width: 90%;
   }
 }
 
- 
-  
-  /* ✅ RESPONSIVENESS FIX - Adjustments for smaller screens */
-  @media (max-width: 768px) {
-    .hero h1 {
-      font-size: 1.5rem;
-    }
-    
-    .hero p {
-      font-size: 1rem;
-    }
-  
-    .featureGrid,
-    .planGrid {
-      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-    }
-  
-    .buttons {
-      flex-direction: column;
-    }
+/*  RESPONSIVENESS FIX - Adjustments for smaller screens */
+@media (max-width: 768px) {
+  .hero h1 {
+    font-size: 1.5rem;
   }
-  
+
+  .hero p {
+    font-size: 1rem;
+  }
+
+  .featureGrid,
+  .planGrid {
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  }
+
+  .buttons {
+    flex-direction: column;
+  }
+}
