@@ -156,11 +156,11 @@ function Order() {
           ))}
         </tbody>
       </Table>
-      <Pagination>
+      <Pagination
         currentPage={currentPage}
         totalPages={totalPages}
         onPageChange={setCurrentPage}
-      </Pagination>
+      />
     </OrdersContainer>
   );
 }
