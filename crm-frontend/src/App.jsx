@@ -12,24 +12,32 @@ import Subscription from "./pages/Subscription";
 import Settings from "./pages/Settings";
 import Login from "./pages/Login";
 import Signout from "./pages/Signout";
+import GlobalStyles from "../styles/GlobalStyles";
+import AppLayout from "../ui/AppLayout";
 function App() {
   return (
-    <BrowserRouter>
-      <Routes>
-        <Route path="dashboard" element={<Dashboard />} />
-        <Route path="customer" element={<Customer />} />
-        <Route path="order" element={<Order />} />
-        <Route path="product" element={<Product />} />
-        <Route path="cohort" element={<Cohort />} />
-        <Route path="churnpredcition" element={<ChurnPredictions />} />
-        <Route path="interaction" element={<Interaction />} />
-        <Route path="subscription" element={<Subscription />} />
-        <Route path="settings" element={<Settings />} />
-        <Route path="login" element={<Login />} />
-        <Route path="signout" element={<Signout />} />
-        <Route path="*" element={<PageNotFound />} />
-      </Routes>
-    </BrowserRouter>
+    <>
+      <GlobalStyles />
+      <BrowserRouter>
+        <Routes>
+          <Route element={<AppLayout />}>
+            <Route index element={<Dashboard />} />
+            <Route path="customer" element={<Customer />} />
+            <Route path="order" element={<Order />} />
+            <Route path="product" element={<Product />} />
+            <Route path="cohort" element={<Cohort />} />
+            <Route path="churnprediction" element={<ChurnPredictions />} />
+            <Route path="interaction" element={<Interaction />} />
+            <Route path="subscription" element={<Subscription />} />
+            <Route path="settings" element={<Settings />} />
+            <Route path="signout" element={<Signout />} />
+          </Route>
+          <Route path="login" element={<Login />} />
+
+          <Route path="*" element={<PageNotFound />} />
+        </Routes>
+      </BrowserRouter>
+    </>
   );
 }
 

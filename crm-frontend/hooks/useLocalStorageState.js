@@ -7,10 +7,13 @@ export function useLocalStorageState(initialState, key) {
         return storedValue ? JSON.parse(storedValue) : initialState;
 
     });
-
-    useEffect(function () {
-        localStorage.setItem(key, JSON.stringify(value))
+    useEffect(() => {
+        const storedValue = JSON.stringify(value);
+        if (localStorage.getItem(key) !== storedValue) {
+            localStorage.setItem(key, storedValue);
+        }
     }, [value, key]);
+
 
     return [value, setValue];
 }
