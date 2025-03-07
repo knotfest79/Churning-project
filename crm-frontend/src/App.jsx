@@ -1,5 +1,5 @@
 import React from "react";
-import { BrowserRouter, Route, Routes } from "react-router-dom";
+import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
 import Dashboard from "./pages/Dashboard";
 import PageNotFound from "./pages/PageNotFound";
 import Customer from "./pages/Customer";
@@ -22,6 +22,7 @@ function App() {
         <Routes>
           <Route element={<AppLayout />}>
             <Route index element={<Dashboard />} />
+            <Route path="dashboard" element={<Navigate to="/" replace />} />
             <Route path="customer" element={<Customer />} />
             <Route path="order" element={<Order />} />
             <Route path="product" element={<Product />} />
