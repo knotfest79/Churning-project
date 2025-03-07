@@ -1,10 +1,17 @@
 import styled from "styled-components";
 import { NavLink } from "react-router-dom";
+import { useState } from "react";
 
 const NavList = styled.ul`
   display: flex;
   flex-direction: column;
   gap: 0.8rem;
+`;
+
+const SubMenu = styled.ul`
+  list-style: none;
+  padding-left: 15px;
+  display: ${({ isOpen }) => (isOpen ? "block" : "none")};
 `;
 
 const StyledNavLink = styled(NavLink)`
@@ -44,6 +51,7 @@ const StyledNavLink = styled(NavLink)`
 `;
 
 function MainNav() {
+  const [isChurnOpen, setIsChurnOpen] = useState(false);
   return (
     <nav>
       <NavList>
@@ -63,7 +71,34 @@ function MainNav() {
           <StyledNavLink to="/cohort">Cohorts</StyledNavLink>
         </li>
         <li>
-          <StyledNavLink to="/churnprediction">Churn Predictions</StyledNavLink>
+          <StyledNavLink
+            to="/churnprediction"
+            onClick={() => setIsChurnOpen(!isChurnOpen)}
+          >
+            Churn Predictions ▼
+          </StyledNavLink>
+          <SubMenu isOpen={isChurnOpen}>
+            <li>
+              <StyledNavLink to="/churnprediction/ViewChurnInsights">
+                View Churn Insights
+              </StyledNavLink>
+            </li>
+            <li>
+              <StyledNavLink to="/churnprediction/ChurnRecommendations">
+                Generate Retention Recommendations
+              </StyledNavLink>
+            </li>
+            <li>
+              <StyledNavLink to="/churnprediction/UploadChurnData">
+                Upload Data for Insights
+              </StyledNavLink>
+            </li>
+            <li>
+              <StyledNavLink to="/churnprediction/ChurnRetentionMetrics">
+                View Retention Metrics
+              </StyledNavLink>
+            </li>
+          </SubMenu>
         </li>
         <li>
           <StyledNavLink to="/interaction">Interactions</StyledNavLink>

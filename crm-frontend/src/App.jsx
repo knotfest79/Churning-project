@@ -12,8 +12,13 @@ import Subscription from "./pages/Subscription";
 import Settings from "./pages/Settings";
 import Login from "./pages/Login";
 import Signout from "./pages/Signout";
+
+import ViewChurnInsights from "./pages/ViewChurnInsights";
 import GlobalStyles from "../styles/GlobalStyles";
 import AppLayout from "../ui/AppLayout";
+import ChurnRecommendation from "./pages/ChurnRecommendation";
+import UploadChurnData from "./pages/UploadChurnData";
+import ChurnRetentionMetrics from "./pages/ChurnRetentionMetrics";
 function App() {
   return (
     <>
@@ -27,7 +32,19 @@ function App() {
             <Route path="order" element={<Order />} />
             <Route path="product" element={<Product />} />
             <Route path="cohort" element={<Cohort />} />
-            <Route path="churnprediction" element={<ChurnPredictions />} />
+            <Route path="Churnprediction" element={<ChurnPredictions />}>
+              <Route path="ViewChurnInsights" element={<ViewChurnInsights />} />
+              <Route
+                path="ChurnRecommendations"
+                element={<ChurnRecommendation />}
+              />
+              <Route path="UploadChurnData" element={<UploadChurnData />} />
+              <Route
+                path="ChurnRetentionMetrics"
+                element={<ChurnRetentionMetrics />}
+              />
+            </Route>
+
             <Route path="interaction" element={<Interaction />} />
             <Route path="subscription" element={<Subscription />} />
             <Route path="settings" element={<Settings />} />
