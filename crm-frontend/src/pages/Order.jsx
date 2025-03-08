@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import styled from "styled-components";
 import Pagination from "../../ui/Pagination";
 
@@ -65,53 +65,55 @@ const Header = styled.header`
 `;
 
 function Order() {
+  const [orders, setOrders] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
-  const ordersPerPage = 5;
-  const orders = [
-    {
-      id: "#101",
-      name: "John Doe",
-      date: "2024-11-24",
-      amount: "$250",
-      status: "Completed",
-    },
-    {
-      id: "#102",
-      name: "Jane Smith",
-      date: "2024-11-23",
-      amount: "$120",
-      status: "Pending",
-    },
-    {
-      id: "#103",
-      name: "Alex Johnson",
-      date: "2024-11-22",
-      amount: "$300",
-      status: "Completed",
-    },
-    {
-      id: "#104",
-      name: "Emily White",
-      date: "2024-11-21",
-      amount: "$180",
-      status: "Pending",
-    },
-    {
-      id: "#105",
-      name: "Michael Brown",
-      date: "2024-11-20",
-      amount: "$220",
-      status: "Completed",
-    },
-    {
-      id: "#106",
-      name: "Chris Green",
-      date: "2024-11-19",
-      amount: "$150",
-      status: "Completed",
-    },
-  ];
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(null);
 
+  const ordersPerPage = 5;
+
+  useEffect(() => {
+    const fetchOrders = async () => {
+      setLoading(true);
+      setError(null);
+
+      // Retrieve the token and proId from localStorage
+      const token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE3NDA2MzczMzQsImV4cCI6MTc3MjE5NDkzNCwiYXVkIjoiNjdiZmZmZTczYTE4NDdmYTVmMzBkZDllIiwiaXNzIjoiZG9tYWludXJsLmNvbSJ9.gyMa49yrGmjDvKt0VKyfew5pLYN005y-dEElCcUPfO8'  //localStorage.getItem("accessToken");
+      const proId = '67c17c11a37308fbd7d43fd5'  //localStorage.getItem("proId");
+
+      if (!token || !proId) {
+        setError("Token or proId not found in localStorage");
+        setLoading(false);
+        return;
+      }
+
+      try {
+        const response = await fetch("http://localhost:3000/api/order/all", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+          body: JSON.stringify({ proId }),
+        });
+
+        if (!response.ok) {
+          throw new Error("Failed to fetch orders");
+        }
+
+        const data = await response.json();
+        setOrders(data); // Assuming API response has array of orders
+      } catch (error) {
+        setError(error.message);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchOrders();
+  }, []);
+
+  // Pagination calculations
   const totalPages = Math.ceil(orders.length / ordersPerPage);
   const indexOfLastOrder = currentPage * ordersPerPage;
   const indexOfFirstOrder = indexOfLastOrder - ordersPerPage;
@@ -128,34 +130,40 @@ function Order() {
           <option value="pending">Pending</option>
         </StatusFilter>
       </FiltersContainer>
-      <Table>
-        <thead>
-          <tr>
-            <Th>Order ID</Th>
-            <Th>Customer Name</Th>
-            <Th>Date</Th>
-            <Th>Amount</Th>
-            <Th>Status</Th>
-            <Th>Actions</Th>
-          </tr>
-        </thead>
-        <tbody>
-          {currentOrders.map((order) => (
-            <tr key={order.id}>
-              <Td>{order.id}</Td>
-              <Td>{order.name}</Td>
-              <Td>{order.date}</Td>
-              <Td>{order.amount}</Td>
-              <Status status={order.status}>{order.status}</Status>
-              <Td>
-                <ActionButton color="#2ecc71">View</ActionButton>
-                <ActionButton color="#3498db">Edit</ActionButton>
-                <ActionButton color="#e74c3c">Delete</ActionButton>
-              </Td>
+
+      {loading ? (
+        <p>Loading orders...</p>
+      ) : error ? (
+        <p style={{ color: "red" }}>{error}</p>
+      ) : (
+        <Table>
+          <thead>
+            <tr>
+              <Th>Order ID</Th>
+              <Th>Customer Name</Th>
+              <Th>Amount</Th>
+              <Th>Status</Th>
+              <Th>Actions</Th>
             </tr>
-          ))}
-        </tbody>
-      </Table>
+          </thead>
+          <tbody>
+            {currentOrders.map((order) => (
+              <tr key={order._id}>
+                <Td>{order._id}</Td>
+                <Td>{order.customerDetails ? order.customerDetails.name : order.customerName}</Td>
+                <Td>${order.amount}</Td>
+                <Status status={order.status}>{order.status}</Status>
+                <Td>
+                  <ActionButton color="#2ecc71">View</ActionButton>
+                  <ActionButton color="#3498db">Edit</ActionButton>
+                  <ActionButton color="#e74c3c">Delete</ActionButton>
+                </Td>
+              </tr>
+            ))}
+          </tbody>
+        </Table>
+      )}
+
       <Pagination
         currentPage={currentPage}
         totalPages={totalPages}
