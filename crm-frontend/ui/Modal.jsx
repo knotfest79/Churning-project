@@ -1,50 +1,70 @@
-import React from 'react';
-import styled from 'styled-components';
+import React from "react";
+import styled from "styled-components";
 
-const ModalOverlay = styled.div`
+const ModalContainer = styled.div`
   position: fixed;
   top: 0;
   left: 0;
-  width: 100%;
-  height: 100%;
-  background-color: rgba(0, 0, 0, 0.5);
+  width: 100vw;
+  height: 100vh;
+  background: rgba(0, 0, 0, 0.6);
   display: flex;
   justify-content: center;
   align-items: center;
+  z-index: 999;
+  animation: fadeIn 0.3s ease-out;
 `;
 
-const ModalContainer = styled.div`
-  background-color: #fff;
-  padding: 2rem;
-  border-radius: 8px;
-  width: 50%;
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+const ModalContent = styled.div`
+  background: white;
+  padding: 20px;
+  border-radius: 12px;
+  width: 450px;
+  height: 350px;
+  display: flex;
+  flex-direction: column;
+  box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1);
+  animation: slideIn 0.3s ease-out;
+`;
+
+const ModalBody = styled.div`
+  flex-grow: 1;
+  overflow-y: auto;
+  padding-bottom: 20px;
 `;
 
 const CloseButton = styled.button`
-  background-color: red;
+  padding: 12px 20px;
+  background-color: #ff5c5c;
   color: white;
   border: none;
-  padding: 0.5rem;
+  border-radius: 6px;
   cursor: pointer;
-  font-size: 14px;
-  border-radius: 5px;
+  font-size: 16px;
+  font-weight: bold;
+  transition: background-color 0.3s ease, transform 0.3s ease;
+  margin-top: 15px;
+  
+  &:hover {
+    background-color: #e14c4c;
+    transform: translateY(-2px);
+  }
+
+  &:active {
+    background-color: #c13e3e;
+    transform: translateY(1px);
+  }
 `;
 
-const Modal = ({ customer, onClose }) => {
-  return (
-    <ModalOverlay>
-      <ModalContainer>
-        <h2>Customer Details</h2>
-        <p><strong>Name:</strong> {customer.name}</p>
-        <p><strong>Email:</strong> {customer.email}</p>
-        <p><strong>Phone:</strong> {customer.phone}</p>
-        <p><strong>Churn Risk:</strong> {customer.churnRisk}</p>
-        <p><strong>Created At:</strong> {customer.createdAt}</p>
-        <CloseButton onClick={onClose}>Close</CloseButton>
-      </ModalContainer>
-    </ModalOverlay>
-  );
-};
+const Modal = ({ children, onClose }) => (
+  <ModalContainer>
+    <ModalContent>
+      <ModalBody>
+        {children}
+      </ModalBody>
+      <CloseButton onClick={onClose}>Close</CloseButton>
+    </ModalContent>
+  </ModalContainer>
+);
 
 export default Modal;

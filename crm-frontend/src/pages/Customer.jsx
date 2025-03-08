@@ -1,7 +1,10 @@
 import styled from "styled-components";
 import { useState, useEffect } from "react";
+import { ToastContainer } from 'react-toastify';
+import { handelError, handelSuccess } from '../utils';
 import Pagination from "../../ui/Pagination";
 import Modal from "../../ui/Modal";
+import CreateCustomerModal from "../../ui/CreateCustomerModal";  // Ensure this is the modal component you are using
 
 const CustomerContainer = styled.div`
   background: var(--color-grey-50);
@@ -74,12 +77,21 @@ function Customer() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [selectedCustomer, setSelectedCustomer] = useState(null);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isViewModalOpen, setIsViewModalOpen] = useState(false);
+  const [isEditModalOpen, setIsEditModalOpen] = useState(false);
+  const [newCustomer, setNewCustomer] = useState({
+    name: "",
+    email: "",
+    phone: "",
+  });
+
   const customersPerPage = 5;
 
   useEffect(() => {
     const fetchCustomers = async () => {
-      const proId = '67c17c11a37308fbd7d43fd5'  //localStorage.getItem("proId");
-      const accessToken = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE3NDA2MzczMzQsImV4cCI6MTc3MjE5NDkzNCwiYXVkIjoiNjdiZmZmZTczYTE4NDdmYTVmMzBkZDllIiwiaXNzIjoiZG9tYWludXJsLmNvbSJ9.gyMa49yrGmjDvKt0VKyfew5pLYN005y-dEElCcUPfO8'   //localStorage.getItem("accessToken");
+      const proId = '67c17c11a37308fbd7d43fd5';  // Hardcoded proId
+      const accessToken = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE3NDA2MzczMzQsImV4cCI6MTc3MjE5NDkzNCwiYXVkIjoiNjdiZmZmZTczYTE4NDdmYTVmMzBkZDllIiwiaXNzIjoiZG9tYWludXJsLmNvbSJ9.gyMa49yrGmjDvKt0VKyfew5pLYN005y-dEElCcUPfO8';   // Hardcoded token
       if (!proId) {
         setError("No proId found in localStorage");
         setLoading(false);
@@ -92,7 +104,7 @@ function Customer() {
       }
 
       try {
-        const response = await fetch(`http://localhost:3000/api/customer/all/${proId}`, {
+        const response = await fetch(`http://localhost:3000/api/customer/${proId}`, {
           method: "GET",
           headers: {
             "Content-Type": "application/json",
@@ -105,8 +117,6 @@ function Customer() {
         }
 
         const data = await response.json();
-        console.log(data);
-        
         setCustomers(data);
       } catch (error) {
         setError(error.message);
@@ -118,6 +128,70 @@ function Customer() {
     fetchCustomers();
   }, []);
 
+  const handleSubmit = async () => {
+    const proId = "67c17c11a37308fbd7d43fd5";  // Hardcoded proId
+    const accessToken = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE3NDA2MzczMzQsImV4cCI6MTc3MjE5NDkzNCwiYXVkIjoiNjdiZmZmZTczYTE4NDdmYTVmMzBkZDllIiwiaXNzIjoiZG9tYWludXJsLmNvbSJ9.gyMa49yrGmjDvKt0VKyfew5pLYN005y-dEElCcUPfO8";   // Hardcoded token
+
+    if (!proId || !accessToken) {
+      handelError('Unauthorized');
+      return;
+    }
+
+    try {
+      // Check if we are editing an existing customer or adding a new one
+      if (selectedCustomer) {
+        // Editing an existing customer
+        const response = await fetch(`http://localhost:3000/api/customer/`, {
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${accessToken}`,
+          },
+          body: JSON.stringify({
+            proId,
+            customerId: selectedCustomer._id,  // Using the selected customer's ID
+            ...newCustomer, // Include the new customer data (name, email, phone)
+          }),
+        });
+
+        const updatedCustomer = await response.json();
+
+        if (!response.ok) throw new Error("Failed to edit customer");
+      
+        
+        handelSuccess(updatedCustomer.message);
+        
+
+        // Update the customer in the state with the new data
+        setCustomers(customers.map(customer =>
+          customer._id === updatedCustomer._id ? updatedCustomer : customer
+        ));
+      } else {
+        // Adding a new customer
+        const response = await fetch("http://localhost:3000/api/customer", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${accessToken}`,
+          },
+          body: JSON.stringify({ proId, ...newCustomer }),
+        });
+
+        if (!response.ok) throw new Error("Failed to add customer");
+        const addedCustomer = await response.json();
+        handelSuccess(addedCustomer.message);
+        setCustomers([...customers, addedCustomer]);
+      }
+
+      // Close modal and reset fields
+      setIsModalOpen(false);
+      setNewCustomer({ name: "", email: "", phone: "" });
+      setSelectedCustomer(null);
+    } catch (error) {
+      handelError(error.message);
+    }
+  };
+
   const totalPages = Math.ceil(customers.length / customersPerPage);
   const indexOfLastCustomer = currentPage * customersPerPage;
   const indexOfFirstCustomer = indexOfLastCustomer - customersPerPage;
@@ -127,37 +201,47 @@ function Customer() {
   );
 
   const handleViewCustomer = async (customerId) => {
-    const proId = '67c17c7fa37308fbd7d43fe4'; // localStorage.getItem("proId");    
-    const accessToken = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE3NDA2MzczMzQsImV4cCI6MTc3MjE5NDkzNCwiYXVkIjoiNjdiZmZmZTczYTE4NDdmYTVmMzBkZDllIiwiaXNzIjoiZG9tYWludXJsLmNvbSJ9.gyMa49yrGmjDvKt0VKyfew5pLYN005y-dEElCcUPfO8'; // Use localStorage if needed
-  
+    const proId = '67c17c11a37308fbd7d43fd5'; // Hardcoded proId
+    const accessToken = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE3NDA2MzczMzQsImV4cCI6MTc3MjE5NDkzNCwiYXVkIjoiNjdiZmZmZTczYTE4NDdmYTVmMzBkZDllIiwiaXNzIjoiZG9tYWludXJsLmNvbSJ9.gyMa49yrGmjDvKt0VKyfew5pLYN005y-dEElCcUPfO8'; // Hardcoded token 
+
     try {
-      const response = await fetch(`http://localhost:3000/api/customer/67c17c7fa37308fbd7d43fe4/67c17c9ca37308fbd7d43fe8`, {
+      const response = await fetch(`http://localhost:3000/api/customer/${proId}/${customerId}`, {
         method: "GET",
         headers: {
           "Content-Type": "application/json",
           Authorization: `Bearer ${accessToken}`,
         },
       });
-  
+
       if (!response.ok) {
         throw new Error("Failed to fetch customer details");
       }
-  
+
       const data = await response.json();
-      console.log("Customer details:", data);
-  
-      // Set the selected customer for the modal
-      setSelectedCustomer(data); // Assuming `data` contains the customer details
-  
+      console.log("Fetched customer data:", data);  // Check the data
+
+      setSelectedCustomer(data);  // Setting the fetched customer data
+      setIsViewModalOpen(true);  // Open View Modal
+
     } catch (error) {
-      console.error("Error fetching customer details:", error);
       setError("Failed to load customer details.");
     }
   };
-  
+
+  const handleEditCustomer = (customer) => {
+    setSelectedCustomer(customer);
+    setIsEditModalOpen(true); // Open Edit Modal
+    setNewCustomer({
+      name: customer.name,
+      email: customer.email,
+      phone: customer.phone,
+    });
+  };
 
   const handleCloseModal = () => {
-    setSelectedCustomer(null); // Close modal by clearing the selected customer
+    setIsViewModalOpen(false); // Close View Modal
+    setIsEditModalOpen(false); // Close Edit Modal
+    setSelectedCustomer(null); // Reset customer selection
   };
 
   return (
@@ -165,7 +249,7 @@ function Customer() {
       <FiltersContainer>
         <h2>Customers</h2>
         <div>
-          <AddButton>+ Add New Customer</AddButton>
+          <AddButton onClick={() => setIsModalOpen(true)}>+ Add New Customer</AddButton>
           <FilterSelect>
             <option value="all">Churn Risk (All)</option>
             <option value="high">High</option>
@@ -192,7 +276,6 @@ function Customer() {
                 <Th>Name</Th>
                 <Th>Email</Th>
                 <Th>Phone</Th>
-                <Th>Churn Risk</Th>
                 <Th>Actions</Th>
               </tr>
             </thead>
@@ -203,26 +286,19 @@ function Customer() {
                   <Td>{customer.name}</Td>
                   <Td>{customer.email}</Td>
                   <Td>{customer.phone}</Td>
-                  <Td
-                    style={{
-                      color:
-                        customer.churnRisk === "High" || customer.churnRisk === "in-process"
-                          ? "red"
-                          : customer.churnRisk === "Medium"
-                          ? "orange"
-                          : "green",
-                    }}
-                  >
-                    {customer.churnRisk}
-                  </Td>
                   <Td>
-                    <ActionButton color="#2ecc71" onClick={() => handleViewCustomer(customer._id)}>View</ActionButton>
-                    <ActionButton color="#3498db">Edit</ActionButton>
+                    <ActionButton color="#2ecc71" onClick={() => handleViewCustomer(customer._id)}>
+                      View
+                    </ActionButton>
+                    <ActionButton color="#3498db" onClick={() => handleEditCustomer(customer)}>
+                      Edit
+                    </ActionButton>
                   </Td>
                 </tr>
               ))}
             </tbody>
           </Table>
+
           <Pagination
             currentPage={currentPage}
             totalPages={totalPages}
@@ -231,10 +307,39 @@ function Customer() {
         </>
       )}
 
-      {/* Modal to display selected customer details */}
-      {selectedCustomer && (
-        <Modal customer={selectedCustomer} onClose={handleCloseModal} />
+      {/* View Modal */}
+      {isViewModalOpen && selectedCustomer && (
+        <Modal onClose={handleCloseModal}>
+          <h2>Customer Details</h2>
+          <p>Name: {selectedCustomer.name}</p>
+          <p>Email: {selectedCustomer.email}</p>
+          <p>Phone: {selectedCustomer.phone}</p>
+        </Modal>
       )}
+
+      {/* Edit Modal */}
+      {isEditModalOpen && selectedCustomer && (
+        <CreateCustomerModal
+          isOpen={isEditModalOpen}
+          onClose={handleCloseModal}
+          onSubmit={handleSubmit} // Edit Submit Handler
+          customer={newCustomer}
+          setCustomer={setNewCustomer}
+        />
+      )}
+
+      {/* Add Customer Modal */}
+      {isModalOpen && (
+        <CreateCustomerModal
+          isOpen={isModalOpen}
+          onClose={() => setIsModalOpen(false)}
+          onSubmit={handleSubmit}
+          customer={newCustomer}
+          setCustomer={setNewCustomer}
+        />
+      )}
+
+      <ToastContainer />
     </CustomerContainer>
   );
 }
