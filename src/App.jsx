@@ -6,8 +6,8 @@ import About from "./pages/About";
 import Contact from "./pages/Contact";
 import Login from "./pages/Login";
 import Signup from "./pages/Signup";
-import Subscription from "./pages/Subscription";
-import Settings from "./pages/Settings";
+// import Subscription from "./pages/Subscription";
+// import Settings from "./pages/Settings";
 import PageNotFound from "./pages/PageNotFound";
 import AppLayout from "./pages/AppLayout";
 
@@ -22,8 +22,8 @@ function App() {
         <Route path="contact" element={<Contact />} />
         <Route path="login" element={<Login />} />
         <Route path="signup" element={<Signup />} />
-        <Route path="subscription" element={<Subscription />} />
-        <Route path="settings" element={<Settings />} />
+        {/* <Route path="subscription" element={<Subscription />} /> */}
+        {/* <Route path="settings" element={<Settings />} /> */}
         <Route path="app" element={<AppLayout />} />
         <Route path="*" element={<PageNotFound />} />
       </Routes>
