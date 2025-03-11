@@ -1,10 +1,10 @@
 import styled from "styled-components";
 import { useState, useEffect } from "react";
-import { ToastContainer } from 'react-toastify';
-import { handelError, handelSuccess } from '../utils';
+import { ToastContainer } from "react-toastify";
+import { handelError, handelSuccess } from "../utils";
 import Pagination from "../../ui/Pagination";
 import Modal from "../../ui/Modal";
-import CreateCustomerModal from "../../ui/CreateCustomerModal";  // Ensure this is the modal component you are using
+import CreateCustomerModal from "../../ui/CreateCustomerModal"; // Ensure this is the modal component you are using
 
 const CustomerContainer = styled.div`
   background: var(--color-grey-50);
@@ -90,8 +90,9 @@ function Customer() {
 
   useEffect(() => {
     const fetchCustomers = async () => {
-      const proId = '67c17c11a37308fbd7d43fd5';  // Hardcoded proId
-      const accessToken = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE3NDA2MzczMzQsImV4cCI6MTc3MjE5NDkzNCwiYXVkIjoiNjdiZmZmZTczYTE4NDdmYTVmMzBkZDllIiwiaXNzIjoiZG9tYWludXJsLmNvbSJ9.gyMa49yrGmjDvKt0VKyfew5pLYN005y-dEElCcUPfO8';   // Hardcoded token
+      const proId = "67c17c11a37308fbd7d43fd5"; // Hardcoded proId
+      const accessToken =
+        "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE3NDA2MzczMzQsImV4cCI6MTc3MjE5NDkzNCwiYXVkIjoiNjdiZmZmZTczYTE4NDdmYTVmMzBkZDllIiwiaXNzIjoiZG9tYWludXJsLmNvbSJ9.gyMa49yrGmjDvKt0VKyfew5pLYN005y-dEElCcUPfO8"; // Hardcoded token
       if (!proId) {
         setError("No proId found in localStorage");
         setLoading(false);
@@ -104,13 +105,16 @@ function Customer() {
       }
 
       try {
-        const response = await fetch(`http://localhost:3000/api/customer/${proId}`, {
-          method: "GET",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${accessToken}`,
+        const response = await fetch(
+          `http://localhost:3000/api/customer/${proId}`,
+          {
+            method: "GET",
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: `Bearer ${accessToken}`,
+            },
           }
-        });
+        );
 
         if (!response.ok) {
           throw new Error("Failed to fetch customers");
@@ -129,11 +133,12 @@ function Customer() {
   }, []);
 
   const handleSubmit = async () => {
-    const proId = "67c17c11a37308fbd7d43fd5";  // Hardcoded proId
-    const accessToken = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE3NDA2MzczMzQsImV4cCI6MTc3MjE5NDkzNCwiYXVkIjoiNjdiZmZmZTczYTE4NDdmYTVmMzBkZDllIiwiaXNzIjoiZG9tYWludXJsLmNvbSJ9.gyMa49yrGmjDvKt0VKyfew5pLYN005y-dEElCcUPfO8";   // Hardcoded token
+    const proId = "67c17c11a37308fbd7d43fd5"; // Hardcoded proId
+    const accessToken =
+      "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE3NDA2MzczMzQsImV4cCI6MTc3MjE5NDkzNCwiYXVkIjoiNjdiZmZmZTczYTE4NDdmYTVmMzBkZDllIiwiaXNzIjoiZG9tYWludXJsLmNvbSJ9.gyMa49yrGmjDvKt0VKyfew5pLYN005y-dEElCcUPfO8"; // Hardcoded token
 
     if (!proId || !accessToken) {
-      handelError('Unauthorized');
+      handelError("Unauthorized");
       return;
     }
 
@@ -149,7 +154,7 @@ function Customer() {
           },
           body: JSON.stringify({
             proId,
-            customerId: selectedCustomer._id,  // Using the selected customer's ID
+            customerId: selectedCustomer._id, // Using the selected customer's ID
             ...newCustomer, // Include the new customer data (name, email, phone)
           }),
         });
@@ -157,15 +162,15 @@ function Customer() {
         const updatedCustomer = await response.json();
 
         if (!response.ok) throw new Error("Failed to edit customer");
-      
-        
+
         handelSuccess(updatedCustomer.message);
-        
 
         // Update the customer in the state with the new data
-        setCustomers(customers.map(customer =>
-          customer._id === updatedCustomer._id ? updatedCustomer : customer
-        ));
+        setCustomers(
+          customers.map((customer) =>
+            customer._id === updatedCustomer._id ? updatedCustomer : customer
+          )
+        );
       } else {
         // Adding a new customer
         const response = await fetch("http://localhost:3000/api/customer", {
@@ -201,28 +206,31 @@ function Customer() {
   );
 
   const handleViewCustomer = async (customerId) => {
-    const proId = '67c17c11a37308fbd7d43fd5'; // Hardcoded proId
-    const accessToken = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE3NDA2MzczMzQsImV4cCI6MTc3MjE5NDkzNCwiYXVkIjoiNjdiZmZmZTczYTE4NDdmYTVmMzBkZDllIiwiaXNzIjoiZG9tYWludXJsLmNvbSJ9.gyMa49yrGmjDvKt0VKyfew5pLYN005y-dEElCcUPfO8'; // Hardcoded token 
+    const proId = "67c17c11a37308fbd7d43fd5"; // Hardcoded proId
+    const accessToken =
+      "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE3NDA2MzczMzQsImV4cCI6MTc3MjE5NDkzNCwiYXVkIjoiNjdiZmZmZTczYTE4NDdmYTVmMzBkZDllIiwiaXNzIjoiZG9tYWludXJsLmNvbSJ9.gyMa49yrGmjDvKt0VKyfew5pLYN005y-dEElCcUPfO8"; // Hardcoded token
 
     try {
-      const response = await fetch(`http://localhost:3000/api/customer/${proId}/${customerId}`, {
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${accessToken}`,
-        },
-      });
+      const response = await fetch(
+        `http://localhost:3000/api/customer/${proId}/${customerId}`,
+        {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${accessToken}`,
+          },
+        }
+      );
 
       if (!response.ok) {
         throw new Error("Failed to fetch customer details");
       }
 
       const data = await response.json();
-      console.log("Fetched customer data:", data);  // Check the data
+      console.log("Fetched customer data:", data); // Check the data
 
-      setSelectedCustomer(data);  // Setting the fetched customer data
-      setIsViewModalOpen(true);  // Open View Modal
-
+      setSelectedCustomer(data); // Setting the fetched customer data
+      setIsViewModalOpen(true); // Open View Modal
     } catch (error) {
       setError("Failed to load customer details.");
     }
@@ -249,7 +257,9 @@ function Customer() {
       <FiltersContainer>
         <h2>Customers</h2>
         <div>
-          <AddButton onClick={() => setIsModalOpen(true)}>+ Add New Customer</AddButton>
+          <AddButton onClick={() => setIsModalOpen(true)}>
+            + Add New Customer
+          </AddButton>
           <FilterSelect>
             <option value="all">Churn Risk (All)</option>
             <option value="high">High</option>
@@ -287,10 +297,16 @@ function Customer() {
                   <Td>{customer.email}</Td>
                   <Td>{customer.phone}</Td>
                   <Td>
-                    <ActionButton color="#2ecc71" onClick={() => handleViewCustomer(customer._id)}>
+                    <ActionButton
+                      color="#2ecc71"
+                      onClick={() => handleViewCustomer(customer._id)}
+                    >
                       View
                     </ActionButton>
-                    <ActionButton color="#3498db" onClick={() => handleEditCustomer(customer)}>
+                    <ActionButton
+                      color="#3498db"
+                      onClick={() => handleEditCustomer(customer)}
+                    >
                       Edit
                     </ActionButton>
                   </Td>

@@ -1,6 +1,10 @@
 import styled from "styled-components";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Pagination from "../../ui/Pagination";
+import Modal from "../../ui/Modal";
+import { handelError, handelSuccess } from "../utils";
+import { ToastContainer } from "react-toastify";
+
 
 const ProductContainer = styled.div`
   background: var(--color-grey-50);
@@ -68,13 +72,99 @@ const AddButton = styled.button`
 `;
 
 function Product() {
+  const [products, setProducts] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+  const [selectedPorduct, setSelectedProduct] = useState(null);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isViewModalOpen, setIsViewModalOpen] = useState(false);
+  const [isEditModalOpen, setIsEditModalOpen] = useState(false);
+  const [newOrder, setNewOrder] = useState({
+    id: "",
+    name: "",
+    category: "",
+    price: "",
+  });
+
   const [currentPage, setCurrentPage] = useState(1);
   const productsPerPage = 5;
-  const products = [
-    { id: "#001", name: "Smartphone", category: "Electronics", price: "$699" },
-    { id: "#002", name: "Laptop", category: "Computers", price: "$1299" },
-    { id: "#003", name: "Tablet", category: "Electronics", price: "$499" },
-  ];
+  // const products = [
+  //   { id: "#001", name: "Smartphone", category: "Electronics", price: "$699" },
+  //   { id: "#002", name: "Laptop", category: "Computers", price: "$1299" },
+  //   { id: "#003", name: "Tablet", category: "Electronics", price: "$499" },
+  // ];
+
+  useEffect(() => {
+    const fetchProducts = async () => {
+      const proId = "67c17c11a37308fbd7d43fd5"; // Hardcoded proId
+      const accessToken =
+        "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE3NDA2MzczMzQsImV4cCI6MTc3MjE5NDkzNCwiYXVkIjoiNjdiZmZmZTczYTE4NDdmYTVmMzBkZDllIiwiaXNzIjoiZG9tYWludXJsLmNvbSJ9.gyMa49yrGmjDvKt0VKyfew5pLYN005y-dEElCcUPfO8"; // Hardcoded token
+      if (!proId) {
+        setError("No proId found in localStorage");
+        setLoading(false);
+        return;
+      }
+      if (!accessToken) {
+        setError("No access token found in localStorage");
+        setLoading(false);
+        return;
+      }
+
+      try {
+        const response = await fetch(
+          `http://localhost:3000/api/product/all/${proId}`,
+          {
+            method: "GET",
+            header: {
+              "content-type": "application/json",
+              Authorization: `Bearer ${accessToken}`,
+            },
+          }
+        );
+        if (!response.ok) throw new Error("Failed to fetch products");
+        const data = await response.json();
+        console.log(data);
+
+        setProducts(data);
+      } catch (error) {
+        setError(error.message);
+      } finally {
+        setLoading(false);
+      }
+    };
+    fetchProducts();
+  }, []);
+
+  const handleViewProduct = async(productId)=>{
+    const proId = "67c17c11a37308fbd7d43fd5"; // Hardcoded proId
+    const accessToken =
+      "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE3NDA2MzczMzQsImV4cCI6MTc3MjE5NDkzNCwiYXVkIjoiNjdiZmZmZTczYTE4NDdmYTVmMzBkZDllIiwiaXNzIjoiZG9tYWludXJsLmNvbSJ9.gyMa49yrGmjDvKt0VKyfew5pLYN005y-dEElCcUPfO8"; // Hardcoded token
+    try {
+      const response = await fetch(`http://localhost:3000/api/product/${proId}/${productId}`,{
+        method: "GET",
+        headers: {
+          "content-Type": "application/json",
+          Authorization: `Bearer ${accessToken}`,
+        }
+      }
+
+      )
+      if(!response.ok) throw new Error("Failed to fetch products")
+      const data= await response.json()
+    console.log(data);
+    
+    setSelectedProduct(data);
+    setIsViewModalOpen(true)
+    } catch (error) {
+      setError("Failed to load product details")
+    }
+  }
+
+  const handleCloseModal = () => {
+    setIsViewModalOpen(false); // Close View Modal
+    setIsEditModalOpen(false); // Close Edit Modal
+    setSelectedProduct(null); // Reset customer selection
+  };
 
   const totalPages = Math.ceil(products.length / productsPerPage);
   const indexOfLastProduct = currentPage * productsPerPage;
@@ -110,13 +200,18 @@ function Product() {
         </thead>
         <tbody>
           {currentProducts.map((product) => (
-            <tr key={product.id}>
-              <Td>{product.id}</Td>
+            <tr key={product._id}>
+              <Td>{product._id}</Td>
               <Td>{product.name}</Td>
               <Td>{product.category}</Td>
               <Td>{product.price}</Td>
               <Td>
-                <ActionButton color="#2ecc71">View</ActionButton>
+                <ActionButton
+                  color="#2ecc71"
+                  onClick={() => handleViewProduct(product._id)}
+                >
+                  View
+                </ActionButton>
                 <ActionButton color="#3498db">Edit</ActionButton>
                 <ActionButton color="#e74c3c">Delete</ActionButton>
               </Td>
@@ -129,6 +224,19 @@ function Product() {
         totalPages={totalPages}
         onPageChange={setCurrentPage}
       />
+
+      {isViewModalOpen && selectedPorduct && (
+        <Modal onClose={handleCloseModal}>
+          <h2>Product Details</h2>
+          <p>Name: {selectedPorduct.name}</p>
+          <p>Category: {selectedPorduct.category}</p>
+          <p>Price: {selectedPorduct.price}</p>
+          <p>Description: {selectedPorduct.description}</p>
+          <p>Added At: {selectedPorduct.addedAt}</p>
+        </Modal>
+      )}
+
+      
     </ProductContainer>
   );
 }

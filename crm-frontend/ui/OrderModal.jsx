@@ -24,12 +24,26 @@ const ModalContent = styled.div`
   display: flex;
   flex-direction: column;
   gap: 15px;
+  position: relative;
 `;
 
 const Input = styled.input`
   width: 100%;
   padding: 12px;
-  margin: 10px 0;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  font-size: 14px;
+  transition: border 0.3s ease;
+
+  &:focus {
+    border: 1px solid #4a90e2;
+    outline: none;
+  }
+`;
+
+const Select = styled.select`
+  width: 100%;
+  padding: 12px;
   border: 1px solid #ddd;
   border-radius: 8px;
   font-size: 14px;
@@ -50,7 +64,6 @@ const Button = styled.button`
   font-size: 16px;
   cursor: pointer;
   transition: background-color 0.3s ease, transform 0.2s ease;
-  margin-top: 10px;
   width: 100%;
 
   &:hover {
@@ -71,31 +84,48 @@ const Title = styled.h3`
   text-align: center;
 `;
 
-const Modal = ({ isOpen, onClose, onSubmit, customer, setCustomer }) => {
+const ModalFooter = styled.div`
+  bottom: 0;
+  background: white;
+  padding: 15px;
+  box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.1);
+  display: flex;
+  gap: 10px;
+`;
+
+const OrderModal = ({ isOpen, onClose, onSubmit, order, setOrder }) => {
   if (!isOpen) return null;
 
   const handleInputChange = (e) => {
-    setCustomer({ ...customer, [e.target.name]: e.target.value });
-  };
-
-  const handleClose = () => {
-    // Reset customer form fields when closing the modal
-    setCustomer({ name: "", email: "", phone: "" });
-    onClose();
+    setOrder({ ...order, [e.target.name]: e.target.value });
   };
 
   return (
     <ModalOverlay>
       <ModalContent>
-        <Title>{customer.name === "" ? "Add New Customer": "Edit Customer Details"}</Title>
-        <Input type="text" name="name" placeholder="Name" value={customer.name} onChange={handleInputChange} />
-        <Input type="email" name="email" placeholder="Email" value={customer.email} onChange={handleInputChange} />
-        <Input type="text" name="phone" placeholder="Phone" value={customer.phone} onChange={handleInputChange} />
-        <Button onClick={onSubmit}>Save</Button>
-        <Button bg="red" onClick={handleClose}>Cancel</Button>
+        <Title>{order.customerName === "" ? "Add New Order" : "Edit Order Details"}</Title>
+
+        <label>Customer Name:</label>
+        <Input type="text" name="customerName" value={order.customerName} onChange={handleInputChange} />
+
+        <label>Amount:</label>
+        <Input type="number" name="amount" value={order.amount} onChange={handleInputChange} />
+
+        <label>Status:</label>
+        <Select name="status" value={order.status} onChange={handleInputChange}>
+          <option value="pending">Pending</option>
+          <option value="completed">Completed</option>
+          <option value="in-progress">In-Progress</option>
+        </Select>
+
+        {/* Sticky Button Section */}
+        <ModalFooter>
+          <Button onClick={onSubmit}>Update</Button>
+          <Button bg="red" onClick={onClose}>Cancel</Button>
+        </ModalFooter>
       </ModalContent>
     </ModalOverlay>
   );
 };
 
-export default Modal;
+export default OrderModal;
