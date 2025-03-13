@@ -1,12 +1,7 @@
 import { Outlet } from "react-router-dom";
 
 function ChurnPredictions() {
-  return (
-    <div>
-      <h1>Churn Predictions Dashboard</h1>
-      <Outlet />
-    </div>
-  );
+  return <Outlet />; // Just render the nested routes
 }
 
 export default ChurnPredictions;

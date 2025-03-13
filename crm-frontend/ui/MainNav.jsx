@@ -1,6 +1,6 @@
 import styled from "styled-components";
-import { NavLink } from "react-router-dom";
-import { useState } from "react";
+import { NavLink, useLocation } from "react-router-dom";
+import { useState, useEffect } from "react";
 
 const NavList = styled.ul`
   display: flex;
@@ -25,7 +25,6 @@ const StyledNavLink = styled(NavLink)`
   transition: all 0.3s;
   text-decoration: none;
 
-  /* Apply active styles when the route is active */
   &.active {
     color: var(--color-grey-800);
     background-color: var(--color-grey-50);
@@ -51,7 +50,15 @@ const StyledNavLink = styled(NavLink)`
 `;
 
 function MainNav() {
-  const [isChurnOpen, setIsChurnOpen] = useState(false);
+  const location = useLocation();
+  const isChurnActive = location.pathname.startsWith("/churnprediction");
+
+  const [isChurnOpen, setIsChurnOpen] = useState(isChurnActive);
+
+  // Ensure submenu opens when navigating between churn subcategories
+  useEffect(() => {
+    setIsChurnOpen(isChurnActive);
+  }, [isChurnActive]);
   return (
     <nav>
       <NavList>
@@ -77,6 +84,7 @@ function MainNav() {
           >
             Churn Predictions ▼
           </StyledNavLink>
+
           <SubMenu isOpen={isChurnOpen}>
             <li>
               <StyledNavLink to="/churnprediction/ViewChurnInsights">

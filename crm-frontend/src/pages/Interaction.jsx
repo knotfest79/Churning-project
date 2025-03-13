@@ -54,6 +54,17 @@ const FilterSelect = styled.select`
   margin-left: 1rem;
 `;
 
+const FiltersWrapper = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+
+  @media (max-width: 768px) {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.5rem;
+  }
+`;
 const AddButton = styled.button`
   padding: 10px 15px;
   background-color: var(--color-brand-600);
@@ -64,7 +75,14 @@ const AddButton = styled.button`
   cursor: pointer;
   display: flex;
   align-items: center;
+  justify-content: center;
   gap: 0.5rem;
+  white-space: nowrap;
+
+  @media (max-width: 768px) {
+    width: 100%;
+    justify-content: center;
+  }
 `;
 
 function Interaction() {
@@ -106,7 +124,7 @@ function Interaction() {
     <InteractionContainer>
       <FiltersContainer>
         <h2>Interactions</h2>
-        <div>
+        <FiltersWrapper>
           <AddButton>+ Add Interaction</AddButton>
           <FilterSelect>
             <option value="all">All Types</option>
@@ -114,7 +132,7 @@ function Interaction() {
             <option value="call">Call</option>
             <option value="chat">Chat</option>
           </FilterSelect>
-        </div>
+        </FiltersWrapper>
       </FiltersContainer>
       <Table>
         <thead>

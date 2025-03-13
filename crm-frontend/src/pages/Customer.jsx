@@ -45,13 +45,25 @@ const FiltersContainer = styled.div`
   justify-content: space-between;
   align-items: center;
   margin-bottom: 2rem;
+  flex-wrap: wrap;
+`;
+
+const FiltersWrapper = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+
+  @media (max-width: 768px) {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.5rem;
+  }
 `;
 
 const FilterSelect = styled.select`
   padding: 0.8rem;
   border: 1px solid var(--color-grey-300);
   border-radius: var(--border-radius-sm);
-  margin-left: 1rem;
 `;
 
 const AddButton = styled.button`
@@ -64,7 +76,14 @@ const AddButton = styled.button`
   cursor: pointer;
   display: flex;
   align-items: center;
+  justify-content: center;
   gap: 0.5rem;
+  white-space: nowrap;
+
+  @media (max-width: 768px) {
+    width: 100%;
+    justify-content: center;
+  }
 `;
 
 function Customer() {
@@ -106,7 +125,7 @@ function Customer() {
     <CustomerContainer>
       <FiltersContainer>
         <h2>Customers</h2>
-        <div>
+        <FiltersWrapper>
           <AddButton>+ Add New Customer</AddButton>
           <FilterSelect>
             <option value="all">Churn Risk (All)</option>
@@ -119,7 +138,7 @@ function Customer() {
             <option value="cohort1">Cohort 1</option>
             <option value="cohort2">Cohort 2</option>
           </FilterSelect>
-        </div>
+        </FiltersWrapper>
       </FiltersContainer>
       <Table>
         <thead>

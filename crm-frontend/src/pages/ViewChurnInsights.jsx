@@ -12,8 +12,13 @@ import {
 const ChurnContainer = styled.div`
   padding: 2rem;
   background-color: #f4f5f7;
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  height: auto;
+  overflow-y: auto;
 `;
-
 const SectionTitle = styled.h2`
   font-size: 1.8rem;
   font-weight: bold;
@@ -24,6 +29,7 @@ const KPIContainer = styled.div`
   display: flex;
   justify-content: space-between;
   gap: 1.5rem;
+  flex-wrap: wrap;
   margin-bottom: 2rem;
 `;
 

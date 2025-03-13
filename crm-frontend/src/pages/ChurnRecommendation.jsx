@@ -3,6 +3,11 @@ import styled from "styled-components";
 const ChurnContainer = styled.div`
   padding: 2rem;
   background-color: #f4f5f7;
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  overflow: hidden;
 `;
 
 const SectionTitle = styled.h2`

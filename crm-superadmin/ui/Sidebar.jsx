@@ -1,10 +1,9 @@
 import styled from "styled-components";
 import MainNav from "../ui/MainNav";
 import Logo from "../ui/Logo";
-import DateRangePicker from "./DateRangePicker";
 
 const SidebarContainer = styled.aside`
-  width: 20%;
+  width: 250px;
   background-color: #ebecee;
   color: black;
   padding: 20px;
@@ -12,24 +11,38 @@ const SidebarContainer = styled.aside`
   display: flex;
   flex-direction: column;
   overflow-y: auto;
-  scrollbar-width: none;
+  scrollbar-width: none; /* Hide scrollbar in Firefox */
+
   &::-webkit-scrollbar {
-    display: none;
+    display: none; /* Hide scrollbar in Chrome, Edge, Safari */
   }
 
   @media (max-width: 768px) {
-    width: 100px; /* Adjust width or collapse */
-    overflow-x: hidden; /* Hide scrollbar unless needed */
+    width: 80px; /* Collapses the sidebar on smaller screens */
+    padding: 10px;
     transition: width 0.3s ease-in-out;
   }
+`;
+
+const LogoContainer = styled.div`
+  display: flex;
+  justify-content: center;
+  margin-bottom: 2rem;
+`;
+
+const NavContainer = styled.div`
+  flex-grow: 1;
 `;
 
 function Sidebar() {
   return (
     <SidebarContainer>
-      <Logo />
-      <DateRangePicker />
-      <MainNav />
+      <LogoContainer>
+        <Logo />
+      </LogoContainer>
+      <NavContainer>
+        <MainNav />
+      </NavContainer>
     </SidebarContainer>
   );
 }

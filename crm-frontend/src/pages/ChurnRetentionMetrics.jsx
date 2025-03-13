@@ -13,11 +13,16 @@ import {
   Pie,
   Cell,
 } from "recharts";
-import { NavLink } from "react-router-dom";
 
 const ChurnContainer = styled.div`
   padding: 2rem;
   background-color: #f4f5f7;
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  height: auto;
+  overflow-y: auto;
 `;
 
 const SectionTitle = styled.h2`

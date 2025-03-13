@@ -1,67 +1,159 @@
 import { useEffect } from "react";
 import { useLocation } from "react-router-dom";
-import PageNav from "../components/PageNav";
+
 import Features from "./Features";
 import Pricing from "./Pricing";
 import About from "./About";
 import Contact from "./Contact";
 import Footer from "./Footer";
-import styles from "./Homepage.module.css";
+import styled from "styled-components";
+
+const HeroSection = styled.section`
+  background: #9062f2;
+  color: white;
+  text-align: center;
+  padding: 100px 20px;
+
+  h1 {
+    font-size: 2.5rem;
+    font-weight: 800;
+    margin-bottom: 15px;
+  }
+
+  p {
+    font-size: 1.2rem;
+    font-weight: 400;
+    max-width: 600px;
+    margin: 0 auto;
+  }
+`;
+
+const ButtonGroup = styled.div`
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+  margin-top: 20px;
+
+  @media (max-width: 768px) {
+    flex-direction: column;
+  }
+`;
+
+const Button = styled.button`
+  padding: 12px 20px;
+  border-radius: 6px;
+  font-size: 1rem;
+  cursor: pointer;
+  font-weight: bold;
+  border: none;
+  transition: all 0.3s ease;
+`;
+
+const PrimaryButton = styled(Button)`
+  background-color: white;
+  color: #3b82f6;
+`;
+
+const SecondaryButton = styled(Button)`
+  background-color: black;
+  color: white;
+`;
+
+const TalentSection = styled.section`
+  text-align: center;
+  background-color: white;
+  padding: 60px 20px;
+`;
+
+const TalentGrid = styled.div`
+  display: flex;
+  justify-content: center;
+  gap: 40px;
+  margin-top: 20px;
+
+  @media (max-width: 768px) {
+    flex-direction: column;
+    gap: 30px;
+  }
+`;
+
+const TalentItem = styled.div`
+  text-align: center;
+  max-width: 280px;
+`;
+
+const TalentImage = styled.img`
+  width: 60px;
+  height: 60px;
+  margin-bottom: 15px;
+`;
 
 export default function Homepage() {
-    const location = useLocation();
+  const location = useLocation();
 
-    useEffect(() => {
-        
-        const params = new URLSearchParams(location.search);
-        const scrollTo = params.get("scrollTo");
+  useEffect(() => {
+    const params = new URLSearchParams(location.search);
+    const scrollTo = params.get("scrollTo");
 
-        if (scrollTo) {
-            document.getElementById(scrollTo)?.scrollIntoView({ behavior: "smooth" });
-        }
-    }, [location]);
+    if (scrollTo) {
+      document.getElementById(scrollTo)?.scrollIntoView({ behavior: "smooth" });
+    }
+  }, [location]);
 
-    return (
-        <main>
-            <PageNav />
+  return (
+    <main>
+      <HeroSection id="hero">
+        <h1>Revolutionize Your Business with Our AI-Powered CRM!</h1>
+        <p>
+          Streamline customer management, predict churn, and boost retention
+          with our cutting-edge tools.
+        </p>
+        <ButtonGroup>
+          <PrimaryButton>Learn more</PrimaryButton>
+          <SecondaryButton>View Plans</SecondaryButton>
+        </ButtonGroup>
+      </HeroSection>
 
-           
+      <TalentSection>
+        <TalentGrid>
+          <TalentItem>
+            <TalentImage src="./Icon1.png" alt="Right Talent" />
+            <h3>Right Talent</h3>
+            <p>
+              Our solutions combine technology and expertise to help you hire
+              people who contribute to your company’s growth.
+            </p>
+          </TalentItem>
+          <TalentItem>
+            <TalentImage src="./Icon2.png" alt="Right Time" />
+            <h3>Right Time</h3>
+            <p>
+              Hire whenever you need from a pool of independently screened
+              candidates.
+            </p>
+          </TalentItem>
+          <TalentItem>
+            <TalentImage src="./Icon3.png" alt="Right Cost" />
+            <h3>Right Cost</h3>
+            <p>Flexible hiring ensures the right talent at the right price.</p>
+          </TalentItem>
+        </TalentGrid>
+      </TalentSection>
 
-            <section id="hero" className={styles.hero}>
-                <h1>Revolutionize Your Business with Our AI-Powered CRM!</h1>
-                <p>Streamline customer management, predict churn, and boost retention with our cutting-edge tools.</p>
-                <div className={styles.buttons}>
-                <button className={styles.primaryButton}>Learn more</button>
-                <button className={styles.secondaryButton}>View Plans</button>
-            </div>
-            </section>
-            
-            <section className={styles.talentSection}>
-                <div className={styles.talentGrid}>
-                    <div className={styles.talentItem}>
-                        <img src="./Icon1.png" alt="Right Talent" />
-                        <h3>Right Talent</h3>
-                        <p>Our solutions combine technology and expertise to help you hire people who contribute to your companys growth.</p>
-                    </div>
-                    <div className={styles.talentItem}>
-                        <img src="./Icon2.png" alt="Right Time" />
-                        <h3>Right Time</h3>
-                        <p>Hire whenever you need from a pool of independently screened candidates.</p>
-                    </div>
-                    <div className={styles.talentItem}>
-                        <img src="./Icon3.png" alt="Right Cost" />
-                        <h3>Right Cost</h3>
-                        <p>Flexible hiring ensures the right talent at the right price.</p>
-                    </div>
-                </div>
-            </section>
+      <section id="features">
+        <Features />
+      </section>
+      <section id="pricing">
+        <Pricing />
+      </section>
+      <section id="about">
+        <About />
+      </section>
+      <section id="contact">
+        <Contact />
+      </section>
 
-            <section id="features"><Features /></section>
-            <section id="pricing"><Pricing /></section>
-            <section id="about"><About /></section>
-            <section id="contact"><Contact /></section>
-
-            <Footer />
-        </main>
-    );
+      <Footer />
+    </main>
+  );
 }

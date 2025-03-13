@@ -7,16 +7,17 @@ import {
   CartesianGrid,
   Tooltip,
   ResponsiveContainer,
-  BarChart,
-  Bar,
-  PieChart,
-  Pie,
-  Cell,
 } from "recharts";
 
 const ChurnContainer = styled.div`
   padding: 2rem;
   background-color: #f4f5f7;
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  height: auto;
+  overflow-y: auto;
 `;
 
 const SectionTitle = styled.h2`

@@ -4,6 +4,12 @@ const KPIContainer = styled.section`
   display: flex;
   justify-content: space-between;
   gap: 1.5rem;
+  flex-wrap: wrap;
+
+  @media (max-width: 768px) {
+    flex-direction: column;
+    align-items: center;
+  }
 `;
 
 const KPIBox = styled.div`
@@ -13,6 +19,11 @@ const KPIBox = styled.div`
   box-shadow: var(--shadow-md);
   text-align: center;
   flex: 1;
+  min-width: 200px; /* Prevents boxes from getting too small */
+
+  @media (max-width: 768px) {
+    width: 100%; /* Make boxes full width on small screens */
+  }
 `;
 
 function KPISection() {

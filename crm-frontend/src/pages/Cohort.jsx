@@ -54,6 +54,18 @@ const FilterSelect = styled.select`
   margin-left: 1rem;
 `;
 
+const FiltersWrapper = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+
+  @media (max-width: 768px) {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.5rem;
+  }
+`;
+
 const AddButton = styled.button`
   padding: 10px 15px;
   background-color: var(--color-brand-600);
@@ -64,7 +76,14 @@ const AddButton = styled.button`
   cursor: pointer;
   display: flex;
   align-items: center;
+  justify-content: center;
   gap: 0.5rem;
+  white-space: nowrap;
+
+  @media (max-width: 768px) {
+    width: 100%;
+    justify-content: center;
+  }
 `;
 
 function Cohort() {
@@ -85,7 +104,7 @@ function Cohort() {
     <CohortContainer>
       <FiltersContainer>
         <h2>Cohorts</h2>
-        <div>
+        <FiltersWrapper>
           <AddButton>+ Add Cohort</AddButton>
           <FilterSelect>
             <option value="all">All Criteria</option>
@@ -93,7 +112,7 @@ function Cohort() {
             <option value="loyal">Loyal Customers</option>
             <option value="new-users">New Users</option>
           </FilterSelect>
-        </div>
+        </FiltersWrapper>
       </FiltersContainer>
       <Table>
         <thead>

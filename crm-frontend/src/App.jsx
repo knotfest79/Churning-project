@@ -32,7 +32,14 @@ function App() {
             <Route path="order" element={<Order />} />
             <Route path="product" element={<Product />} />
             <Route path="cohort" element={<Cohort />} />
-            <Route path="Churnprediction" element={<ChurnPredictions />}>
+            <Route path="churnprediction" element={<ChurnPredictions />}>
+              <Route
+                index
+                element={
+                  <Navigate to="/churnprediction/ViewChurnInsights" replace />
+                }
+              />
+
               <Route path="ViewChurnInsights" element={<ViewChurnInsights />} />
               <Route
                 path="ChurnRecommendations"

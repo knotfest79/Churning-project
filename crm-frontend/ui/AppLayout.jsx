@@ -9,6 +9,7 @@ import RecentActivities from "../ui/RecentActivities";
 const LayoutContainer = styled.div`
   display: flex;
   height: 100vh;
+  overflow: auto;
 `;
 
 const MainContainer = styled.div`
@@ -16,6 +17,11 @@ const MainContainer = styled.div`
   flex-direction: column;
   flex-grow: 1;
   overflow-y: auto;
+
+  @media (max-width: 768px) {
+    width: calc(100% - 100px);
+    transition: width 0.3s ease-in-out;
+  }
 `;
 
 const Main = styled.main`
