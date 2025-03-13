@@ -2,9 +2,9 @@ import styled from "styled-components";
 import { useEffect, useState } from "react";
 import Pagination from "../../ui/Pagination";
 import Modal from "../../ui/Modal";
-import { handelError, handelSuccess } from "../utils";
+import { formatDate, handelError, handelSuccess } from "../utils";
 import { ToastContainer } from "react-toastify";
-
+import CreateProductModal  from "../../ui/CreateProductModal";
 
 const ProductContainer = styled.div`
   background: var(--color-grey-50);
@@ -75,24 +75,19 @@ function Product() {
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-  const [selectedPorduct, setSelectedProduct] = useState(null);
+  const [selectedProduct, setSelectedProduct] = useState(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isViewModalOpen, setIsViewModalOpen] = useState(false);
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
-  const [newOrder, setNewOrder] = useState({
-    id: "",
+  const [newProduct, setNewProduct] = useState({
     name: "",
     category: "",
     price: "",
+    description: "",
   });
 
   const [currentPage, setCurrentPage] = useState(1);
   const productsPerPage = 5;
-  // const products = [
-  //   { id: "#001", name: "Smartphone", category: "Electronics", price: "$699" },
-  //   { id: "#002", name: "Laptop", category: "Computers", price: "$1299" },
-  //   { id: "#003", name: "Tablet", category: "Electronics", price: "$499" },
-  // ];
 
   useEffect(() => {
     const fetchProducts = async () => {
@@ -135,36 +130,149 @@ function Product() {
     fetchProducts();
   }, []);
 
-  const handleViewProduct = async(productId)=>{
+  const handleViewProduct = async (productId) => {
     const proId = "67c17c11a37308fbd7d43fd5"; // Hardcoded proId
     const accessToken =
       "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE3NDA2MzczMzQsImV4cCI6MTc3MjE5NDkzNCwiYXVkIjoiNjdiZmZmZTczYTE4NDdmYTVmMzBkZDllIiwiaXNzIjoiZG9tYWludXJsLmNvbSJ9.gyMa49yrGmjDvKt0VKyfew5pLYN005y-dEElCcUPfO8"; // Hardcoded token
     try {
-      const response = await fetch(`http://localhost:3000/api/product/${proId}/${productId}`,{
-        method: "GET",
-        headers: {
-          "content-Type": "application/json",
-          Authorization: `Bearer ${accessToken}`,
+      const response = await fetch(
+        `http://localhost:3000/api/product/${proId}/${productId}`,
+        {
+          method: "GET",
+          headers: {
+            "content-Type": "application/json",
+            Authorization: `Bearer ${accessToken}`,
+          },
         }
-      }
+      );
+      if (!response.ok) throw new Error("Failed to fetch products");
+      const data = await response.json();
+      console.log(data);
 
-      )
-      if(!response.ok) throw new Error("Failed to fetch products")
-      const data= await response.json()
-    console.log(data);
-    
-    setSelectedProduct(data);
-    setIsViewModalOpen(true)
+      setSelectedProduct(data);
+      setIsViewModalOpen(true);
     } catch (error) {
-      setError("Failed to load product details")
+      setError("Failed to load product details");
     }
-  }
+  };
 
   const handleCloseModal = () => {
     setIsViewModalOpen(false); // Close View Modal
     setIsEditModalOpen(false); // Close Edit Modal
-    setSelectedProduct(null); // Reset customer selection
+    setSelectedProduct(null); // Reset product selection
   };
+
+  const handleDelete = async (productId) => {
+    const proId = "67c17c11a37308fbd7d43fd5"; // Hardcoded proId
+    const accessToken =
+      "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE3NDA2MzczMzQsImV4cCI6MTc3MjE5NDkzNCwiYXVkIjoiNjdiZmZmZTczYTE4NDdmYTVmMzBkZDllIiwiaXNzIjoiZG9tYWludXJsLmNvbSJ9.gyMa49yrGmjDvKt0VKyfew5pLYN005y-dEElCcUPfO8"; // Hardcoded token
+
+    try {
+      const response = await fetch(
+        `http://localhost:3000/api/product/${proId}/${productId}`,
+        {
+          method: "DELETE",
+          headers: {
+            "content-Type": "application/json",
+            Authorization: `Bearer ${accessToken}`,
+          },
+        }
+      );
+      if (!response.ok) throw new Error("Failed to delete");
+
+      const data = await response.json();
+      if (!data) {
+        handelError(data.message);
+      } else {
+        handelSuccess(data.message);
+      }
+    } catch (error) {
+      handelError(error.message);
+    }
+  };
+
+  const handleEditProduct = async (product) => {
+    setSelectedProduct(product);
+    setIsEditModalOpen(true); // Open Edit Modal
+    setNewProduct({
+      name: product.name,
+      category: product.category,
+      price: product.price,
+      description: product.description,
+    });
+  }
+
+  const handleSubmit = async () => {
+    const proId = "67c17c11a37308fbd7d43fd5"; // Hardcoded proId
+    const accessToken =
+      "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE3NDA2MzczMzQsImV4cCI6MTc3MjE5NDkzNCwiYXVkIjoiNjdiZmZmZTczYTE4NDdmYTVmMzBkZDllIiwiaXNzIjoiZG9tYWludXJsLmNvbSJ9.gyMa49yrGmjDvKt0VKyfew5pLYN005y-dEElCcUPfO8"; // Hardcoded token
+
+    if (!proId || !accessToken) {
+      handelError("Unauthorized");
+      return;
+    }
+
+    try {
+      // Check if we are editing an existing product or adding a new one
+      if (selectedProduct) {
+        // Editing an existing product
+        const response = await fetch(`http://localhost:3000/api/product/`, {
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${accessToken}`,
+          },
+          body: JSON.stringify({
+            proId,
+            productId: selectedProduct._id, // Using the selected product's ID
+            ...newProduct, // Include tproduct data (name, email, phone)
+          }),
+        });
+
+        const updatedProduct = await response.json();
+
+        if (!response.ok) throw new Error("Failed to edit product");
+
+        handelSuccess(updatedProduct.message);
+
+        // Update the product in the state with the new data
+        setProducts(
+          products.map((product) =>
+            product._id === updatedProduct._id ? updatedProduct : product
+          )
+        );
+      } else {
+        // Adding a new product
+        const response = await fetch("http://localhost:3000/api/product", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${accessToken}`,
+          },
+          body: JSON.stringify({ proId, ...newProduct }),
+        });
+
+        if (!response.ok) throw new Error("Failed to add product");
+        const addedProduct = await response.json();
+        handelSuccess(addedProduct.message);
+        setProducts([...products, addedProduct]);
+      }
+
+      // Close modal and reset fields
+      setIsModalOpen(false);
+      setNewProduct({
+        name: "",
+        category: "",
+        price: "",
+        description: "",
+      });
+      setSelectedProduct(null);
+    } catch (error) {
+      handelError(error.message);
+    }
+  };
+  
+ 
 
   const totalPages = Math.ceil(products.length / productsPerPage);
   const indexOfLastProduct = currentPage * productsPerPage;
@@ -179,7 +287,9 @@ function Product() {
       <FiltersContainer>
         <h2>Products</h2>
         <div>
-          <AddButton>+ Add Product</AddButton>
+          <AddButton onClick={() => setIsModalOpen(true)}>
+            + Add Product
+          </AddButton>
           <FilterSelect>
             <option value="all">All Categories</option>
             <option value="electronics">Electronics</option>
@@ -191,7 +301,7 @@ function Product() {
       <Table>
         <thead>
           <tr>
-            <Th>Order ID</Th>
+            <Th>Product ID</Th>
             <Th>Name</Th>
             <Th>Category</Th>
             <Th>Price</Th>
@@ -212,8 +322,18 @@ function Product() {
                 >
                   View
                 </ActionButton>
-                <ActionButton color="#3498db">Edit</ActionButton>
-                <ActionButton color="#e74c3c">Delete</ActionButton>
+                <ActionButton
+                  color="#3498db"
+                  onClick={() => handleEditProduct(product)}
+                >
+                  Edit
+                </ActionButton>
+                <ActionButton
+                  color="#e74c3c"
+                  onClick={() => handleDelete(product._id)}
+                >
+                  Delete
+                </ActionButton>
               </Td>
             </tr>
           ))}
@@ -225,18 +345,39 @@ function Product() {
         onPageChange={setCurrentPage}
       />
 
-      {isViewModalOpen && selectedPorduct && (
+      {isViewModalOpen && selectedProduct && (
         <Modal onClose={handleCloseModal}>
           <h2>Product Details</h2>
-          <p>Name: {selectedPorduct.name}</p>
-          <p>Category: {selectedPorduct.category}</p>
-          <p>Price: {selectedPorduct.price}</p>
-          <p>Description: {selectedPorduct.description}</p>
-          <p>Added At: {selectedPorduct.addedAt}</p>
+          <p>Name: {selectedProduct.name}</p>
+          <p>Category: {selectedProduct.category}</p>
+          <p>Price: {selectedProduct.price}</p>
+          <p>Description: {selectedProduct.description}</p>
+          <p>Added At: {formatDate(selectedProduct.addedAt)}</p>
         </Modal>
       )}
 
-      
+      {/* Edit Modal */}
+      {isEditModalOpen && selectedProduct && (
+        <CreateProductModal
+          isOpen={isEditModalOpen}
+          onClose={handleCloseModal}
+          onSubmit={handleSubmit} // Edit Submit Handler
+          product={newProduct}
+          setProduct={setNewProduct}
+        />
+      )}
+
+      {/* Add product Modal */}
+      {isModalOpen && (
+        <CreateProductModal
+          isOpen={isModalOpen}
+          onClose={() => setIsModalOpen(false)}
+          onSubmit={handleSubmit}
+          product={newProduct}
+          setProduct={setNewProduct}
+        />
+      )}
+      <ToastContainer />
     </ProductContainer>
   );
 }
