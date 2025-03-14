@@ -5,14 +5,21 @@ import Features from "./Features";
 import Pricing from "./Pricing";
 import About from "./About";
 import Contact from "./Contact";
-import Footer from "./Footer";
+
 import styled from "styled-components";
 
 const HeroSection = styled.section`
+  width: 100vw; /* ✅ Full viewport width */
+  max-width: 100%;
   background: #9062f2;
   color: white;
   text-align: center;
   padding: 100px 20px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  min-height: 60vh;
 
   h1 {
     font-size: 2.5rem;
@@ -60,9 +67,15 @@ const SecondaryButton = styled(Button)`
 `;
 
 const TalentSection = styled.section`
+  width: 100vw; /* ✅ Full viewport width */
+  max-width: 100%;
   text-align: center;
   background-color: white;
   padding: 60px 20px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
 `;
 
 const TalentGrid = styled.div`
@@ -152,8 +165,6 @@ export default function Homepage() {
       <section id="contact">
         <Contact />
       </section>
-
-      <Footer />
     </main>
   );
 }

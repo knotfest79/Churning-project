@@ -1,7 +1,6 @@
 import { createGlobalStyle } from "styled-components";
 
 const GlobalStyles = createGlobalStyle`
-/* Import external styles separately */
 @import url("https://unpkg.com/leaflet@1.7.1/dist/leaflet.css");
 @import url("https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;700;800&display=swap");
 
@@ -21,13 +20,23 @@ html, body {
   margin: 0;
   padding: 0;
   width: 100%;
+  min-height: 100vh;
   box-sizing: border-box;
   font-family: "Manrope", sans-serif;
 }
 
+/* Ensure no unwanted container restricts full width */
 * {
   box-sizing: border-box;
   max-width: 100%;
+}
+
+/* ✅ Force sections to take full width */
+section {
+  width: 100vw !important;
+  max-width: 100%;
+  margin: 0 auto;
+  padding: 0;
 }
 
 /* General CTA Button */
@@ -49,16 +58,6 @@ html, body {
   color: white;
 }
 
-/* Specific Style for Navbar Login Button */
-.cta.cta-border {
-  color: var(--color-brand--2);
-  border: 2px solid var(--color-brand--2);
-}
-
-.cta.cta-border:hover {
-  background-color: var(--color-brand--2);
-  color: white;
-}
 `;
 
 export default GlobalStyles;

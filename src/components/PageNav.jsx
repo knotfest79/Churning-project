@@ -24,7 +24,6 @@ const NavLinks = styled.ul`
   margin: 0;
   padding: 0;
   font-size: 1rem;
-  font-weight: 600;
 
   @media (max-width: 768px) {
     display: ${({ open }) => (open ? "flex" : "none")};
@@ -46,7 +45,7 @@ const NavItem = styled.li`
 const NavLinkStyled = styled(Link)`
   text-decoration: none;
   color: #333;
-  font-weight: bold;
+  font-size: 1rem;
   transition: color 0.3s ease;
 
   &:hover {
@@ -74,46 +73,47 @@ function PageNav() {
 
   const handleNavClick = (sectionId) => {
     setMenuOpen(false);
+
     if (location.pathname === "/") {
       document
         .getElementById(sectionId)
         ?.scrollIntoView({ behavior: "smooth" });
+
+      window.history.pushState({}, "", `/#${sectionId}`);
     } else {
-      navigate(`/?scrollTo=${sectionId}`);
+      navigate("/");
+      setTimeout(() => {
+        document
+          .getElementById(sectionId)
+          ?.scrollIntoView({ behavior: "smooth" });
+
+        window.history.pushState({}, "", `/#${sectionId}`);
+      }, 300);
     }
   };
 
   return (
     <Nav>
-      <Logo />
+      <Link to="/" onClick={() => setMenuOpen(false)}>
+        <Logo />
+      </Link>
+
       <Hamburger onClick={() => setMenuOpen(!menuOpen)}>
         {menuOpen ? <FiX /> : <FiMenu />}
       </Hamburger>
+
       <NavLinks open={menuOpen}>
         <NavItem>
-          <NavLinkStyled to="/" onClick={() => setMenuOpen(false)}>
-            Homepage
-          </NavLinkStyled>
+          <button onClick={() => handleNavClick("features")}>Features</button>
         </NavItem>
         <NavItem>
-          <NavLinkStyled as="button" onClick={() => handleNavClick("features")}>
-            Features
-          </NavLinkStyled>
+          <button onClick={() => handleNavClick("pricing")}>Pricing</button>
         </NavItem>
         <NavItem>
-          <NavLinkStyled as="button" onClick={() => handleNavClick("pricing")}>
-            Pricing
-          </NavLinkStyled>
+          <button onClick={() => handleNavClick("about")}>About Us</button>
         </NavItem>
         <NavItem>
-          <NavLinkStyled as="button" onClick={() => handleNavClick("about")}>
-            About Us
-          </NavLinkStyled>
-        </NavItem>
-        <NavItem>
-          <NavLinkStyled as="button" onClick={() => handleNavClick("contact")}>
-            Contact Us
-          </NavLinkStyled>
+          <button onClick={() => handleNavClick("contact")}>Contact Us</button>
         </NavItem>
         <NavItem>
           <NavLinkStyled to="/login" className="cta cta-border">
