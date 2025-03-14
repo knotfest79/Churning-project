@@ -1,40 +1,53 @@
 import { useState } from "react";
+import styled from "styled-components";
+import {
+  FormContainer,
+  Row,
+  Label,
+  Input,
+  SubmitButton,
+} from "../styles/FormElement";
 
-import styles from "./Login.module.css";
+const LoginWrapper = styled.main`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  background-color: var(--color-light--2);
+  padding: 2rem;
+`;
 
 export default function Login() {
   const [email, setEmail] = useState("pragesh@example.com");
   const [password, setPassword] = useState("qwerty");
 
   return (
-    <main className={styles.login}>
-      <form className={styles.form}>
-        <div className={styles.row}>
-          <h2>CRM Login</h2>
-          <label htmlFor="email">Username</label>
-          <input
-            className={styles.input}
+    <LoginWrapper>
+      <FormContainer>
+        <h2>CRM Login</h2>
+
+        <Row>
+          <Label htmlFor="email">Username</Label>
+          <Input
             type="email"
             id="email"
             onChange={(e) => setEmail(e.target.value)}
             value={email}
           />
-        </div>
+        </Row>
 
-        <div className={styles.row}>
-          <label htmlFor="password">Password</label>
-          <input
+        <Row>
+          <Label htmlFor="password">Password</Label>
+          <Input
             type="password"
             id="password"
             onChange={(e) => setPassword(e.target.value)}
             value={password}
           />
-        </div>
+        </Row>
 
-        <div>
-          <button className="cta cta-border">Login</button>
-        </div>
-      </form>
-    </main>
+        <SubmitButton>Login</SubmitButton>
+      </FormContainer>
+    </LoginWrapper>
   );
 }

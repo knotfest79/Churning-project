@@ -25,13 +25,13 @@ html, body {
   font-family: "Manrope", sans-serif;
 }
 
-/* Ensure no unwanted container restricts full width */
+
 * {
   box-sizing: border-box;
   max-width: 100%;
 }
 
-/* ✅ Force sections to take full width */
+
 section {
   width: 100vw !important;
   max-width: 100%;

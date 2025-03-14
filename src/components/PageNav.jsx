@@ -38,6 +38,22 @@ const NavLinks = styled.ul`
   }
 `;
 
+const NavButton = styled.button`
+  background: transparent;
+  border: none;
+  padding: 10px 15px;
+  font-size: 1rem;
+  font-weight: 600;
+  font-family: inherit;
+  cursor: pointer;
+  transition: color 0.3s ease;
+  color: #333;
+
+  &:hover {
+    color: #7a4adb;
+  }
+`;
+
 const NavItem = styled.li`
   padding: 5px 10px;
 `;
@@ -104,16 +120,24 @@ function PageNav() {
 
       <NavLinks open={menuOpen}>
         <NavItem>
-          <button onClick={() => handleNavClick("features")}>Features</button>
+          <NavButton onClick={() => handleNavClick("features")}>
+            Features
+          </NavButton>
         </NavItem>
         <NavItem>
-          <button onClick={() => handleNavClick("pricing")}>Pricing</button>
+          <NavButton onClick={() => handleNavClick("pricing")}>
+            Pricing
+          </NavButton>
         </NavItem>
         <NavItem>
-          <button onClick={() => handleNavClick("about")}>About Us</button>
+          <NavButton onClick={() => handleNavClick("about")}>
+            About Us
+          </NavButton>
         </NavItem>
         <NavItem>
-          <button onClick={() => handleNavClick("contact")}>Contact Us</button>
+          <NavButton onClick={() => handleNavClick("contact")}>
+            Contact Us
+          </NavButton>
         </NavItem>
         <NavItem>
           <NavLinkStyled to="/login" className="cta cta-border">
