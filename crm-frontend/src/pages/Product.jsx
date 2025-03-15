@@ -4,7 +4,7 @@ import Pagination from "../../ui/Pagination";
 import Modal from "../../ui/Modal";
 import { formatDate, handelError, handelSuccess } from "../utils";
 import { ToastContainer } from "react-toastify";
-import CreateProductModal  from "../../ui/CreateProductModal";
+import CreateProductModal from "../../ui/CreateProductModal";
 
 const ProductContainer = styled.div`
   background: var(--color-grey-50);
@@ -85,15 +85,18 @@ function Product() {
     price: "",
     description: "",
   });
+  const proId = "67c17c11a37308fbd7d43fd5"; // Hardcoded proId
+  const accessToken =
+    "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE3NDA2MzczMzQsImV4cCI6MTc3MjE5NDkzNCwiYXVkIjoiNjdiZmZmZTczYTE4NDdmYTVmMzBkZDllIiwiaXNzIjoiZG9tYWludXJsLmNvbSJ9.gyMa49yrGmjDvKt0VKyfew5pLYN005y-dEElCcUPfO8"; // Hardcoded token
 
   const [currentPage, setCurrentPage] = useState(1);
   const productsPerPage = 5;
 
   useEffect(() => {
     const fetchProducts = async () => {
-      const proId = "67c17c11a37308fbd7d43fd5"; // Hardcoded proId
-      const accessToken =
-        "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE3NDA2MzczMzQsImV4cCI6MTc3MjE5NDkzNCwiYXVkIjoiNjdiZmZmZTczYTE4NDdmYTVmMzBkZDllIiwiaXNzIjoiZG9tYWludXJsLmNvbSJ9.gyMa49yrGmjDvKt0VKyfew5pLYN005y-dEElCcUPfO8"; // Hardcoded token
+      // const proId = "67c17c11a37308fbd7d43fd5"; // Hardcoded proId
+      // const accessToken =
+      // "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE3NDA2MzczMzQsImV4cCI6MTc3MjE5NDkzNCwiYXVkIjoiNjdiZmZmZTczYTE4NDdmYTVmMzBkZDllIiwiaXNzIjoiZG9tYWludXJsLmNvbSJ9.gyMa49yrGmjDvKt0VKyfew5pLYN005y-dEElCcUPfO8"; // Hardcoded token
       if (!proId) {
         setError("No proId found in localStorage");
         setLoading(false);
@@ -116,7 +119,7 @@ function Product() {
             },
           }
         );
-        if (!response.ok) throw new Error("Failed to fetch products");
+        if (!response.ok) throw new Error("No any product");
         const data = await response.json();
         console.log(data);
 
@@ -131,9 +134,9 @@ function Product() {
   }, []);
 
   const handleViewProduct = async (productId) => {
-    const proId = "67c17c11a37308fbd7d43fd5"; // Hardcoded proId
-    const accessToken =
-      "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE3NDA2MzczMzQsImV4cCI6MTc3MjE5NDkzNCwiYXVkIjoiNjdiZmZmZTczYTE4NDdmYTVmMzBkZDllIiwiaXNzIjoiZG9tYWludXJsLmNvbSJ9.gyMa49yrGmjDvKt0VKyfew5pLYN005y-dEElCcUPfO8"; // Hardcoded token
+    // const proId = "67c17c11a37308fbd7d43fd5"; // Hardcoded proId
+    // const accessToken =
+    //   "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE3NDA2MzczMzQsImV4cCI6MTc3MjE5NDkzNCwiYXVkIjoiNjdiZmZmZTczYTE4NDdmYTVmMzBkZDllIiwiaXNzIjoiZG9tYWludXJsLmNvbSJ9.gyMa49yrGmjDvKt0VKyfew5pLYN005y-dEElCcUPfO8"; // Hardcoded token
     try {
       const response = await fetch(
         `http://localhost:3000/api/product/${proId}/${productId}`,
@@ -145,7 +148,7 @@ function Product() {
           },
         }
       );
-      if (!response.ok) throw new Error("Failed to fetch products");
+      if (!response.ok) throw new Error("Details not found");
       const data = await response.json();
       console.log(data);
 
@@ -163,9 +166,9 @@ function Product() {
   };
 
   const handleDelete = async (productId) => {
-    const proId = "67c17c11a37308fbd7d43fd5"; // Hardcoded proId
-    const accessToken =
-      "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE3NDA2MzczMzQsImV4cCI6MTc3MjE5NDkzNCwiYXVkIjoiNjdiZmZmZTczYTE4NDdmYTVmMzBkZDllIiwiaXNzIjoiZG9tYWludXJsLmNvbSJ9.gyMa49yrGmjDvKt0VKyfew5pLYN005y-dEElCcUPfO8"; // Hardcoded token
+    // const proId = "67c17c11a37308fbd7d43fd5"; // Hardcoded proId
+    // const accessToken =
+    //   "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE3NDA2MzczMzQsImV4cCI6MTc3MjE5NDkzNCwiYXVkIjoiNjdiZmZmZTczYTE4NDdmYTVmMzBkZDllIiwiaXNzIjoiZG9tYWludXJsLmNvbSJ9.gyMa49yrGmjDvKt0VKyfew5pLYN005y-dEElCcUPfO8"; // Hardcoded token
 
     try {
       const response = await fetch(
@@ -200,12 +203,12 @@ function Product() {
       price: product.price,
       description: product.description,
     });
-  }
+  };
 
   const handleSubmit = async () => {
-    const proId = "67c17c11a37308fbd7d43fd5"; // Hardcoded proId
-    const accessToken =
-      "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE3NDA2MzczMzQsImV4cCI6MTc3MjE5NDkzNCwiYXVkIjoiNjdiZmZmZTczYTE4NDdmYTVmMzBkZDllIiwiaXNzIjoiZG9tYWludXJsLmNvbSJ9.gyMa49yrGmjDvKt0VKyfew5pLYN005y-dEElCcUPfO8"; // Hardcoded token
+    // const proId = "67c17c11a37308fbd7d43fd5"; // Hardcoded proId
+    // const accessToken =
+    //   "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE3NDA2MzczMzQsImV4cCI6MTc3MjE5NDkzNCwiYXVkIjoiNjdiZmZmZTczYTE4NDdmYTVmMzBkZDllIiwiaXNzIjoiZG9tYWludXJsLmNvbSJ9.gyMa49yrGmjDvKt0VKyfew5pLYN005y-dEElCcUPfO8"; // Hardcoded token
 
     if (!proId || !accessToken) {
       handelError("Unauthorized");
@@ -271,8 +274,6 @@ function Product() {
       handelError(error.message);
     }
   };
-  
- 
 
   const totalPages = Math.ceil(products.length / productsPerPage);
   const indexOfLastProduct = currentPage * productsPerPage;
@@ -344,6 +345,9 @@ function Product() {
         totalPages={totalPages}
         onPageChange={setCurrentPage}
       />
+
+      {loading && <p>Loading...</p>}
+      {error && <p style={{ color: "red" }}>{error}</p>}
 
       {isViewModalOpen && selectedProduct && (
         <Modal onClose={handleCloseModal}>

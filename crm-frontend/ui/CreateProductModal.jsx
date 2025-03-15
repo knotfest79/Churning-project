@@ -1,5 +1,4 @@
 import styled from "styled-components";
-import { formatDate } from "../src/utils";
 
 const ModalOverlay = styled.div`
   position: fixed;

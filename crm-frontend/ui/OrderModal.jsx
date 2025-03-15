@@ -109,7 +109,7 @@ const OrderModal = ({ isOpen, onClose, onSubmit, order, setOrder }) => {
         <Input type="text" name="customerName" value={order.customerName} onChange={handleInputChange} />
 
         <label>Amount:</label>
-        <Input type="number" name="amount" value={order.amount} onChange={handleInputChange} />
+        <Input type="text" name="amount" value={order.amount} disabled/>
 
         <label>Status:</label>
         <Select name="status" value={order.status} onChange={handleInputChange}>

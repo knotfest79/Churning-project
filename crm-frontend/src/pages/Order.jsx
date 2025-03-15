@@ -80,6 +80,9 @@ function Order() {
   const [selectedOrder, setSelectedOrder] = useState(null);
   const [isViewModalOpen, setViewModalOpen] = useState(false);
   const [isEditModalOpen, setEditModalOpen] = useState(false);
+  const accessToken =
+    "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE3NDA2MzczMzQsImV4cCI6MTc3MjE5NDkzNCwiYXVkIjoiNjdiZmZmZTczYTE4NDdmYTVmMzBkZDllIiwiaXNzIjoiZG9tYWludXJsLmNvbSJ9.gyMa49yrGmjDvKt0VKyfew5pLYN005y-dEElCcUPfO8"; // Use localStorage if needed
+  const proId = "67c17c11a37308fbd7d43fd5";
 
   const ordersPerPage = 5;
 
@@ -88,21 +91,23 @@ function Order() {
       setLoading(true);
       setError(null);
 
-      const token =
-        "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE3NDA2MzczMzQsImV4cCI6MTc3MjE5NDkzNCwiYXVkIjoiNjdiZmZmZTczYTE4NDdmYTVmMzBkZDllIiwiaXNzIjoiZG9tYWludXJsLmNvbSJ9.gyMa49yrGmjDvKt0VKyfew5pLYN005y-dEElCcUPfO8"; // Use localStorage if needed
-      const proId = "67c17c11a37308fbd7d43fd5";
+      // const token =
+      //   "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE3NDA2MzczMzQsImV4cCI6MTc3MjE5NDkzNCwiYXVkIjoiNjdiZmZmZTczYTE4NDdmYTVmMzBkZDllIiwiaXNzIjoiZG9tYWludXJsLmNvbSJ9.gyMa49yrGmjDvKt0VKyfew5pLYN005y-dEElCcUPfO8"; // Use localStorage if needed
+      // const proId = "67c17c11a37308fbd7d43fd5";
 
       try {
-        const response = await fetch("http://localhost:3000/api/order/all", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${token}`,
-          },
-          body: JSON.stringify({ proId }),
-        });
+        const response = await fetch(
+          `http://localhost:3000/api/order/${proId}`,
+          {
+            method: "GET",
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: `Bearer ${accessToken}`,
+            },
+          }
+        );
 
-        if (!response.ok) throw new Error("Failed to fetch orders");
+        if (!response.ok) throw new Error("No order found");
 
         const data = await response.json();
         setOrders(data);
@@ -134,9 +139,9 @@ function Order() {
     console.log(selectedOrder);
 
     try {
-      const proId = "67c17c11a37308fbd7d43fd5";
-      const accessToken =
-        "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE3NDA2MzczMzQsImV4cCI6MTc3MjE5NDkzNCwiYXVkIjoiNjdiZmZmZTczYTE4NDdmYTVmMzBkZDllIiwiaXNzIjoiZG9tYWludXJsLmNvbSJ9.gyMa49yrGmjDvKt0VKyfew5pLYN005y-dEElCcUPfO8";
+      // const proId = "67c17c11a37308fbd7d43fd5";
+      // const accessToken =
+      //   "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE3NDA2MzczMzQsImV4cCI6MTc3MjE5NDkzNCwiYXVkIjoiNjdiZmZmZTczYTE4NDdmYTVmMzBkZDllIiwiaXNzIjoiZG9tYWludXJsLmNvbSJ9.gyMa49yrGmjDvKt0VKyfew5pLYN005y-dEElCcUPfO8";
       const response = await fetch(`http://localhost:3000/api/order/`, {
         method: "PUT",
         headers: {
@@ -155,7 +160,7 @@ function Order() {
       if (!response.ok) throw new Error("Failed to update order");
 
       const data = await response.json();
-      handelSuccess(data.message)
+      handelSuccess(data.message);
 
       setOrders((prevOrders) =>
         prevOrders.map((order) =>
@@ -178,7 +183,6 @@ function Order() {
 
   return (
     <OrdersContainer>
-      <Header></Header>
       <FiltersContainer>
         <h2>Orders</h2>
         <StatusFilter>
@@ -188,55 +192,52 @@ function Order() {
         </StatusFilter>
       </FiltersContainer>
 
-      {loading ? (
-        <p>Loading orders...</p>
-      ) : error ? (
-        <p style={{ color: "red" }}>{error}</p>
-      ) : (
-        <Table>
-          <thead>
-            <tr>
-              <Th>Order ID</Th>
-              <Th>Customer Name</Th>
-              <Th>Amount</Th>
-              <Th>Status</Th>
-              <Th>Actions</Th>
+      <Table>
+        <thead>
+          <tr>
+            <Th>Order ID</Th>
+            <Th>Customer Name</Th>
+            <Th>Amount</Th>
+            <Th>Status</Th>
+            <Th>Actions</Th>
+          </tr>
+        </thead>
+        <tbody>
+          {currentOrders.map((order) => (
+            <tr key={order._id}>
+              <Td>{order._id}</Td>
+              <Td>{order.customerDetails?.name || order.customerName}</Td>
+              <Td>${order.amount}</Td>
+              <Status status={order.status}>{order.status}</Status>
+              <Td>
+                <ActionButton
+                  color="#2ecc71"
+                  hoverColor="#27ae60"
+                  onClick={() => handleView(order)}
+                >
+                  View
+                </ActionButton>
+                <ActionButton
+                  color="#3498db"
+                  hoverColor="#2980b9"
+                  onClick={() => handleEdit(order)}
+                >
+                  Edit
+                </ActionButton>
+              </Td>
             </tr>
-          </thead>
-          <tbody>
-            {currentOrders.map((order) => (
-              <tr key={order._id}>
-                <Td>{order._id}</Td>
-                <Td>{order.customerDetails?.name || order.customerName}</Td>
-                <Td>${order.amount}</Td>
-                <Status status={order.status}>{order.status}</Status>
-                <Td>
-                  <ActionButton
-                    color="#2ecc71"
-                    hoverColor="#27ae60"
-                    onClick={() => handleView(order)}
-                  >
-                    View
-                  </ActionButton>
-                  <ActionButton
-                    color="#3498db"
-                    hoverColor="#2980b9"
-                    onClick={() => handleEdit(order)}
-                  >
-                    Edit
-                  </ActionButton>
-                </Td>
-              </tr>
-            ))}
-          </tbody>
-        </Table>
-      )}
+          ))}
+        </tbody>
+      </Table>
 
       <Pagination
         currentPage={currentPage}
         totalPages={totalPages}
         onPageChange={setCurrentPage}
       />
+
+      {loading && <p>Loading...</p>}
+      {error && <p style={{ color: "red" }}>{error}</p>}
 
       {isViewModalOpen && (
         <Modal onClose={() => setViewModalOpen(false)}>
@@ -303,14 +304,14 @@ function Order() {
       )}
       {isEditModalOpen && (
         <OrderModal
-        isOpen={isEditModalOpen}
-        onClose={() => setEditModalOpen(false)}
-        onSubmit={handleUpdate}
-        order={selectedOrder}
-        setOrder={setSelectedOrder}
-      />
+          isOpen={isEditModalOpen}
+          onClose={() => setEditModalOpen(false)}
+          onSubmit={handleUpdate}
+          order={selectedOrder}
+          setOrder={setSelectedOrder}
+        />
       )}
-      <ToastContainer/>
+      <ToastContainer />
     </OrdersContainer>
   );
 }

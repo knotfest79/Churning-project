@@ -85,14 +85,17 @@ function Customer() {
     email: "",
     phone: "",
   });
+  const proId = "67c17c11a37308fbd7d43fd5";
+  const accessToken =
+        "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE3NDA2MzczMzQsImV4cCI6MTc3MjE5NDkzNCwiYXVkIjoiNjdiZmZmZTczYTE4NDdmYTVmMzBkZDllIiwiaXNzIjoiZG9tYWludXJsLmNvbSJ9.gyMa49yrGmjDvKt0VKyfew5pLYN005y-dEElCcUPfO8"; // Hardcoded token
 
   const customersPerPage = 5;
 
   useEffect(() => {
     const fetchCustomers = async () => {
-      const proId = "67c17c11a37308fbd7d43fd5"; // Hardcoded proId
-      const accessToken =
-        "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE3NDA2MzczMzQsImV4cCI6MTc3MjE5NDkzNCwiYXVkIjoiNjdiZmZmZTczYTE4NDdmYTVmMzBkZDllIiwiaXNzIjoiZG9tYWludXJsLmNvbSJ9.gyMa49yrGmjDvKt0VKyfew5pLYN005y-dEElCcUPfO8"; // Hardcoded token
+      // const proId = "67c17c11a37308fbd7d43fd5"; // Hardcoded proId
+      // const accessToken =
+      //   "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE3NDA2MzczMzQsImV4cCI6MTc3MjE5NDkzNCwiYXVkIjoiNjdiZmZmZTczYTE4NDdmYTVmMzBkZDllIiwiaXNzIjoiZG9tYWludXJsLmNvbSJ9.gyMa49yrGmjDvKt0VKyfew5pLYN005y-dEElCcUPfO8"; // Hardcoded token
       if (!proId) {
         setError("No proId found in localStorage");
         setLoading(false);
@@ -116,9 +119,8 @@ function Customer() {
           }
         );
 
-        if (!response.ok) {
-          throw new Error("Failed to fetch customers");
-        }
+        if (!response.ok) throw new Error("No customer found");
+        
 
         const data = await response.json();
         setCustomers(data);
@@ -133,9 +135,9 @@ function Customer() {
   }, []);
 
   const handleSubmit = async () => {
-    const proId = "67c17c11a37308fbd7d43fd5"; // Hardcoded proId
-    const accessToken =
-      "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE3NDA2MzczMzQsImV4cCI6MTc3MjE5NDkzNCwiYXVkIjoiNjdiZmZmZTczYTE4NDdmYTVmMzBkZDllIiwiaXNzIjoiZG9tYWludXJsLmNvbSJ9.gyMa49yrGmjDvKt0VKyfew5pLYN005y-dEElCcUPfO8"; // Hardcoded token
+    // const proId = "67c17c11a37308fbd7d43fd5"; // Hardcoded proId
+    // const accessToken =
+    //   "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE3NDA2MzczMzQsImV4cCI6MTc3MjE5NDkzNCwiYXVkIjoiNjdiZmZmZTczYTE4NDdmYTVmMzBkZDllIiwiaXNzIjoiZG9tYWludXJsLmNvbSJ9.gyMa49yrGmjDvKt0VKyfew5pLYN005y-dEElCcUPfO8"; // Hardcoded token
 
     if (!proId || !accessToken) {
       handelError("Unauthorized");
@@ -206,9 +208,9 @@ function Customer() {
   );
 
   const handleViewCustomer = async (customerId) => {
-    const proId = "67c17c11a37308fbd7d43fd5"; // Hardcoded proId
-    const accessToken =
-      "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE3NDA2MzczMzQsImV4cCI6MTc3MjE5NDkzNCwiYXVkIjoiNjdiZmZmZTczYTE4NDdmYTVmMzBkZDllIiwiaXNzIjoiZG9tYWludXJsLmNvbSJ9.gyMa49yrGmjDvKt0VKyfew5pLYN005y-dEElCcUPfO8"; // Hardcoded token
+    // const proId = "67c17c11a37308fbd7d43fd5"; // Hardcoded proId
+    // const accessToken =
+    //   "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE3NDA2MzczMzQsImV4cCI6MTc3MjE5NDkzNCwiYXVkIjoiNjdiZmZmZTczYTE4NDdmYTVmMzBkZDllIiwiaXNzIjoiZG9tYWludXJsLmNvbSJ9.gyMa49yrGmjDvKt0VKyfew5pLYN005y-dEElCcUPfO8"; // Hardcoded token
 
     try {
       const response = await fetch(
@@ -274,11 +276,8 @@ function Customer() {
         </div>
       </FiltersContainer>
 
-      {loading && <p>Loading...</p>}
-      {error && <p style={{ color: "red" }}>{error}</p>}
-
-      {!loading && !error && (
-        <>
+      
+    
           <Table>
             <thead>
               <tr>
@@ -320,8 +319,10 @@ function Customer() {
             totalPages={totalPages}
             onPageChange={setCurrentPage}
           />
-        </>
-      )}
+       
+       {loading && <p>Loading...</p>}
+      {error && <p style={{ color: "red" }}>{error}</p>}
+
 
       {/* View Modal */}
       {isViewModalOpen && selectedCustomer && (
