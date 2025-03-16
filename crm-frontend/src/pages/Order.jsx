@@ -3,7 +3,7 @@ import styled from "styled-components";
 import Pagination from "../../ui/Pagination";
 import Modal from "../../ui/Modal";
 import { ToastContainer } from "react-toastify";
-import { handelError, handelSuccess } from "../utils";
+import { handelError, handelSuccess, capitalizedWord } from "../utils";
 import OrderModal from "../../ui/OrderModal";
 const OrdersContainer = styled.div`
   background: var(--color-grey-50);
@@ -33,7 +33,7 @@ const Td = styled.td`
 `;
 
 const Status = styled.td`
-  color: ${({ status }) => (status === "Completed" ? "green" : "orange")};
+  color: ${({ status }) => (status === "completed" ? "green" : status === "pending" ? "orange" : "red")};
 `;
 
 const ActionButton = styled.button`
@@ -82,7 +82,7 @@ function Order() {
   const [isEditModalOpen, setEditModalOpen] = useState(false);
   const accessToken =
     "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE3NDA2MzczMzQsImV4cCI6MTc3MjE5NDkzNCwiYXVkIjoiNjdiZmZmZTczYTE4NDdmYTVmMzBkZDllIiwiaXNzIjoiZG9tYWludXJsLmNvbSJ9.gyMa49yrGmjDvKt0VKyfew5pLYN005y-dEElCcUPfO8"; // Use localStorage if needed
-  const proId = "67c17c11a37308fbd7d43fd5";
+  const proId = "67c17c11a37308fbd7d43fd5"; // to be used from localsotrage
 
   const ordersPerPage = 5;
 
@@ -90,11 +90,6 @@ function Order() {
     const fetchOrders = async () => {
       setLoading(true);
       setError(null);
-
-      // const token =
-      //   "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE3NDA2MzczMzQsImV4cCI6MTc3MjE5NDkzNCwiYXVkIjoiNjdiZmZmZTczYTE4NDdmYTVmMzBkZDllIiwiaXNzIjoiZG9tYWludXJsLmNvbSJ9.gyMa49yrGmjDvKt0VKyfew5pLYN005y-dEElCcUPfO8"; // Use localStorage if needed
-      // const proId = "67c17c11a37308fbd7d43fd5";
-
       try {
         const response = await fetch(
           `http://localhost:3000/api/order/${proId}`,
@@ -139,9 +134,6 @@ function Order() {
     console.log(selectedOrder);
 
     try {
-      // const proId = "67c17c11a37308fbd7d43fd5";
-      // const accessToken =
-      //   "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE3NDA2MzczMzQsImV4cCI6MTc3MjE5NDkzNCwiYXVkIjoiNjdiZmZmZTczYTE4NDdmYTVmMzBkZDllIiwiaXNzIjoiZG9tYWludXJsLmNvbSJ9.gyMa49yrGmjDvKt0VKyfew5pLYN005y-dEElCcUPfO8";
       const response = await fetch(`http://localhost:3000/api/order/`, {
         method: "PUT",
         headers: {
@@ -206,9 +198,9 @@ function Order() {
           {currentOrders.map((order) => (
             <tr key={order._id}>
               <Td>{order._id}</Td>
-              <Td>{order.customerDetails?.name || order.customerName}</Td>
+              <Td>{capitalizedWord(order.customerDetails?.name)}</Td>
               <Td>${order.amount}</Td>
-              <Status status={order.status}>{order.status}</Status>
+              <Status status={order.status}>{capitalizedWord(order.status)}</Status>
               <Td>
                 <ActionButton
                   color="#2ecc71"

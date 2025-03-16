@@ -1,7 +1,7 @@
 import styled from "styled-components";
 import { useState, useEffect } from "react";
 import { ToastContainer } from "react-toastify";
-import { handelError, handelSuccess } from "../utils";
+import { handelError, handelSuccess, capitalizedWord } from "../utils";
 import Pagination from "../../ui/Pagination";
 import Modal from "../../ui/Modal";
 import CreateCustomerModal from "../../ui/CreateCustomerModal"; // Ensure this is the modal component you are using
@@ -87,15 +87,12 @@ function Customer() {
   });
   const proId = "67c17c11a37308fbd7d43fd5";
   const accessToken =
-        "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE3NDA2MzczMzQsImV4cCI6MTc3MjE5NDkzNCwiYXVkIjoiNjdiZmZmZTczYTE4NDdmYTVmMzBkZDllIiwiaXNzIjoiZG9tYWludXJsLmNvbSJ9.gyMa49yrGmjDvKt0VKyfew5pLYN005y-dEElCcUPfO8"; // Hardcoded token
+    "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE3NDA2MzczMzQsImV4cCI6MTc3MjE5NDkzNCwiYXVkIjoiNjdiZmZmZTczYTE4NDdmYTVmMzBkZDllIiwiaXNzIjoiZG9tYWludXJsLmNvbSJ9.gyMa49yrGmjDvKt0VKyfew5pLYN005y-dEElCcUPfO8"; // Hardcoded token
 
   const customersPerPage = 5;
 
   useEffect(() => {
     const fetchCustomers = async () => {
-      // const proId = "67c17c11a37308fbd7d43fd5"; // Hardcoded proId
-      // const accessToken =
-      //   "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE3NDA2MzczMzQsImV4cCI6MTc3MjE5NDkzNCwiYXVkIjoiNjdiZmZmZTczYTE4NDdmYTVmMzBkZDllIiwiaXNzIjoiZG9tYWludXJsLmNvbSJ9.gyMa49yrGmjDvKt0VKyfew5pLYN005y-dEElCcUPfO8"; // Hardcoded token
       if (!proId) {
         setError("No proId found in localStorage");
         setLoading(false);
@@ -120,7 +117,6 @@ function Customer() {
         );
 
         if (!response.ok) throw new Error("No customer found");
-        
 
         const data = await response.json();
         setCustomers(data);
@@ -135,10 +131,6 @@ function Customer() {
   }, []);
 
   const handleSubmit = async () => {
-    // const proId = "67c17c11a37308fbd7d43fd5"; // Hardcoded proId
-    // const accessToken =
-    //   "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE3NDA2MzczMzQsImV4cCI6MTc3MjE5NDkzNCwiYXVkIjoiNjdiZmZmZTczYTE4NDdmYTVmMzBkZDllIiwiaXNzIjoiZG9tYWludXJsLmNvbSJ9.gyMa49yrGmjDvKt0VKyfew5pLYN005y-dEElCcUPfO8"; // Hardcoded token
-
     if (!proId || !accessToken) {
       handelError("Unauthorized");
       return;
@@ -166,11 +158,10 @@ function Customer() {
         if (!response.ok) throw new Error("Failed to edit customer");
 
         handelSuccess(updatedCustomer.message);
-
         // Update the customer in the state with the new data
         setCustomers(
           customers.map((customer) =>
-            customer._id === updatedCustomer._id ? updatedCustomer : customer
+            customer._id === updatedCustomer.details._id ? updatedCustomer.details : customer
           )
         );
       } else {
@@ -187,7 +178,7 @@ function Customer() {
         if (!response.ok) throw new Error("Failed to add customer");
         const addedCustomer = await response.json();
         handelSuccess(addedCustomer.message);
-        setCustomers([...customers, addedCustomer]);
+        setCustomers([...customers, addedCustomer.customer]);
       }
 
       // Close modal and reset fields
@@ -208,10 +199,6 @@ function Customer() {
   );
 
   const handleViewCustomer = async (customerId) => {
-    // const proId = "67c17c11a37308fbd7d43fd5"; // Hardcoded proId
-    // const accessToken =
-    //   "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE3NDA2MzczMzQsImV4cCI6MTc3MjE5NDkzNCwiYXVkIjoiNjdiZmZmZTczYTE4NDdmYTVmMzBkZDllIiwiaXNzIjoiZG9tYWludXJsLmNvbSJ9.gyMa49yrGmjDvKt0VKyfew5pLYN005y-dEElCcUPfO8"; // Hardcoded token
-
     try {
       const response = await fetch(
         `http://localhost:3000/api/customer/${proId}/${customerId}`,
@@ -276,53 +263,50 @@ function Customer() {
         </div>
       </FiltersContainer>
 
-      
-    
-          <Table>
-            <thead>
-              <tr>
-                <Th>Customer ID</Th>
-                <Th>Name</Th>
-                <Th>Email</Th>
-                <Th>Phone</Th>
-                <Th>Actions</Th>
-              </tr>
-            </thead>
-            <tbody>
-              {currentCustomers.map((customer) => (
-                <tr key={customer._id}>
-                  <Td>{customer._id}</Td>
-                  <Td>{customer.name}</Td>
-                  <Td>{customer.email}</Td>
-                  <Td>{customer.phone}</Td>
-                  <Td>
-                    <ActionButton
-                      color="#2ecc71"
-                      onClick={() => handleViewCustomer(customer._id)}
-                    >
-                      View
-                    </ActionButton>
-                    <ActionButton
-                      color="#3498db"
-                      onClick={() => handleEditCustomer(customer)}
-                    >
-                      Edit
-                    </ActionButton>
-                  </Td>
-                </tr>
-              ))}
-            </tbody>
-          </Table>
+      <Table>
+        <thead>
+          <tr>
+            <Th>Customer ID</Th>
+            <Th>Name</Th>
+            <Th>Email</Th>
+            <Th>Phone</Th>
+            <Th>Actions</Th>
+          </tr>
+        </thead>
+        <tbody>
+          {currentCustomers.map((customer) => (
+            <tr key={customer._id}>
+              <Td>{customer._id}</Td>
+              <Td>{customer.name}</Td>
+              <Td>{customer.email}</Td>
+              <Td>{customer.phone}</Td>
+              <Td>
+                <ActionButton
+                  color="#2ecc71"
+                  onClick={() => handleViewCustomer(customer._id)}
+                >
+                  View
+                </ActionButton>
+                <ActionButton
+                  color="#3498db"
+                  onClick={() => handleEditCustomer(customer)}
+                >
+                  Edit
+                </ActionButton>
+              </Td>
+            </tr>
+          ))}
+        </tbody>
+      </Table>
 
-          <Pagination
-            currentPage={currentPage}
-            totalPages={totalPages}
-            onPageChange={setCurrentPage}
-          />
-       
-       {loading && <p>Loading...</p>}
+      <Pagination
+        currentPage={currentPage}
+        totalPages={totalPages}
+        onPageChange={setCurrentPage}
+      />
+
+      {loading && <p>Loading...</p>}
       {error && <p style={{ color: "red" }}>{error}</p>}
-
 
       {/* View Modal */}
       {isViewModalOpen && selectedCustomer && (

@@ -24,3 +24,9 @@ export const formatDate = (dateString) => {
     }).replace(",", " at");
   };
   
+  export const capitalizedWord = (str) => {
+    return str
+        .split(" ") 
+        .map(word => word.charAt(0).toUpperCase() + word.slice(1)) 
+        .join(" ");
+  }
