@@ -1,6 +1,6 @@
 import React from "react";
 import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
-import Dashboard from "./pages/Dashboard";
+// import Dashboard from "./pages/Dashboard";
 import PageNotFound from "./pages/PageNotFound";
 import Customer from "./pages/Customer";
 import Order from "./pages/Order";
@@ -19,6 +19,10 @@ import AppLayout from "../ui/AppLayout";
 import ChurnRecommendation from "./pages/ChurnRecommendation";
 import UploadChurnData from "./pages/UploadChurnData";
 import ChurnRetentionMetrics from "./pages/ChurnRetentionMetrics";
+
+
+import DashboardPage from "./pages/DashboardPage";
+
 function App() {
   return (
     <>
@@ -26,8 +30,9 @@ function App() {
       <BrowserRouter>
         <Routes>
           <Route element={<AppLayout />}>
-            <Route index element={<Dashboard />} />
+            <Route index element={<DashboardPage />} />
             <Route path="dashboard" element={<Navigate to="/" replace />} />
+            <Route path="dd" element={<DashboardPage />} />
             <Route path="customer" element={<Customer />} />
             <Route path="order" element={<Order />} />
             <Route path="product" element={<Product />} />

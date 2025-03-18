@@ -5,17 +5,37 @@ const ActivitiesContainer = styled.section`
   padding: 1.5rem;
   border-radius: 8px;
   box-shadow: var(--shadow-md);
+  margin-top: 2rem;
 `;
-function RecentActivities() {
+
+const ActivityList = styled.ul`
+  list-style: none;
+  padding: 0;
+`;
+
+const ActivityItem = styled.li`
+  padding: 0.5rem 0;
+  border-bottom: 1px solid #ddd;
+  &:last-child {
+    border-bottom: none;
+  }
+`;
+
+function RecentActivities({ activities = [] }) {
   return (
     <ActivitiesContainer>
       <h3>Recent Activities</h3>
-      <ul>
-        <li>Customer A placed an order 2 hours ago</li>
-        <li>Customer B placed an order 4 hours ago</li>
-        <li>Customer C placed an order 6 hours ago</li>
-      </ul>
+      {activities.length > 0 ? (
+        <ActivityList>
+          {activities.map((activity, index) => (
+            <ActivityItem key={index}>{activity}</ActivityItem>
+          ))}
+        </ActivityList>
+      ) : (
+        <p>No recent activities</p>
+      )}
     </ActivitiesContainer>
   );
 }
+
 export default RecentActivities;
