@@ -8,10 +8,11 @@ import Login from "./pages/Login";
 import PageNotFound from "./pages/PageNotFound";
 import AppLayout from "./pages/AppLayout";
 import GlobalStyles from "./styles/GlobalStyles";
-import Homepage from "./pages/Homepage";
+// import Homepage from "./pages/Homepage";
 import Payment from "../features/Authentication/Payment";
 import Confirmation from "../features/Authentication/Confirmation";
 import Signup from "../features/Authentication/signup";
+import Homepage1 from "./pages/Homepage1";
 
 function App() {
   return (
@@ -20,9 +21,9 @@ function App() {
       <BrowserRouter>
         <Routes>
           <Route element={<AppLayout />}>
-            <Route index element={<Navigate to="/home" replace />} />
+            <Route index element={<Navigate to="/home1" replace />} />
             {/* 🚀 Redirects root ("/") to "home" */}
-            <Route path="home" element={<Homepage />} />
+            <Route path="home1" element={<Homepage1 />} />
             <Route path="features" element={<Features />} />
             <Route path="pricing" element={<Pricing />} />
             <Route path="about" element={<About />} />

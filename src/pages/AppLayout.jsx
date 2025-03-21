@@ -1,8 +1,8 @@
-import { Outlet } from "react-router-dom";
-
+import { Outlet, useLocation } from "react-router-dom";
 import styled from "styled-components";
 import PageNav from "../components/PageNav";
 import Footer from "./Footer";
+import CookiePopup from "../components/CookiePopup";
 
 const LayoutContainer = styled.div`
   display: flex;
@@ -14,19 +14,22 @@ const LayoutContainer = styled.div`
 const Main = styled.main`
   flex-grow: 1;
   width: 100vw;
-  padding: 2rem;
-  background-color: #f4f5f7;
-  margin-top: 70px;
 `;
 
 function AppLayout() {
+  const location = useLocation();
+
+  // ✅ Fix the condition by adding "/"
+  const hideNav = location.pathname === "/login";
+
   return (
     <LayoutContainer>
-      <PageNav />
+      {!hideNav && <PageNav />} {/* ✅ Hides nav on login */}
       <Main>
         <Outlet />
       </Main>
-      <Footer />
+      {!hideNav && <Footer />} {/* ✅ Hides footer on login */}
+      <CookiePopup />
     </LayoutContainer>
   );
 }

@@ -42,8 +42,8 @@ section {
 /* General CTA Button */
 .cta {
   display: inline-block;
-  background-color: #9062f2;
-  color: var(--color-dark--1);
+  background-color:rgb(70, 31, 148);
+  color: var(--color-light--1);
   text-transform: uppercase;
   text-decoration: none;
   font-size: 0.8rem;
@@ -54,7 +54,7 @@ section {
 }
 
 .cta:hover, .cta:active {
-  background-color: #7a4adb;
+  background-color:#5F21CA ;
   color: white;
 }
 

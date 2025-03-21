@@ -7,13 +7,21 @@ import { FiMenu, FiX } from "react-icons/fi";
 const Nav = styled.nav`
   position: fixed;
   top: 0;
+  left: 0;
+  width: 100%;
   display: flex;
   align-items: center;
   justify-content: space-between;
-  background: #e3dede;
   padding: 15px 20px;
-  width: 100%;
   z-index: 1000;
+  transition: background 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+
+  /* Dynamic Background */
+  background: ${({ isHomepage, scrolled }) =>
+    isHomepage && !scrolled ? "transparent" : "rgba(255, 255, 255, 0.4)"};
+
+  /* Box shadow only when scrolled */
+  ${({ scrolled }) => scrolled && `box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);`}
 `;
 
 const NavLinks = styled.ul`
@@ -40,14 +48,14 @@ const NavLinks = styled.ul`
 
 const NavButton = styled.button`
   background: transparent;
-  border: none;
+  border: transparent;
   padding: 10px 15px;
   font-size: 1rem;
   font-weight: 600;
   font-family: inherit;
   cursor: pointer;
   transition: color 0.3s ease;
-  color: #333;
+  color: #1c0808;
 
   &:hover {
     color: #7a4adb;
@@ -60,7 +68,7 @@ const NavItem = styled.li`
 
 const NavLinkStyled = styled(Link)`
   text-decoration: none;
-  color: #333;
+  color: #ffffff;
   font-size: 1rem;
   transition: color 0.3s ease;
 
