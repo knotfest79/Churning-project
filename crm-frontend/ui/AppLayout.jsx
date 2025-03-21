@@ -1,5 +1,6 @@
+import { useEffect } from "react";
 import styled from "styled-components";
-import { Outlet, useLocation } from "react-router-dom";
+import { Outlet, useLocation, useNavigate } from "react-router-dom";
 import Header from "../ui/Header";
 import Sidebar from "../ui/Sidebar";
 import KPISection from "../ui/KPISection";
@@ -45,9 +46,21 @@ const DashboardTitle = styled.h1`
 
 function AppLayout() {
   const location = useLocation();
-  console.log("Current Path:", location.pathname);
+  const navigate = useNavigate();
+
   const isDashboard =
     location.pathname === "/" || location.pathname === "/dashboard";
+
+  useEffect(() => {
+    const urlParams = new URLSearchParams(window.location.search);
+    const token = urlParams.get("token");
+
+    if (token) {
+      localStorage.setItem("authToken", token);
+      // Optionally clean up the URL
+      window.history.replaceState(null, "", window.location.pathname);
+    }
+  }, []);
 
   return (
     <LayoutContainer>

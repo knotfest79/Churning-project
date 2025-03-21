@@ -1,5 +1,10 @@
-function Signout() {
-  return <div>Signout</div>;
-}
+import { useEffect } from "react";
 
-export default Signout;
+export default function Signout() {
+  useEffect(() => {
+    localStorage.removeItem("authToken");
+    window.location.href = "/login";
+  }, []);
+
+  return null;
+}
