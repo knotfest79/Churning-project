@@ -95,13 +95,16 @@ const Button = styled.button`
 
 export default function Homepage1() {
   const location = useLocation();
-
   useEffect(() => {
-    const params = new URLSearchParams(location.search);
-    const scrollTo = params.get("scrollTo");
+    const scrollTo = location.state?.scrollTo;
 
     if (scrollTo) {
-      document.getElementById(scrollTo)?.scrollIntoView({ behavior: "smooth" });
+      const el = document.getElementById(scrollTo);
+      if (el) {
+        el.scrollIntoView({ behavior: "smooth" });
+      }
+      // Clear state from URL
+      window.history.replaceState({}, "", "/");
     }
   }, [location]);
 

@@ -18,7 +18,7 @@ const Nav = styled.nav`
 
   /* Dynamic Background */
   background: ${({ isHomepage, scrolled }) =>
-    isHomepage && !scrolled ? "transparent" : "rgba(255, 255, 255, 0.4)"};
+    isHomepage && !scrolled ? "transparent" : "rgba(255, 254, 254, 0.4)"};
 
   /* Box shadow only when scrolled */
   ${({ scrolled }) => scrolled && `box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);`}
@@ -98,7 +98,7 @@ function PageNav() {
   const handleNavClick = (sectionId) => {
     setMenuOpen(false);
 
-    if (location.pathname === "/") {
+    if (location.pathname === "/home1") {
       document
         .getElementById(sectionId)
         ?.scrollIntoView({ behavior: "smooth" });
