@@ -16,6 +16,9 @@ import Payment from "../features/Authentication/Payment";
 import Confirmation from "../features/Authentication/Confirmation";
 import Signup from "../features/Authentication/signup";
 import Homepage1 from "./pages/Homepage1";
+import OnboardingWelcome from "./pages/OnboardingWelcome";
+import OnboardingSource from "./pages/OnboardingSource";
+import OnboardingTools from "./pages/OnboardingTools";
 
 function App() {
   const { theme } = useTheme();
@@ -39,6 +42,9 @@ function App() {
             <Route path="signup" element={<Signup />} />
             <Route path="payment" element={<Payment />} />
             <Route path="confirmation" element={<Confirmation />} />
+            <Route path="onboarding" element={<OnboardingWelcome />} />
+            <Route path="onboarding1" element={<OnboardingSource />} />
+            <Route path="onboardingtools" element={<OnboardingTools />} />
           </Routes>
         </BrowserRouter>
       </ThemeProvider>

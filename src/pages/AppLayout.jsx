@@ -24,11 +24,11 @@ function AppLayout() {
 
   return (
     <LayoutContainer>
-      {!hideNav && <PageNav />} {/* ✅ Hides nav on login */}
+      {!hideNav && <PageNav />}
       <Main>
         <Outlet />
       </Main>
-      {!hideNav && <Footer />} {/* ✅ Hides footer on login */}
+      {!hideNav && <Footer />}
       <CookiePopup />
     </LayoutContainer>
   );

@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 
 import Features from "./Features";
 import Pricing from "./Pricing";
@@ -110,6 +110,8 @@ export default function Homepage1() {
 
   const [darkMode, setDarkMode] = useState(false);
 
+  const navigate = useNavigate();
+
   const togglePill = (pill) => {
     setSelected((prev) =>
       prev.includes(pill) ? prev.filter((p) => p !== pill) : [...prev, pill]
@@ -162,7 +164,9 @@ export default function Homepage1() {
             ))}
           </FeaturePills>
 
-          <CTA>Get Started — No credit card needed</CTA>
+          <CTA onClick={() => navigate("/login")}>
+            Get Started — No credit card needed
+          </CTA>
         </HeroSection>
 
         <section id="features">

@@ -1,5 +1,6 @@
 import { useState } from "react";
 import styled from "styled-components";
+import { useNavigate } from "react-router-dom";
 import { FaGoogle, FaGithub } from "react-icons/fa";
 import {
   FormContainer,
@@ -146,6 +147,8 @@ const SocialLogin = styled.div`
 `;
 
 export default function Login() {
+  const navigate = useNavigate();
+
   const [email, setEmail] = useState("pragesh@example.com");
   const [password, setPassword] = useState("qwerty");
 
@@ -156,7 +159,16 @@ export default function Login() {
         <Logo />
         <h2>Sign in to your account</h2>
         <p>
-          New to NESTCRM? <a href="#">Create an account</a>
+          New to NESTCRM?{" "}
+          <a
+            href="/signup"
+            onClick={(e) => {
+              e.preventDefault();
+              navigate("/signup");
+            }}
+          >
+            Create an account
+          </a>
         </p>
 
         <FormContainer>

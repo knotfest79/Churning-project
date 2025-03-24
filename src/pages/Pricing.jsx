@@ -115,7 +115,7 @@ export default function Pricing() {
   const navigate = useNavigate();
 
   const handlePlanSelection = (plan) => {
-    navigate(`/signup?plan=${plan}`);
+    navigate(`/login?plan=${plan}`);
   };
 
   const [billingCycle, setBillingCycle] = useState("annually");
