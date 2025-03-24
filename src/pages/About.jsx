@@ -12,7 +12,6 @@ const AboutSection = styled.section`
   padding: 60px 20px;
   background: url("/src/assets/img/Untitled design.png") no-repeat center/cover;
 
-  /* Improved Overlay */
   &::before {
     content: "";
     position: absolute;
@@ -20,7 +19,10 @@ const AboutSection = styled.section`
     left: 0;
     width: 100%;
     height: 100%;
-    background: linear-gradient(to bottom, #7e72c2b3, #f8f6f6d0);
+    background: ${({ theme }) =>
+      theme.name === "dark"
+        ? "linear-gradient(to bottom, #1f1f1fb3, #1f1f1fd0)"
+        : "linear-gradient(to bottom, #7e72c2b3, #f8f6f6d0)"};
     z-index: 1;
   }
 `;
@@ -36,19 +38,21 @@ const AboutTitle = styled.h2`
   font-size: 2.5rem;
   font-weight: bold;
   margin-bottom: 15px;
-  color: #ffffff; /* White text for better contrast */
+  color: ${({ theme }) => theme.text}; // use theme
 
   span {
-    color: #7a4adb; /* Highlighted color */
+    color: #7a4adb;
   }
 `;
 
 const AboutText = styled.p`
   font-size: 1.2rem;
   line-height: 1.6;
-  color: #f3f4f6; /* Light gray for contrast */
+  color: ${({ theme }) => theme.subtitle}; // dynamic theme-based color
   margin-bottom: 30px;
-  text-shadow: 1px 1px 6px rgba(0, 0, 0, 0.5);
+  max-width: 800px;
+  margin-left: auto;
+  margin-right: auto;
 `;
 
 export default function About() {

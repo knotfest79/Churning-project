@@ -1,8 +1,7 @@
 import { createGlobalStyle } from "styled-components";
 
 const GlobalStyles = createGlobalStyle`
-@import url("https://unpkg.com/leaflet@1.7.1/dist/leaflet.css");
-@import url("https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;700;800&display=swap");
+
 
 :root {
   --color-brand--1: #ffb545;

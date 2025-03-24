@@ -11,7 +11,7 @@ const CookiePopupContainer = styled.div`
   padding: 15px 20px;
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
   border-radius: 8px;
-  display: ${({ show }) => (show ? "flex" : "none")};
+  display: ${({ $show }) => ($show ? "flex" : "none")};
   justify-content: space-between;
   align-items: center;
   width: 90%;
@@ -32,7 +32,7 @@ const ButtonsContainer = styled.div`
 `;
 
 const Button = styled.button`
-  background: ${({ secondary }) => (secondary ? "#333" : "#7a4adb")};
+  background: ${({ $secondary }) => ($secondary ? "#333" : "#7a4adb")};
   color: white;
   border: none;
   padding: 8px 15px;
@@ -58,7 +58,7 @@ export default function CookiePopup() {
   const handleDecline = () => setCookiesAccepted(false);
 
   return (
-    <CookiePopupContainer show={showPopup}>
+    <CookiePopupContainer $show={showPopup}>
       <CookieText>
         We use cookies to ensure you have the best experience on our site, to
         analyze traffic, and enhance our marketing activities.{" "}
@@ -66,7 +66,7 @@ export default function CookiePopup() {
         <a href="/terms">Terms of Service</a>
       </CookieText>
       <ButtonsContainer>
-        <Button secondary onClick={handleDecline}>
+        <Button $secondary onClick={handleDecline}>
           Cookie settings
         </Button>
         <Button onClick={handleAccept}>Accept all cookies</Button>

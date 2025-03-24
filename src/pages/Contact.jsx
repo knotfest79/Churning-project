@@ -55,7 +55,7 @@ const ContactItem = styled.li`
 const ContactEmail = styled.p`
   font-size: 1rem;
   margin-top: 20px;
-  color: #7a4adb;
+  color: ${({ theme }) => (theme.name === "dark" ? "#b191f7" : "#7a4adb")};
 `;
 
 const ContactForm = styled.div`

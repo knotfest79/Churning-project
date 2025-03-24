@@ -10,8 +10,11 @@ import {
 import Logo from "../components/Logo"; // ✅ Importing your Logo component
 
 const FooterContainer = styled.footer`
-  background: linear-gradient(to bottom, #c6bfda, #a9a0ca); /* Light gradient */
-  color: #4b3f72;
+  background: ${({ theme }) =>
+    theme.name === "dark"
+      ? "linear-gradient(to bottom, #1a1a1a, #2a2a2a)"
+      : "linear-gradient(to bottom, #c6bfda, #a9a0ca)"};
+  color: ${({ theme }) => theme.text};
   padding: 50px 20px;
 `;
 
@@ -69,7 +72,7 @@ const LinksColumn = styled.div`
 
 const FooterLink = styled(Link)`
   text-decoration: none;
-  color: #4b3f72;
+  color: ${({ theme }) => theme.text};
   font-size: 0.9rem;
   display: block;
   margin-bottom: 8px;
@@ -117,7 +120,7 @@ const LegalLinks = styled.div`
   font-size: 0.85rem;
 
   a {
-    color: #4b3f72;
+    color: ${({ theme }) => theme.text};
     text-decoration: none;
 
     &:hover {
@@ -142,7 +145,7 @@ const LanguageSelect = styled.div`
     border: none;
     background: none;
     font-size: 0.9rem;
-    color: #4b3f72;
+    color: ${({ theme }) => theme.text};
     cursor: pointer;
   }
 `;
@@ -151,8 +154,9 @@ const Copyright = styled.p`
   text-align: center;
   margin-top: 40px;
   font-size: 0.9rem;
-  color: #6b4fd5;
+  color: ${({ theme }) => (theme.name === "dark" ? "#b8a7ff" : "#6b4fd5")};
 `;
+
 export default function Footer() {
   return (
     <FooterContainer>

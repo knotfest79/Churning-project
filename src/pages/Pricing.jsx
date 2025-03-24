@@ -1,8 +1,10 @@
+import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 
 const PricingSection = styled.section`
-  background: #eef2ff;
+  background: ${({ theme }) => theme.body};
+  color: ${({ theme }) => theme.text};
   padding: 60px 20px;
   text-align: center;
 `;
@@ -15,8 +17,8 @@ const ToggleWrapper = styled.div`
 `;
 
 const ToggleButton = styled.button`
-  background: ${({ active }) => (active ? "#5F21CA" : "#f3f4f6")};
-  color: ${({ active }) => (active ? "white" : "#5F21CA")};
+  background: ${({ $active }) => ($active ? "#5F21CA" : "#f3f4f6")};
+  color: ${({ $active }) => ($active ? "white" : "#5F21CA")};
   border: none;
   padding: 8px 16px;
   font-size: 0.9rem;
@@ -27,14 +29,14 @@ const ToggleButton = styled.button`
   transition: background 0.3s ease;
 
   &:hover {
-    background: ${({ active }) => (active ? "#5F21CA" : "#e5e7eb")};
+    background: ${({ $active }) => ($active ? "#5F21CA" : "#e5e7eb")};
   }
 `;
 
 const PricingTitle = styled.h2`
   font-size: 2.2rem;
   font-weight: bold;
-  color: #1f1f1f;
+  color: ${({ theme }) => theme.text};
   margin-bottom: 10px;
 `;
 
@@ -50,21 +52,24 @@ const PricingGrid = styled.div`
     align-items: center;
   }
 `;
-
 const PricingCard = styled.div`
-  background: white;
+  background: ${({ theme }) => theme.cardBg};
+  color: ${({ theme }) => theme.text};
   padding: 25px;
   border-radius: 12px;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  box-shadow: ${({ theme }) =>
+    theme.name === "dark"
+      ? "0 4px 10px rgba(255, 255, 255, 0.05)"
+      : "0 4px 10px rgba(0, 0, 0, 0.1)"};
   text-align: left;
   width: 300px;
   position: relative;
-  border-top: ${({ featured }) => (featured ? "5px solid #5F21CA" : "none")};
+  border-top: ${({ $featured }) =>
+    $featured ? "5px solid #5F21CA" : "none"}; // ✅ Use $featured
 `;
 
 const CardHeader = styled.div`
-  background: ${({ featured }) => (featured ? "#5F21CA" : "#f9fafb")};
-  color: ${({ featured }) => (featured ? "white" : "#1f1f1f")};
+  background: ${({ $featured }) => ($featured ? "#5F21CA" : "#f3f4f6")};
   padding: 15px;
   font-weight: bold;
   text-align: center;
@@ -82,7 +87,7 @@ const FeaturesList = styled.ul`
   list-style: none;
   padding: 0;
   font-size: 0.95rem;
-  color: #4b5563;
+  color: ${({ theme }) => theme.subtitle};
 `;
 
 const FeatureItem = styled.li`
@@ -90,9 +95,8 @@ const FeatureItem = styled.li`
 `;
 
 const ChooseButton = styled.button`
-  width: 100%;
-  background-color: ${({ featured }) => (featured ? "#5F21CA" : "white")};
-  color: ${({ featured }) => (featured ? "white" : "#4f46e5")};
+  background-color: ${({ $featured }) => ($featured ? "#5F21CA" : "white")};
+  color: ${({ $featured }) => ($featured ? "white" : "#4f46e5")};
   border: 2px solid #4f46e5;
   font-weight: bold;
   padding: 12px;
@@ -102,7 +106,7 @@ const ChooseButton = styled.button`
   transition: background 0.3s ease, color 0.3s ease;
 
   &:hover {
-    background: ${({ featured }) => (featured ? "#4338ca" : "#4f46e5")};
+    background: ${({ $featured }) => ($featured ? "#4338ca" : "#4f46e5")};
     color: white;
   }
 `;
@@ -114,11 +118,23 @@ export default function Pricing() {
     navigate(`/signup?plan=${plan}`);
   };
 
+  const [billingCycle, setBillingCycle] = useState("annually");
+
   return (
     <PricingSection>
       <ToggleWrapper>
-        <ToggleButton active={false}>Monthly</ToggleButton>
-        <ToggleButton active={true}>Annually</ToggleButton>
+        <ToggleButton
+          $active={billingCycle === "monthly"}
+          onClick={() => setBillingCycle("monthly")}
+        >
+          Monthly
+        </ToggleButton>
+        <ToggleButton
+          $active={billingCycle === "annually"}
+          onClick={() => setBillingCycle("annually")}
+        >
+          Annually
+        </ToggleButton>
       </ToggleWrapper>
 
       <PricingTitle>Choose the best plan for you</PricingTitle>
@@ -144,8 +160,8 @@ export default function Pricing() {
           </ChooseButton>
         </PricingCard>
 
-        <PricingCard featured={true}>
-          <CardHeader featured={true}>Pro</CardHeader>
+        <PricingCard $featured={true}>
+          <CardHeader $featured={true}>Pro</CardHeader>
           <p>Best for growing businesses needing advanced CRM features.</p>
           <Price>
             A$59<span>/month</span>
@@ -158,7 +174,7 @@ export default function Pricing() {
             <FeatureItem>✔ Advanced Analytics & Reports</FeatureItem>
           </FeaturesList>
           <ChooseButton
-            featured={true}
+            $featured={true}
             onClick={() => handlePlanSelection("Pro")}
           >
             Try it Free

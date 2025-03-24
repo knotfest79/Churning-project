@@ -118,9 +118,7 @@ function PageNav() {
 
   return (
     <Nav>
-      <Link to="/" onClick={() => setMenuOpen(false)}>
-        <Logo />
-      </Link>
+      <Logo onClick={() => setMenuOpen(false)} />
 
       <Hamburger onClick={() => setMenuOpen(!menuOpen)}>
         {menuOpen ? <FiX /> : <FiMenu />}
