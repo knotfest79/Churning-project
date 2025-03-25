@@ -27,42 +27,6 @@ const ActivitiesContainer = styled.section`
   }
 `;
 
-const LogContainer = styled.aside`
-  flex: 1;
-  background: var(--color-grey-50);
-  padding: 2rem;
-  border-radius: 0.8rem;
-  box-shadow: var(--shadow-sm);
-  height: fit-content;
-
-  h4 {
-    margin-bottom: 1.6rem;
-    font-size: 1.6rem;
-    color: var(--color-grey-700);
-  }
-
-  ul {
-    padding-left: 0;
-    list-style: none;
-  }
-
-  li {
-    margin-bottom: 1.2rem;
-    font-size: 1.3rem;
-    background: white;
-    padding: 1rem;
-    border-radius: 0.6rem;
-    box-shadow: var(--shadow-xs);
-    border-left: 4px solid var(--color-brand-600);
-    color: var(--color-grey-700);
-  }
-
-  @media (max-width: 768px) {
-    width: 100%;
-    padding: 1.5rem 1rem;
-  }
-`;
-
 const Table = styled.table`
   width: 100%;
   border-collapse: collapse;
@@ -319,15 +283,6 @@ function RecentActivities() {
           onPageChange={setCurrentPage}
         />
       </ActivitiesContainer>
-
-      <LogContainer>
-        <h4>Activity Log</h4>
-        <ul>
-          {logItems.map((log, idx) => (
-            <li key={idx}>{log}</li>
-          ))}
-        </ul>
-      </LogContainer>
     </Layout>
   );
 }

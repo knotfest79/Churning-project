@@ -1,14 +1,23 @@
 import styled from "styled-components";
-import { FiBell, FiUserPlus, FiSettings } from "react-icons/fi";
+import { FiBell, FiUserPlus } from "react-icons/fi";
 import { MdFileDownload } from "react-icons/md";
 import PricingPopup from "../src/pages/popup/PricingPopup";
 import { useState } from "react";
+
+import ActivityLogPanel from "../features/dashboard/ActivityLogPanel";
+import BoardOptionsPopup from "../src/components/popup/BoardOptionsPopup";
+import BoardDiscussionPopup from "../src/components/popup/BoardDiscussionPopup";
+import PermissionsPopup from "../src/components/popup/PermissionsPopup";
+import NotificationsPopup from "../src/components/popup/NotificationsPopup";
+import ArchiveTrashPopup from "../src/components/popup/ArchiveTrashPopup";
+import RemoveBoardPopup from "../src/components/popup/RemoveBoardPopup";
+import SettingsPopup from "../src/components/popup/SettingsPopup";
 
 const HeaderContainer = styled.header`
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 2.4rem 3.2rem; /* Increased vertical padding */
+  padding: 2.4rem 3.2rem;
   background-color: var(--color-grey-0);
   box-shadow: var(--shadow-md);
 `;
@@ -101,11 +110,28 @@ function Header() {
 
   const toggleInvitePopup = () => setShowInvitePopup(!showInvitePopup);
   const toggleExportPopup = () => setShowExportPopup(!showExportPopup);
+  const [showBoardDiscussion, setShowBoardDiscussion] = useState(false);
 
   const [showPricing, setShowPricing] = useState(false);
+  const [showPermissions, setShowPermissions] = useState(false);
 
   const userName = "Pragesh Dev";
-  const profilePic = "https://i.pravatar.cc/300?img=12"; // Random image
+  const profilePic = "https://i.pravatar.cc/300?img=12";
+
+  const [showActivityLog, setShowActivityLog] = useState(false);
+
+  const [showNotifications, setShowNotifications] = useState(false);
+
+  const [showArchive, setShowArchive] = useState(false);
+
+  const [showRemovePopup, setShowRemovePopup] = useState(false);
+
+  const [showSettingsPopup, setShowSettingsPopup] = useState(false);
+
+  const handleDeleteBoard = () => {
+    setShowRemovePopup(false);
+    alert("Board deleted!");
+  };
 
   return (
     <>
@@ -132,8 +158,11 @@ function Header() {
             <MdFileDownload />
           </IconButton>
 
-          <IconButton>
-            <FiSettings />
+          <IconButton
+            onClick={() => setShowActivityLog(true)}
+            title="View Activity Log"
+          >
+            🕘
           </IconButton>
 
           <UserProfile>
@@ -195,13 +224,48 @@ function Header() {
               <button>Export as PDF</button>
             </ExportMenu>
           )}
+          <BoardOptionsPopup
+            onOpenDiscussion={() => setShowBoardDiscussion(true)}
+            onOpenPermissions={() => setShowPermissions(true)}
+            onOpenNotifications={() => setShowNotifications(true)}
+            onOpenArchive={() => setShowArchive(true)}
+            onRemoveBoard={() => setShowRemovePopup(true)}
+            onOpenSettings={() => setShowSettingsPopup(true)}
+          />
         </RightSection>
       </HeaderContainer>
 
-      {/* Page Content with breathing room */}
-      <PageWrapper>
-        {/* Your page content like tables, cards etc goes here */}
-      </PageWrapper>
+      <PageWrapper>{/* Need to add soemthing logical */}</PageWrapper>
+      {showActivityLog && (
+        <ActivityLogPanel onClose={() => setShowActivityLog(false)} />
+      )}
+
+      {showBoardDiscussion && (
+        <BoardDiscussionPopup onClose={() => setShowBoardDiscussion(false)} />
+      )}
+
+      {showPermissions && (
+        <PermissionsPopup onClose={() => setShowPermissions(false)} />
+      )}
+
+      {showNotifications && (
+        <NotificationsPopup onClose={() => setShowNotifications(false)} />
+      )}
+
+      {showArchive && (
+        <ArchiveTrashPopup onClose={() => setShowArchive(false)} />
+      )}
+
+      {showRemovePopup && (
+        <RemoveBoardPopup
+          onClose={() => setShowRemovePopup(false)}
+          onConfirm={handleDeleteBoard}
+        />
+      )}
+
+      {showSettingsPopup && (
+        <SettingsPopup onClose={() => setShowSettingsPopup(false)} />
+      )}
     </>
   );
 }

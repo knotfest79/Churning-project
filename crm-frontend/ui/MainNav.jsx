@@ -188,12 +188,6 @@ function MainNav() {
               Subscriptions
             </StyledNavLink>
           </li>
-          <li>
-            <StyledNavLink to="/settings">
-              <HiOutlineCog6Tooth />
-              Settings
-            </StyledNavLink>
-          </li>
         </NavList>
         <NavList>
           <li>
