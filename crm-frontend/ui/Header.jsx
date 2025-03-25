@@ -146,7 +146,7 @@ function Header() {
         </LeftSection>
 
         <RightSection>
-          <IconButton onClick={() => alert("Notifications")}>
+          <IconButton onClick={() => setShowNotifications(true)}>
             <FiBell />
           </IconButton>
 

@@ -1,6 +1,9 @@
 import styled from "styled-components";
 import { useState } from "react";
 import Pagination from "../../ui/Pagination";
+import CustomerViewPopup from "../components/popup/CustomerViewPopup";
+import CustomerEditPopup from "../components/popup/CustomerEditPopup";
+import CustomerAddPopup from "../components/popup/CustomerAddPopup";
 
 const CustomerContainer = styled.div`
   background: var(--color-grey-50);
@@ -112,21 +115,49 @@ function Customer() {
       risk: "Low",
     },
   ];
+  const [allCustomers, setAllCustomers] = useState(customers);
 
   const totalPages = Math.ceil(customers.length / customersPerPage);
   const indexOfLastCustomer = currentPage * customersPerPage;
   const indexOfFirstCustomer = indexOfLastCustomer - customersPerPage;
-  const currentCustomers = customers.slice(
+  const currentCustomers = allCustomers.slice(
     indexOfFirstCustomer,
     indexOfLastCustomer
   );
+
+  const [selectedCustomer, setSelectedCustomer] = useState(null);
+  const [showViewPopup, setShowViewPopup] = useState(false);
+  const [showEditPopup, setShowEditPopup] = useState(false);
+
+  const [showAddPopup, setShowAddPopup] = useState(false);
+
+  const handleView = (customer) => {
+    setSelectedCustomer(customer);
+    setShowViewPopup(true);
+  };
+
+  const handleEdit = (customer) => {
+    setSelectedCustomer(customer);
+    setShowEditPopup(true);
+  };
+
+  const handleSaveCustomer = (updatedCustomer) => {
+    console.log("Updated:", updatedCustomer); // Replace with DB update logic
+  };
+
+  const handleAddCustomer = (newCustomer) => {
+    setAllCustomers((prev) => [...prev, newCustomer]);
+  };
 
   return (
     <CustomerContainer>
       <FiltersContainer>
         <h2>Customers</h2>
         <FiltersWrapper>
-          <AddButton>+ Add New Customer</AddButton>
+          <AddButton onClick={() => setShowAddPopup(true)}>
+            + Add New Customer
+          </AddButton>
+
           <FilterSelect>
             <option value="all">Churn Risk (All)</option>
             <option value="high">High</option>
@@ -140,6 +171,7 @@ function Customer() {
           </FilterSelect>
         </FiltersWrapper>
       </FiltersContainer>
+
       <Table>
         <thead>
           <tr>
@@ -171,18 +203,51 @@ function Customer() {
                 {customer.risk}
               </Td>
               <Td>
-                <ActionButton color="#2ecc71">View</ActionButton>
-                <ActionButton color="#3498db">Edit</ActionButton>
+                <ActionButton
+                  color="#2ecc71"
+                  onClick={() => handleView(customer)} // ✅ You missed this handler!
+                >
+                  View
+                </ActionButton>
+                <ActionButton
+                  color="#3498db"
+                  onClick={() => handleEdit(customer)}
+                >
+                  Edit
+                </ActionButton>
               </Td>
             </tr>
           ))}
         </tbody>
       </Table>
+
       <Pagination
         currentPage={currentPage}
         totalPages={totalPages}
         onPageChange={setCurrentPage}
       />
+
+      {/* ✅ Now correctly placed inside return */}
+      {showViewPopup && (
+        <CustomerViewPopup
+          customer={selectedCustomer}
+          onClose={() => setShowViewPopup(false)}
+        />
+      )}
+
+      {showEditPopup && (
+        <CustomerEditPopup
+          customer={selectedCustomer}
+          onClose={() => setShowEditPopup(false)}
+          onSave={handleSaveCustomer}
+        />
+      )}
+      {showAddPopup && (
+        <CustomerAddPopup
+          onClose={() => setShowAddPopup(false)}
+          onAdd={handleAddCustomer}
+        />
+      )}
     </CustomerContainer>
   );
 }

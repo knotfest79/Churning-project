@@ -30,7 +30,7 @@ const Td = styled.td`
 `;
 
 const Status = styled.td`
-  color: ${({ status }) => (status === "Completed" ? "green" : "orange")};
+  color: ${({ $status }) => ($status === "Completed" ? "green" : "orange")};
 `;
 
 const ActionButton = styled.button`
@@ -146,7 +146,8 @@ function Order() {
               <Td>{order.name}</Td>
               <Td>{order.date}</Td>
               <Td>{order.amount}</Td>
-              <Status status={order.status}>{order.status}</Status>
+              <Status $status={order.status}>{order.status}</Status>
+
               <Td>
                 <ActionButton color="#2ecc71">View</ActionButton>
                 <ActionButton color="#3498db">Edit</ActionButton>

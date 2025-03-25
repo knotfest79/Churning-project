@@ -33,7 +33,7 @@ const NavList = styled.ul`
 const SubMenu = styled.ul`
   list-style: none;
   padding-left: 15px;
-  display: ${({ isOpen }) => (isOpen ? "block" : "none")};
+  display: ${({ $isOpen }) => ($isOpen ? "block" : "none")};
 `;
 
 const StyledNavLink = styled(NavLink)`

@@ -12,7 +12,7 @@ const SidebarWrapper = styled.div`
 const SidebarContainer = styled.aside`
   position: fixed;
   top: 0;
-  left: ${({ isOpen }) => (isOpen ? "0" : "-250px")};
+  left: ${({ $isOpen }) => ($isOpen ? "0" : "-250px")};
   width: 250px;
   height: 100vh;
   background-color: #ebecee;
@@ -29,11 +29,10 @@ const SidebarContainer = styled.aside`
   }
 `;
 
-// Toggle button
 const ToggleButton = styled.button`
   position: fixed;
   top: 1.5rem;
-  left: ${({ isOpen }) => (isOpen ? "260px" : "10px")};
+  left: ${({ $isOpen }) => ($isOpen ? "260px" : "10px")};
   z-index: 1100;
   background: var(--color-brand-100);
   border: none;
@@ -43,18 +42,18 @@ const ToggleButton = styled.button`
   transition: left 0.3s ease-in-out;
 
   @media (max-width: 768px) {
-    left: ${({ isOpen }) => (isOpen ? "230px" : "10px")};
+    left: ${({ $isOpen }) => ($isOpen ? "230px" : "10px")};
   }
 `;
 
 function Sidebar({ isOpen, toggleSidebar }) {
   return (
     <SidebarWrapper>
-      <ToggleButton isOpen={isOpen} onClick={toggleSidebar}>
+      <ToggleButton $isOpen={isOpen} onClick={toggleSidebar}>
         {isOpen ? <FiX size={20} /> : <FiMenu size={20} />}
       </ToggleButton>
 
-      <SidebarContainer isOpen={isOpen}>
+      <SidebarContainer $isOpen={isOpen}>
         <Logo />
         <DateRangePicker />
         <MainNav />
