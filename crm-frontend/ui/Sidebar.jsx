@@ -5,12 +5,10 @@ import MainNav from "../ui/MainNav";
 import Logo from "../ui/Logo";
 import DateRangePicker from "./DateRangePicker";
 
-// Wrapper to position toggle + sidebar together
 const SidebarWrapper = styled.div`
   position: relative;
 `;
 
-// Sidebar styles
 const SidebarContainer = styled.aside`
   position: fixed;
   top: 0;
