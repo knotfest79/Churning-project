@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import styled from "styled-components";
 import { Outlet, useLocation, useNavigate } from "react-router-dom";
 import Header from "../ui/Header";
@@ -10,18 +10,20 @@ import RecentActivities from "../ui/RecentActivities";
 const LayoutContainer = styled.div`
   display: flex;
   height: 100vh;
-  overflow: auto;
+  overflow: hidden;
 `;
 
 const MainContainer = styled.div`
   display: flex;
   flex-direction: column;
   flex-grow: 1;
+  margin-left: ${({ isSidebarOpen }) => (isSidebarOpen ? "250px" : "0")};
+  transition: margin-left 0.3s ease-in-out;
   overflow-y: auto;
 
   @media (max-width: 768px) {
-    width: calc(100% - 100px);
-    transition: width 0.3s ease-in-out;
+    margin-left: ${({ isSidebarOpen }) =>
+      window.innerWidth > 768 && isSidebarOpen ? "250px" : "0"};
   }
 `;
 
@@ -47,6 +49,7 @@ const DashboardTitle = styled.h1`
 function AppLayout() {
   const location = useLocation();
   const navigate = useNavigate();
+  const [isSidebarOpen, setIsSidebarOpen] = useState(true);
 
   const isDashboard =
     location.pathname === "/" || location.pathname === "/dashboard";
@@ -57,15 +60,17 @@ function AppLayout() {
 
     if (token) {
       localStorage.setItem("authToken", token);
-      // Optionally clean up the URL
       window.history.replaceState(null, "", window.location.pathname);
     }
   }, []);
 
   return (
     <LayoutContainer>
-      <Sidebar />
-      <MainContainer>
+      <Sidebar
+        isOpen={isSidebarOpen}
+        toggleSidebar={() => setIsSidebarOpen((prev) => !prev)}
+      />
+      <MainContainer isSidebarOpen={isSidebarOpen}>
         <Header />
         <Main>
           {isDashboard ? (

@@ -1,206 +1,213 @@
-import { useState } from "react";
-import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
+import { FiBell, FiUserPlus, FiSettings } from "react-icons/fi";
+import { MdFileDownload } from "react-icons/md";
+import { useState } from "react";
 
-const PricingSection = styled.section`
-  background: ${({ theme }) => theme.body};
-  color: ${({ theme }) => theme.text};
-  padding: 60px 20px;
-  text-align: center;
-`;
-
-const ToggleWrapper = styled.div`
+const HeaderContainer = styled.header`
   display: flex;
-  justify-content: center;
+  justify-content: space-between;
   align-items: center;
-  margin-bottom: 30px;
-`;
+  padding: 2.4rem 3.2rem;
+  background-color: var(--color-grey-0);
+  box-shadow: var(--shadow-md);
+  flex-wrap: wrap;
 
-const ToggleButton = styled.button`
-  background: ${({ $active }) => ($active ? "#5F21CA" : "#f3f4f6")};
-  color: ${({ $active }) => ($active ? "white" : "#5F21CA")};
-  border: none;
-  padding: 8px 16px;
-  font-size: 0.9rem;
-  font-weight: bold;
-  border-radius: 20px;
-  cursor: pointer;
-  margin: 0 5px;
-  transition: background 0.3s ease;
-
-  &:hover {
-    background: ${({ $active }) => ($active ? "#5F21CA" : "#e5e7eb")};
-  }
-`;
-
-const PricingTitle = styled.h2`
-  font-size: 2.2rem;
-  font-weight: bold;
-  color: ${({ theme }) => theme.text};
-  margin-bottom: 10px;
-`;
-
-const PricingGrid = styled.div`
-  display: flex;
-  justify-content: center;
-  gap: 20px;
-  max-width: 1000px;
-  margin: auto;
-
-  @media (max-width: 900px) {
+  @media (max-width: 768px) {
     flex-direction: column;
-    align-items: center;
+    align-items: flex-start;
+    gap: 1.6rem;
   }
 `;
-const PricingCard = styled.div`
-  background: ${({ theme }) => theme.cardBg};
-  color: ${({ theme }) => theme.text};
-  padding: 25px;
-  border-radius: 12px;
-  box-shadow: ${({ theme }) =>
-    theme.name === "dark"
-      ? "0 4px 10px rgba(255, 255, 255, 0.05)"
-      : "0 4px 10px rgba(0, 0, 0, 0.1)"};
-  text-align: left;
-  width: 300px;
-  position: relative;
-  border-top: ${({ $featured }) =>
-    $featured ? "5px solid #5F21CA" : "none"}; // ✅ Use $featured
+
+const LeftSection = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 1.6rem;
+
+  @media (max-width: 768px) {
+    width: 100%;
+  }
 `;
 
-const CardHeader = styled.div`
-  background: ${({ $featured }) => ($featured ? "#5F21CA" : "#f3f4f6")};
-  padding: 15px;
-  font-weight: bold;
-  text-align: center;
-  font-size: 1.2rem;
-  border-radius: 8px 8px 0 0;
-`;
-
-const Price = styled.p`
-  font-size: 1.8rem;
-  font-weight: bold;
-  margin: 15px 0;
-`;
-
-const FeaturesList = styled.ul`
-  list-style: none;
-  padding: 0;
-  font-size: 0.95rem;
-  color: ${({ theme }) => theme.subtitle};
-`;
-
-const FeatureItem = styled.li`
-  margin-bottom: 8px;
-`;
-
-const ChooseButton = styled.button`
-  background-color: ${({ $featured }) => ($featured ? "#5F21CA" : "white")};
-  color: ${({ $featured }) => ($featured ? "white" : "#4f46e5")};
-  border: 2px solid #4f46e5;
-  font-weight: bold;
-  padding: 12px;
-  border-radius: 8px;
+const SeePlans = styled.button`
+  background-color: var(--color-brand-100);
+  border: none;
+  color: var(--color-brand-800);
+  padding: 0.6rem 1.2rem;
+  border-radius: var(--border-radius-sm);
+  font-weight: 600;
   cursor: pointer;
-  margin-top: 15px;
-  transition: background 0.3s ease, color 0.3s ease;
+`;
+
+const SearchBar = styled.input`
+  width: 28rem;
+  padding: 0.8rem 1rem;
+  border: 1px solid var(--color-grey-300);
+  border-radius: var(--border-radius-sm);
+  font-size: 1.4rem;
+
+  @media (max-width: 480px) {
+    width: 100%;
+  }
+`;
+
+const RightSection = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 2.4rem;
+  position: relative;
+  flex-wrap: wrap;
+
+  @media (max-width: 768px) {
+    justify-content: flex-start;
+    width: 100%;
+  }
+`;
+
+const IconButton = styled.button`
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 2rem;
+  color: var(--color-grey-700);
 
   &:hover {
-    background: ${({ $featured }) => ($featured ? "#4338ca" : "#4f46e5")};
-    color: white;
+    color: var(--color-brand-600);
   }
 `;
 
-export default function Pricing() {
-  const navigate = useNavigate();
+const UserProfile = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+`;
 
-  const handlePlanSelection = (plan) => {
-    navigate(`/login?plan=${plan}`);
-  };
+const ProfileImage = styled.img`
+  width: 3.6rem;
+  height: 3.6rem;
+  border-radius: 50%;
+`;
 
-  const [billingCycle, setBillingCycle] = useState("annually");
+const UserName = styled.span`
+  font-weight: 500;
+  font-size: 1.4rem;
+`;
+
+const Modal = styled.div`
+  position: absolute;
+  top: 4.5rem;
+  right: 0;
+  background-color: white;
+  padding: 1.6rem;
+  border-radius: 0.6rem;
+  box-shadow: var(--shadow-lg);
+  z-index: 10;
+  width: 30rem;
+`;
+
+const ExportMenu = styled(Modal)`
+  right: -4rem;
+  top: 4.5rem;
+`;
+
+function Header() {
+  const [showInvitePopup, setShowInvitePopup] = useState(false);
+  const [showExportPopup, setShowExportPopup] = useState(false);
+
+  const toggleInvitePopup = () => setShowInvitePopup(!showInvitePopup);
+  const toggleExportPopup = () => setShowExportPopup(!showExportPopup);
+
+  const userName = "Pragesh Dev";
+  const profilePic = "https://i.pravatar.cc/300?img=12"; // Random image
 
   return (
-    <PricingSection>
-      <ToggleWrapper>
-        <ToggleButton
-          $active={billingCycle === "monthly"}
-          onClick={() => setBillingCycle("monthly")}
-        >
-          Monthly
-        </ToggleButton>
-        <ToggleButton
-          $active={billingCycle === "annually"}
-          onClick={() => setBillingCycle("annually")}
-        >
-          Annually
-        </ToggleButton>
-      </ToggleWrapper>
+    <>
+      <HeaderContainer>
+        <LeftSection>
+          <SearchBar type="text" placeholder="Search orders..." />
+          <SeePlans>See plans</SeePlans>
+        </LeftSection>
 
-      <PricingTitle>Choose the best plan for you</PricingTitle>
+        <RightSection>
+          <IconButton onClick={() => alert("Notifications")}>
+            <FiBell />
+          </IconButton>
 
-      <PricingGrid>
-        <PricingCard>
-          <CardHeader>Growth</CardHeader>
-          <p>
-            Tailored for startups & SMBs seeking efficient pipeline management.
-          </p>
-          <Price>
-            A$15<span>/month</span>
-          </Price>
-          <FeaturesList>
-            <FeatureItem>✔ Kanban View for CRM</FeatureItem>
-            <FeatureItem>✔ Contact Lifecycle Stages</FeatureItem>
-            <FeatureItem>✔ Multichannel Engagement</FeatureItem>
-            <FeatureItem>✔ Custom Reports</FeatureItem>
-            <FeatureItem>✔ Mobile App & Support</FeatureItem>
-          </FeaturesList>
-          <ChooseButton onClick={() => handlePlanSelection("Growth")}>
-            Try it Free
-          </ChooseButton>
-        </PricingCard>
+          <IconButton onClick={toggleInvitePopup}>
+            <FiUserPlus />
+          </IconButton>
 
-        <PricingCard $featured={true}>
-          <CardHeader $featured={true}>Pro</CardHeader>
-          <p>Best for growing businesses needing advanced CRM features.</p>
-          <Price>
-            A$59<span>/month</span>
-          </Price>
-          <FeaturesList>
-            <FeatureItem>✔ Everything in Growth, plus:</FeatureItem>
-            <FeatureItem>✔ AI-Powered Contact Scoring</FeatureItem>
-            <FeatureItem>✔ Custom Sales Workflows</FeatureItem>
-            <FeatureItem>✔ Auto-assignment Rules</FeatureItem>
-            <FeatureItem>✔ Advanced Analytics & Reports</FeatureItem>
-          </FeaturesList>
-          <ChooseButton
-            $featured={true}
-            onClick={() => handlePlanSelection("Pro")}
-          >
-            Try it Free
-          </ChooseButton>
-        </PricingCard>
+          <IconButton onClick={toggleExportPopup}>
+            <MdFileDownload />
+          </IconButton>
 
-        <PricingCard>
-          <CardHeader>Enterprise</CardHeader>
-          <p>
-            For large businesses needing advanced customization & governance.
-          </p>
-          <Price>
-            A$89<span>/month</span>
-          </Price>
-          <FeaturesList>
-            <FeatureItem>✔ Everything in Pro, plus:</FeatureItem>
-            <FeatureItem>✔ Field-Level Permissions</FeatureItem>
-            <FeatureItem>✔ Forecasting Insights by AI</FeatureItem>
-            <FeatureItem>✔ Advanced Custom Workflows</FeatureItem>
-            <FeatureItem>✔ Dedicated Account Manager</FeatureItem>
-          </FeaturesList>
-          <ChooseButton onClick={() => handlePlanSelection("Enterprise")}>
-            Try it Free
-          </ChooseButton>
-        </PricingCard>
-      </PricingGrid>
-    </PricingSection>
+          <IconButton>
+            <FiSettings />
+          </IconButton>
+
+          <UserProfile>
+            <UserName>Hi, {userName}</UserName>
+            <ProfileImage src={profilePic} alt="User profile" />
+          </UserProfile>
+
+          {showInvitePopup && (
+            <Modal>
+              <h3>Invite to CRM</h3>
+              <input
+                type="email"
+                placeholder="Enter email(s)"
+                style={{
+                  width: "100%",
+                  padding: "0.8rem",
+                  marginBottom: "1rem",
+                }}
+              />
+              <div style={{ marginBottom: "1rem" }}>
+                <label>
+                  <input type="radio" name="role" defaultChecked /> Member
+                </label>{" "}
+                <label>
+                  <input type="radio" name="role" /> Viewer (Read-only)
+                </label>
+              </div>
+              <textarea
+                rows="3"
+                placeholder="Write a message (optional)"
+                style={{
+                  width: "100%",
+                  padding: "0.8rem",
+                  marginBottom: "1rem",
+                }}
+              />
+              <button
+                style={{
+                  padding: "0.6rem 1.2rem",
+                  backgroundColor: "var(--color-brand-600)",
+                  color: "#fff",
+                  border: "none",
+                  borderRadius: "4px",
+                }}
+              >
+                Invite
+              </button>
+            </Modal>
+          )}
+
+          {showExportPopup && (
+            <ExportMenu>
+              <p style={{ marginBottom: "1rem", fontWeight: 500 }}>
+                Export options
+              </p>
+              <button style={{ display: "block", marginBottom: "0.6rem" }}>
+                Export as Excel
+              </button>
+              <button>Export as PDF</button>
+            </ExportMenu>
+          )}
+        </RightSection>
+      </HeaderContainer>
+    </>
   );
 }
+
+export default Header;

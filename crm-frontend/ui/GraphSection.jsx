@@ -12,11 +12,12 @@ import {
   Cell,
   BarChart,
   Bar,
+  ResponsiveContainer,
 } from "recharts";
 
 const GraphContainer = styled.section`
-  display: flex;
-  justify-content: space-between;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
   gap: 1.5rem;
 `;
 
@@ -25,8 +26,8 @@ const GraphBox = styled.div`
   padding: 1.5rem;
   border-radius: 8px;
   box-shadow: var(--shadow-md);
-  flex: 1;
   text-align: center;
+  min-height: 280px;
 `;
 
 const salesData = [
@@ -56,45 +57,52 @@ function GraphSection() {
     <GraphContainer>
       <GraphBox>
         <h3>Sales Trends</h3>
-        <LineChart width={300} height={200} data={salesData}>
-          <XAxis dataKey="name" />
-          <YAxis />
-          <CartesianGrid strokeDasharray="3 3" />
-          <Tooltip />
-          <Legend />
-          <Line type="monotone" dataKey="sales" stroke="#8884d8" />
-        </LineChart>
+        <ResponsiveContainer width="100%" height={200}>
+          <LineChart data={salesData}>
+            <XAxis dataKey="name" />
+            <YAxis />
+            <CartesianGrid strokeDasharray="3 3" />
+            <Tooltip />
+            <Legend />
+            <Line type="monotone" dataKey="sales" stroke="#8884d8" />
+          </LineChart>
+        </ResponsiveContainer>
       </GraphBox>
 
       <GraphBox>
         <h3>Customer Segmentation</h3>
-        <PieChart width={300} height={200}>
-          <Pie
-            data={segmentationData}
-            dataKey="value"
-            outerRadius={80}
-            fill="#82ca9d"
-          >
-            {segmentationData.map((entry, index) => (
-              <Cell
-                key={`cell-${index}`}
-                fill={COLORS[index % COLORS.length]}
-              />
-            ))}
-          </Pie>
-          <Tooltip />
-        </PieChart>
+        <ResponsiveContainer width="100%" height={200}>
+          <PieChart>
+            <Pie
+              data={segmentationData}
+              dataKey="value"
+              outerRadius={80}
+              fill="#82ca9d"
+              label
+            >
+              {segmentationData.map((entry, index) => (
+                <Cell
+                  key={`cell-${index}`}
+                  fill={COLORS[index % COLORS.length]}
+                />
+              ))}
+            </Pie>
+            <Tooltip />
+          </PieChart>
+        </ResponsiveContainer>
       </GraphBox>
 
       <GraphBox>
         <h3>Retention Analysis</h3>
-        <BarChart width={300} height={200} data={retentionData}>
-          <XAxis dataKey="name" />
-          <YAxis />
-          <CartesianGrid strokeDasharray="3 3" />
-          <Tooltip />
-          <Bar dataKey="value" fill="#8884d8" />
-        </BarChart>
+        <ResponsiveContainer width="100%" height={200}>
+          <BarChart data={retentionData}>
+            <XAxis dataKey="name" />
+            <YAxis />
+            <CartesianGrid strokeDasharray="3 3" />
+            <Tooltip />
+            <Bar dataKey="value" fill="#8884d8" />
+          </BarChart>
+        </ResponsiveContainer>
       </GraphBox>
     </GraphContainer>
   );
