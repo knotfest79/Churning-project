@@ -149,7 +149,7 @@ export default function PricingPopup({ onClose }) {
   const [billingCycle, setBillingCycle] = useState("monthly");
   const [teamSize, setTeamSize] = useState(1);
 
-  const monthlyPrices = { basic: 16, pro: 39, enterprise: 89 };
+  const monthlyPrices = { basic: 15, pro: 59, enterprise: 89 };
   const annualDiscount = 0.82; // 18% off
 
   const getPrice = (plan) => {
@@ -205,7 +205,10 @@ export default function PricingPopup({ onClose }) {
         <PricingGrid>
           <PricingCard>
             <CardHeader>Basic</CardHeader>
-            <p>Perfect for individuals & starters.</p>
+            <p>
+              Tailored for startups & SMBs seeking efficient pipeline
+              management.
+            </p>
             <Price>
               {getPrice("basic")}
               <span>
@@ -213,8 +216,10 @@ export default function PricingPopup({ onClose }) {
               </span>
             </Price>
             <FeaturesList>
-              <FeatureItem>✔ Unlimited Contacts</FeatureItem>
-              <FeatureItem>✔ 1 Dashboard</FeatureItem>
+              <FeatureItem>✔ Kanban View for CRM</FeatureItem>
+              <FeatureItem>✔ Contact Lifecycle Stages</FeatureItem>
+              <FeatureItem>✔ Multichannel Engagement</FeatureItem>
+              <FeatureItem>✔ Custom Reports</FeatureItem>
               <FeatureItem>✔ Email Support</FeatureItem>
             </FeaturesList>
             <ChooseButton onClick={() => handlePlanSelection("Basic")}>
@@ -224,7 +229,7 @@ export default function PricingPopup({ onClose }) {
 
           <PricingCard $featured>
             <CardHeader $featured>Pro</CardHeader>
-            <p>Best for growing businesses.</p>
+            <p>Best for growing businesses needing advanced CRM features</p>
             <Price>
               {getPrice("pro")}
               <span>
@@ -232,9 +237,11 @@ export default function PricingPopup({ onClose }) {
               </span>
             </Price>
             <FeaturesList>
-              <FeatureItem>✔ Everything in Basic</FeatureItem>
-              <FeatureItem>✔ AI Contact Scoring</FeatureItem>
-              <FeatureItem>✔ Custom Workflows</FeatureItem>
+              <FeatureItem>✔ Everything in Basic, plus:</FeatureItem>
+              <FeatureItem>✔ AI-Powered Contact Scoring</FeatureItem>
+              <FeatureItem>✔ Custom Sales Workflows</FeatureItem>
+              <FeatureItem>✔ Auto-assignment Rules</FeatureItem>
+              <FeatureItem>✔ Advanced Analytics & Reports</FeatureItem>
             </FeaturesList>
             <ChooseButton $featured onClick={() => handlePlanSelection("Pro")}>
               Try it Free
@@ -243,7 +250,9 @@ export default function PricingPopup({ onClose }) {
 
           <PricingCard>
             <CardHeader>Enterprise</CardHeader>
-            <p>For advanced control & integrations.</p>
+            <p>
+              For large businesses needing advanced customization & governance.
+            </p>
             <Price>
               {getPrice("enterprise")}
               <span>
@@ -251,9 +260,11 @@ export default function PricingPopup({ onClose }) {
               </span>
             </Price>
             <FeaturesList>
-              <FeatureItem>✔ Everything in Pro</FeatureItem>
-              <FeatureItem>✔ Dedicated Manager</FeatureItem>
-              <FeatureItem>✔ Advanced Permissions</FeatureItem>
+              <FeatureItem>✔ Everything in Pro, plus:</FeatureItem>
+              <FeatureItem>✔ Field-Level Permissions</FeatureItem>
+              <FeatureItem>✔ Forecasting Insights by AI</FeatureItem>
+              <FeatureItem>✔ Advanced Custom Workflows</FeatureItem>
+              <FeatureItem>✔ Dedicated Account Manager</FeatureItem>
             </FeaturesList>
             <ChooseButton onClick={() => handlePlanSelection("Enterprise")}>
               Try it Free
