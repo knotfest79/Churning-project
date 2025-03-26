@@ -1,9 +1,11 @@
 import styled from "styled-components";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Pagination from "../../ui/Pagination";
 import CustomerViewPopup from "../components/popup/CustomerViewPopup";
 import CustomerEditPopup from "../components/popup/CustomerEditPopup";
 import CustomerAddPopup from "../components/popup/CustomerAddPopup";
+
+import { getCustomers } from "../services/apiCustomer";
 
 const CustomerContainer = styled.div`
   background: var(--color-grey-50);
@@ -90,9 +92,23 @@ const AddButton = styled.button`
 `;
 
 function Customer() {
+  useEffect(() => {
+    async function fetchCustomers() {
+      try {
+        const data = await getCustomers();
+        console.log("Fetched from Supabase:", data);
+        setAllCustomers((prev) => [...prev, ...data]);
+      } catch (error) {
+        console.error("Failed to fetch customers:", error.message);
+      }
+    }
+
+    fetchCustomers();
+  }, []);
+
   const [currentPage, setCurrentPage] = useState(1);
   const customersPerPage = 5;
-  const customers = [
+  const dummyCustomers = [
     {
       id: "#001",
       name: "John Doe",
@@ -115,9 +131,10 @@ function Customer() {
       risk: "Low",
     },
   ];
-  const [allCustomers, setAllCustomers] = useState(customers);
+  const [allCustomers, setAllCustomers] = useState(dummyCustomers);
 
-  const totalPages = Math.ceil(customers.length / customersPerPage);
+  const totalPages = Math.ceil(allCustomers.length / customersPerPage);
+
   const indexOfLastCustomer = currentPage * customersPerPage;
   const indexOfFirstCustomer = indexOfLastCustomer - customersPerPage;
   const currentCustomers = allCustomers.slice(
