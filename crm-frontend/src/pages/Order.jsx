@@ -1,6 +1,12 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import styled from "styled-components";
 import Pagination from "../../ui/Pagination";
+
+import { getOrders } from "../services/apiOrder";
+
+import OrderAddPopup from "../components/popup/OrderAddPopup";
+import OrderEditPopup from "../components/popup/OrderEditPopup";
+import OrderViewPopup from "../components/popup/OrderViewPopup";
 
 const OrdersContainer = styled.div`
   background: var(--color-grey-50);
@@ -65,9 +71,14 @@ const Header = styled.header`
 `;
 
 function Order() {
+  const [showViewPopup, setShowViewPopup] = useState(false);
+  const [showEditPopup, setShowEditPopup] = useState(false);
+  const [showAddPopup, setShowAddPopup] = useState(false);
+  const [selectedOrder, setSelectedOrder] = useState(null);
+
   const [currentPage, setCurrentPage] = useState(1);
   const ordersPerPage = 5;
-  const orders = [
+  const dummyOrders = [
     {
       id: "#101",
       name: "John Doe",
@@ -112,22 +123,63 @@ function Order() {
     },
   ];
 
-  const totalPages = Math.ceil(orders.length / ordersPerPage);
+  const [allOrders, setAllOrders] = useState(dummyOrders);
+  const totalPages = Math.ceil(allOrders.length / ordersPerPage);
   const indexOfLastOrder = currentPage * ordersPerPage;
   const indexOfFirstOrder = indexOfLastOrder - ordersPerPage;
-  const currentOrders = orders.slice(indexOfFirstOrder, indexOfLastOrder);
+  const currentOrders = allOrders.slice(indexOfFirstOrder, indexOfLastOrder);
+
+  const handleView = (order) => {
+    setSelectedOrder(order);
+    setShowViewPopup(true);
+  };
+
+  const handleEdit = (order) => {
+    setSelectedOrder(order);
+    setShowEditPopup(true);
+  };
+
+  const handleSaveOrder = (updatedOrder) => {
+    setAllOrders((prev) =>
+      prev.map((order) => (order.id === updatedOrder.id ? updatedOrder : order))
+    );
+  };
+
+  const handleAddOrder = (newOrder) => {
+    setAllOrders((prev) => [...prev, newOrder]);
+  };
+
+  useEffect(() => {
+    async function fetchOrders() {
+      try {
+        const data = await getOrders();
+        console.log("Fetched orders from supabase;", data);
+        setAllOrders((prev) => [...prev, ...data]);
+      } catch (error) {
+        console.error("Failed to fecth orders:", error.message);
+      }
+    }
+
+    fetchOrders();
+  }, []);
 
   return (
     <OrdersContainer>
       <Header></Header>
       <FiltersContainer>
         <h2>Orders</h2>
-        <StatusFilter>
-          <option value="all">All Orders</option>
-          <option value="completed">Completed</option>
-          <option value="pending">Pending</option>
-        </StatusFilter>
+        <div style={{ display: "flex", alignItems: "center", gap: "1rem" }}>
+          <ActionButton color="#1abc9c" onClick={() => setShowAddPopup(true)}>
+            + Add Order
+          </ActionButton>
+          <StatusFilter>
+            <option value="all">All Orders</option>
+            <option value="completed">Completed</option>
+            <option value="pending">Pending</option>
+          </StatusFilter>
+        </div>
       </FiltersContainer>
+
       <Table>
         <thead>
           <tr>
@@ -149,8 +201,12 @@ function Order() {
               <Status $status={order.status}>{order.status}</Status>
 
               <Td>
-                <ActionButton color="#2ecc71">View</ActionButton>
-                <ActionButton color="#3498db">Edit</ActionButton>
+                <ActionButton color="#2ecc71" onClick={() => handleView(order)}>
+                  View
+                </ActionButton>
+                <ActionButton color="#3498db" onClick={() => handleEdit(order)}>
+                  Edit
+                </ActionButton>
                 <ActionButton color="#e74c3c">Delete</ActionButton>
               </Td>
             </tr>
@@ -162,6 +218,28 @@ function Order() {
         totalPages={totalPages}
         onPageChange={setCurrentPage}
       />
+
+      {showViewPopup && (
+        <OrderViewPopup
+          order={selectedOrder}
+          onClose={() => setShowViewPopup(false)}
+        />
+      )}
+
+      {showEditPopup && (
+        <OrderEditPopup
+          order={selectedOrder}
+          onClose={() => setShowEditPopup(false)}
+          onSave={handleSaveOrder}
+        />
+      )}
+
+      {showAddPopup && (
+        <OrderAddPopup
+          onClose={() => setShowAddPopup(false)}
+          onAdd={handleAddOrder}
+        />
+      )}
     </OrdersContainer>
   );
 }

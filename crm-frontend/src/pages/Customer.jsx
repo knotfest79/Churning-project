@@ -159,9 +159,8 @@ function Customer() {
   };
 
   const handleSaveCustomer = (updatedCustomer) => {
-    console.log("Updated:", updatedCustomer); // Replace with DB update logic
+    console.log("Updated:", updatedCustomer);
   };
-
   const handleAddCustomer = (newCustomer) => {
     setAllCustomers((prev) => [...prev, newCustomer]);
   };
