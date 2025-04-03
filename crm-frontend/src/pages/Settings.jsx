@@ -59,7 +59,7 @@ const ActionButton = styled.button`
 function Settings() {
   return (
     <SettingsContainer>
-      <SectionTitle>Admin Settings</SectionTitle>
+      <SectionTitle>User Settings</SectionTitle>
       <FormGroup>
         <Label>Username</Label>
         <Input type="text" placeholder="Enter username" />

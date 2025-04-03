@@ -5,7 +5,8 @@ import Header from "../ui/Header";
 import Sidebar from "../ui/Sidebar";
 import KPISection from "../ui/KPISection";
 import GraphSection from "../ui/GraphSection";
-import RecentActivities from "../ui/RecentActivities";
+
+import AtRiskCustomers from "./AtRiskCustomers";
 
 const LayoutContainer = styled.div`
   display: flex;
@@ -79,7 +80,7 @@ function AppLayout() {
               <DashboardContainer>
                 <KPISection />
                 <GraphSection />
-                <RecentActivities />
+                <AtRiskCustomers />
               </DashboardContainer>
             </>
           ) : (

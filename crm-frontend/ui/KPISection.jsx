@@ -34,20 +34,58 @@ const KPIBox = styled.div`
   }
 `;
 
+const KPIFooter = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 0.5rem;
+
+  span {
+    font-size: 0.85rem;
+    color: #555;
+  }
+
+  .icon {
+    font-size: 1.5rem;
+  }
+
+  .red {
+    color: red;
+  }
+
+  .green {
+    color: green;
+  }
+`;
+
 function KPISection() {
   return (
     <KPIContainer>
       <KPIBox>
-        <h3>Customer Satisfaction</h3>
-        <p>85%</p>
+        <h3>Total Customers</h3>
+        <p>0</p>
+        <KPIFooter>
+          <span>vs last month</span>
+          <span className="icon">👥</span>
+        </KPIFooter>
       </KPIBox>
-      <KPIBox>
-        <h3>Retention Rate</h3>
-        <p>90%</p>
-      </KPIBox>
+
       <KPIBox>
         <h3>Churn Rate</h3>
-        <p>10%</p>
+        <p>4%</p>
+        <KPIFooter>
+          <span>No previous data</span>
+          <span className="icon red">📉</span>
+        </KPIFooter>
+      </KPIBox>
+
+      <KPIBox>
+        <h3>Revenue Impact</h3>
+        <p>$12,800</p>
+        <KPIFooter>
+          <span>potential loss</span>
+          <span className="icon green">$</span>
+        </KPIFooter>
       </KPIBox>
     </KPIContainer>
   );

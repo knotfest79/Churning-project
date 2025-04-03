@@ -6,7 +6,6 @@ import {
   YAxis,
   CartesianGrid,
   Tooltip,
-  Legend,
   PieChart,
   Pie,
   Cell,
@@ -17,8 +16,12 @@ import {
 
 const GraphContainer = styled.section`
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  grid-template-columns: repeat(2, 1fr); // ⬅️ fixed two-column layout
   gap: 1.5rem;
+
+  @media (max-width: 768px) {
+    grid-template-columns: 1fr; // stacks on small screens
+  }
 `;
 
 const GraphBox = styled.div`
@@ -26,61 +29,65 @@ const GraphBox = styled.div`
   padding: 1.5rem;
   border-radius: 8px;
   box-shadow: var(--shadow-md);
-  text-align: center;
+  text-align: left;
   min-height: 280px;
+
+  h3 {
+    font-size: 1rem;
+    font-weight: 600;
+    margin-bottom: 1rem;
+  }
 `;
 
-const salesData = [
-  { name: "Jan", sales: 400 },
-  { name: "Feb", sales: 300 },
-  { name: "Mar", sales: 500 },
-  { name: "Apr", sales: 200 },
+const COLORS = ["#EF4444", "#F59E0B", "#10B981"]; // red, amber, green
+
+const churnData = [
+  { name: "Jan", value: 5.6 },
+  { name: "Feb", value: 4.8 },
+  { name: "Mar", value: 4.9 },
+  { name: "Apr", value: 5.1 },
+  { name: "May", value: 4.4 },
+  { name: "Jun", value: 4.1 },
+  { name: "Jul", value: 4.0 },
+  { name: "Aug", value: 4.2 },
 ];
 
-const segmentationData = [
-  { name: "Category A", value: 704 },
-  { name: "Category B", value: 533 },
-  { name: "Category C", value: 367 },
+const riskData = [
+  { name: "High Risk", value: 64 },
+  { name: "Medium Risk", value: 26 },
+  { name: "Low Risk", value: 10 },
 ];
 
-const retentionData = [
-  { name: "Week 1", value: 1000 },
-  { name: "Week 2", value: 1800 },
-  { name: "Week 3", value: 2400 },
-  { name: "Week 4", value: 3200 },
+const retentionAgeData = [
+  { name: "18–24", value: 76 },
+  { name: "25–34", value: 84 },
+  { name: "35–44", value: 89 },
+  { name: "45–54", value: 92 },
+  { name: "55+", value: 94 },
 ];
-
-const COLORS = ["#0088FE", "#00C49F", "#FFBB28"];
 
 function GraphSection() {
   return (
     <GraphContainer>
       <GraphBox>
-        <h3>Sales Trends</h3>
+        <h3>Monthly Churn Rate (%)</h3>
         <ResponsiveContainer width="100%" height={200}>
-          <LineChart data={salesData}>
+          <LineChart data={churnData}>
             <XAxis dataKey="name" />
-            <YAxis />
+            <YAxis domain={[0, 8]} />
             <CartesianGrid strokeDasharray="3 3" />
             <Tooltip />
-            <Legend />
-            <Line type="monotone" dataKey="sales" stroke="#8884d8" />
+            <Line type="monotone" dataKey="value" stroke="#A855F7" />
           </LineChart>
         </ResponsiveContainer>
       </GraphBox>
 
       <GraphBox>
-        <h3>Customer Segmentation</h3>
+        <h3>Customer Risk Categories</h3>
         <ResponsiveContainer width="100%" height={200}>
           <PieChart>
-            <Pie
-              data={segmentationData}
-              dataKey="value"
-              outerRadius={80}
-              fill="#82ca9d"
-              label
-            >
-              {segmentationData.map((entry, index) => (
+            <Pie data={riskData} dataKey="value" outerRadius={70} label>
+              {riskData.map((entry, index) => (
                 <Cell
                   key={`cell-${index}`}
                   fill={COLORS[index % COLORS.length]}
@@ -90,19 +97,45 @@ function GraphSection() {
             <Tooltip />
           </PieChart>
         </ResponsiveContainer>
+        <p style={{ marginTop: "1rem", fontSize: "0.9rem" }}>
+          Total Customers: <strong>100</strong> <br />
+          High Risk Customers: <strong>64 (64%)</strong>
+        </p>
       </GraphBox>
 
       <GraphBox>
-        <h3>Retention Analysis</h3>
+        <h3>Retention Rate by Age Group (%)</h3>
         <ResponsiveContainer width="100%" height={200}>
-          <BarChart data={retentionData}>
+          <BarChart data={retentionAgeData}>
             <XAxis dataKey="name" />
-            <YAxis />
+            <YAxis domain={[70, 100]} />
             <CartesianGrid strokeDasharray="3 3" />
             <Tooltip />
-            <Bar dataKey="value" fill="#8884d8" />
+            <Bar dataKey="value" fill="#A855F7" />
           </BarChart>
         </ResponsiveContainer>
+      </GraphBox>
+
+      <GraphBox>
+        <h3>Latest Prediction Insights</h3>
+        <ul style={{ fontSize: "0.9rem", paddingLeft: "1rem" }}>
+          <li>
+            <strong>Subscription price sensitivity:</strong> Price increases
+            correlate with a 15% higher churn probability for SMB customers.
+          </li>
+          <li>
+            <strong>Feature usage patterns:</strong> Customers who don’t use the
+            reporting module in 30 days have a 3x higher churn risk.
+          </li>
+          <li>
+            <strong>Support interactions:</strong> Customers with more than 3
+            support tickets in a month show elevated churn risk.
+          </li>
+          <li>
+            <strong>Engagement trend:</strong> A 40% decline in login frequency
+            often precedes churn by 45–60 days.
+          </li>
+        </ul>
       </GraphBox>
     </GraphContainer>
   );

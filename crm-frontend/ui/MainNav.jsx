@@ -137,12 +137,12 @@ function MainNav() {
               Products
             </StyledNavLink>
           </li>
-          <li>
+          {/* <li>
             <StyledNavLink to="/cohort">
               <TbChartCohort />
               Cohorts
             </StyledNavLink>
-          </li>
+          </li> */}
           <li>
             <StyledNavLink
               to="/churnprediction"
