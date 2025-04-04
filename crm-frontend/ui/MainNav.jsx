@@ -2,16 +2,17 @@ import styled from "styled-components";
 import { NavLink, useLocation } from "react-router-dom";
 import { useState, useEffect } from "react";
 import {
-  HiMiniHome,
-  HiMiniUsers,
-  HiMiniQueueList,
-  HiMiniShoppingBag,
-  HiCubeTransparent,
-  HiDevicePhoneMobile,
+  HiOutlineHome,
+  HiOutlineUserGroup,
+  HiOutlineClipboardDocumentList,
+  HiOutlineShoppingBag,
+  HiOutlineChatBubbleLeftRight,
+  HiOutlineDocumentText,
+  HiOutlineQuestionMarkCircle,
   HiOutlineCog6Tooth,
 } from "react-icons/hi2";
-import { TbChartCohort } from "react-icons/tb";
 import { MdOutlineSubscriptions } from "react-icons/md";
+import { HiOutlineArrowTrendingDown } from "react-icons/hi2";
 
 const SidebarWrapper = styled.nav`
   display: flex;
@@ -93,102 +94,112 @@ const StyledLogoutButton = styled(StyledNavLink)`
   }
 `;
 
+const AdminSection = styled.div`
+  margin-top: auto;
+  padding: 1rem;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  border-top: 1px solid var(--color-grey-200);
+`;
+
+const AdminAvatar = styled.div`
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: #ede9fe;
+  color: #7c3aed;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 600;
+`;
+
+const AdminInfo = styled.div`
+  display: flex;
+  flex-direction: column;
+`;
+
 function MainNav() {
   const location = useLocation();
   const isChurnActive = location.pathname.startsWith("/churnprediction");
-
   const [isChurnOpen, setIsChurnOpen] = useState(isChurnActive);
 
-  // Ensure submenu opens when navigating between churn subcategories
   useEffect(() => {
     setIsChurnOpen(isChurnActive);
   }, [isChurnActive]);
 
   const handleLogout = () => {
-    // logic for logout like clearing tokens/localStorage
     console.log("Logging out...");
   };
+
   return (
     <SidebarWrapper>
       <nav>
         <NavList>
           <li>
             <StyledNavLink to="/dashboard">
-              <HiMiniHome />
+              <HiOutlineHome />
               Dashboard
             </StyledNavLink>
           </li>
           <li>
             <StyledNavLink to="/customer">
-              {" "}
-              <HiMiniUsers />
+              <HiOutlineUserGroup />
               Customers
             </StyledNavLink>
           </li>
           <li>
             <StyledNavLink to="/order">
-              <HiMiniQueueList />
+              <HiOutlineClipboardDocumentList />
               Orders
             </StyledNavLink>
           </li>
           <li>
             <StyledNavLink to="/product">
-              <HiMiniShoppingBag />
+              <HiOutlineShoppingBag />
               Products
             </StyledNavLink>
           </li>
-          {/* <li>
-            <StyledNavLink to="/cohort">
-              <TbChartCohort />
-              Cohorts
-            </StyledNavLink>
-          </li> */}
           <li>
-            <StyledNavLink
-              to="/churnprediction"
-              onClick={() => setIsChurnOpen(!isChurnOpen)}
-            >
-              <HiCubeTransparent />
-              Churn Predictions ▼
+            <StyledNavLink to="/churnprediction/ViewChurnInsights">
+              <HiOutlineArrowTrendingDown />
+              View Churn Insights
             </StyledNavLink>
-
-            <SubMenu isOpen={isChurnOpen}>
-              <li>
-                <StyledNavLink to="/churnprediction/ViewChurnInsights">
-                  View Churn Insights
-                </StyledNavLink>
-              </li>
-              <li>
-                <StyledNavLink to="/churnprediction/ChurnRecommendations">
-                  Generate Retention Recommendations
-                </StyledNavLink>
-              </li>
-              <li>
-                <StyledNavLink to="/churnprediction/UploadChurnData">
-                  Upload Data for Insights
-                </StyledNavLink>
-              </li>
-              <li>
-                <StyledNavLink to="/churnprediction/ChurnRetentionMetrics">
-                  View Retention Metrics
-                </StyledNavLink>
-              </li>
-            </SubMenu>
           </li>
+
           <li>
             <StyledNavLink to="/interaction">
-              {" "}
-              <HiDevicePhoneMobile />
+              <HiOutlineChatBubbleLeftRight />
               Interactions
             </StyledNavLink>
           </li>
-          <li>
+          {/* <li>
             <StyledNavLink to="/subscription">
               <MdOutlineSubscriptions />
               Subscriptions
             </StyledNavLink>
+          </li> */}
+          <li>
+            <StyledNavLink to="/reports">
+              <HiOutlineDocumentText />
+              Reports
+            </StyledNavLink>
+          </li>
+          <li>
+            <StyledNavLink to="/help">
+              <HiOutlineQuestionMarkCircle />
+              Help & Support
+            </StyledNavLink>
+          </li>
+          <li>
+            <StyledNavLink to="/settings">
+              <HiOutlineCog6Tooth />
+              Settings
+            </StyledNavLink>
           </li>
         </NavList>
+
         <NavList>
           <li>
             <StyledLogoutButton to="/login" onClick={handleLogout}>
@@ -196,6 +207,21 @@ function MainNav() {
             </StyledLogoutButton>
           </li>
         </NavList>
+
+        <AdminSection>
+          <AdminAvatar>👤</AdminAvatar>
+          <AdminInfo>
+            <div style={{ fontWeight: "600", fontSize: "1.1rem" }}>
+              Admin User
+            </div>
+            <NavLink
+              to="/user"
+              style={{ fontSize: "0.85rem", color: "var(--color-grey-500)" }}
+            >
+              View Profile
+            </NavLink>
+          </AdminInfo>
+        </AdminSection>
       </nav>
     </SidebarWrapper>
   );

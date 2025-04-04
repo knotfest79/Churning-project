@@ -3,7 +3,6 @@ import { useState } from "react";
 import { FiMenu, FiX } from "react-icons/fi";
 import MainNav from "../ui/MainNav";
 import Logo from "../ui/Logo";
-import DateRangePicker from "./DateRangePicker";
 
 const SidebarWrapper = styled.div`
   position: relative;
@@ -55,7 +54,7 @@ function Sidebar({ isOpen, toggleSidebar }) {
 
       <SidebarContainer $isOpen={isOpen}>
         <Logo />
-        <DateRangePicker />
+
         <MainNav />
       </SidebarContainer>
     </SidebarWrapper>

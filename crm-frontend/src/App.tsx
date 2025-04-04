@@ -1,10 +1,5 @@
 import React from "react";
-import {
-  BrowserRouter,
-  Navigate,
-  Route,
-  Routes,
-} from "react-router-dom";
+import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
 
 import Dashboard from "./pages/Dashboard";
 import PageNotFound from "./pages/PageNotFound";
@@ -28,6 +23,9 @@ import ChurnRetentionMetrics from "./pages/ChurnRetentionMetrics";
 
 import ProtectedRoute from "./auth/ProtectedRoute";
 import PublicRoute from "./auth/PublicRoute";
+import HelpSupport from "./pages/HelpSupport";
+import Reports from "./pages/Reports";
+import AdminUser from "./pages/AdminUser";
 
 function App() {
   return (
@@ -48,10 +46,7 @@ function App() {
                 <Route
                   index
                   element={
-                    <Navigate
-                      to="/churnprediction/ViewChurnInsights"
-                      replace
-                    />
+                    <Navigate to="/churnprediction/ViewChurnInsights" replace />
                   }
                 />
                 <Route
@@ -70,7 +65,10 @@ function App() {
               </Route>
               <Route path="interaction" element={<Interaction />} />
               <Route path="subscription" element={<Subscription />} />
+              <Route path="Help" element={<HelpSupport />} />
+              <Route path="Reports" element={<Reports />} />
               <Route path="settings" element={<Settings />} />
+              <Route path="user" element={<AdminUser />} />
               <Route path="signout" element={<Signout />} />
             </Route>
           </Route>

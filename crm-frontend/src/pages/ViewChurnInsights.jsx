@@ -97,8 +97,8 @@ const FilterRow = styled.div`
 const FilterButton = styled.button`
   padding: 0.6rem 1.2rem;
   border-radius: 999px;
-  background-color: ${({ active }) => (active ? "#111827" : "#e5e7eb")};
-  color: ${({ active }) => (active ? "#fff" : "#111827")};
+  background-color: ${({ active }) => (active ? "Grey" : "#e5e7eb")};
+  color: ${({ active }) => (active ? "#fff" : "Grey")};
   font-size: 0.9rem;
   font-weight: 500;
   border: none;
@@ -140,7 +140,7 @@ function ViewChurnInsights() {
           </CardFooter>
           <CardFooter>
             <strong>95%</strong>
-            <strong>Apr 3, 2025</strong>
+            <strong>Mar 24, 2025</strong>
           </CardFooter>
           <StatusBadge>Active</StatusBadge>
           <ViewLink>View Details</ViewLink>

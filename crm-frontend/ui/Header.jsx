@@ -137,7 +137,6 @@ function Header() {
     <>
       <HeaderContainer>
         <LeftSection>
-          <SearchBar type="text" placeholder="Search orders..." />
           <SeePlans onClick={() => setShowPricing(true)}>See plans</SeePlans>
 
           {showPricing && (
