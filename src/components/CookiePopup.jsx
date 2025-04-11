@@ -60,11 +60,28 @@ export default function CookiePopup() {
   return (
     <CookiePopupContainer $show={showPopup}>
       <CookieText>
-        We use cookies to ensure you have the best experience on our site, to
-        analyze traffic, and enhance our marketing activities.{" "}
-        <a href="/cookie-policy">Cookie Policy</a> |{" "}
-        <a href="/terms">Terms of Service</a>
+        <strong>What are Cookies?</strong>
+        <br />
+        Cookies are small text files stored in your browser. Nest CRM uses
+        cookies to remember your preferences and understand how you interact
+        with our platform.
+        <br />
+        <br />
+        <strong>How we use them:</strong>
+        <br />
+        • Authentication maintains your login.
+        <br />
+        • Analytics to improve our services.
+        <br />
+        • Preferences for saving your settings.
+        <br />
+        <br />
+        Your browser allows you to disable cookies, but doing so may limit
+        functionality. Read our <a href="/cookie-policy">
+          Cookie Policy
+        </a> or <a href="/terms">Terms of Service</a>.
       </CookieText>
+
       <ButtonsContainer>
         <Button $secondary onClick={handleDecline}>
           Cookie settings

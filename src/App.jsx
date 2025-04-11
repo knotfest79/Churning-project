@@ -19,6 +19,11 @@ import Homepage1 from "./pages/Homepage1";
 import OnboardingWelcome from "./pages/OnboardingWelcome";
 import OnboardingSource from "./pages/OnboardingSource";
 import OnboardingTools from "./pages/OnboardingTools";
+import PrivacyPolicy from "./pages/PrivacyPolicy";
+import TermsOfService from "./pages/TermsOfService";
+import DataProcessing from "./pages/DataProcessing";
+import GDPRCompliance from "./pages/GDPRCompliance";
+import Documentation from "./pages/Documentation";
 
 function App() {
   const { theme } = useTheme();
@@ -37,6 +42,11 @@ function App() {
               <Route path="about" element={<About />} />
               <Route path="contact" element={<Contact />} />
               <Route path="login" element={<Login />} />
+              <Route path="privacy" element={<PrivacyPolicy />} />
+              <Route path="terms" element={<TermsOfService />} />
+              <Route path="data-processing" element={<DataProcessing />} />
+              <Route path="gdpr" element={<GDPRCompliance />} />
+              <Route path="docs" element={<Documentation />} />
             </Route>
             <Route path="*" element={<PageNotFound />} />
             <Route path="signup" element={<Signup />} />

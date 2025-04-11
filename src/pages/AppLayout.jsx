@@ -3,6 +3,7 @@ import styled from "styled-components";
 import PageNav from "../components/PageNav";
 import Footer from "./Footer";
 import CookiePopup from "../components/CookiePopup";
+import { useRef } from "react";
 
 const LayoutContainer = styled.div`
   display: flex;
@@ -18,8 +19,8 @@ const Main = styled.main`
 
 function AppLayout() {
   const location = useLocation();
+  const cookieRef = useRef();
 
-  // ✅ Fix the condition by adding "/"
   const hideNav = location.pathname === "/login";
 
   return (
@@ -28,8 +29,8 @@ function AppLayout() {
       <Main>
         <Outlet />
       </Main>
-      {!hideNav && <Footer />}
-      <CookiePopup />
+      {!hideNav && <Footer onOpenCookies={() => cookieRef.current?.open()} />}
+      <CookiePopup ref={cookieRef} />
     </LayoutContainer>
   );
 }

@@ -5,60 +5,69 @@ import {
   FaTwitter,
   FaLinkedin,
   FaInstagram,
-  FaGlobe,
 } from "react-icons/fa";
-import Logo from "../components/Logo"; // ✅ Importing your Logo component
+import Logo from "../components/Logo";
 
+// ✅ All styled-components must be defined outside
 const FooterContainer = styled.footer`
   background: ${({ theme }) =>
     theme.name === "dark"
       ? "linear-gradient(to bottom, #1a1a1a, #2a2a2a)"
       : "linear-gradient(to bottom, #c6bfda, #a9a0ca)"};
   color: ${({ theme }) => theme.text};
-  padding: 50px 20px;
+  padding: 60px 20px 20px;
 `;
 
 const FooterContent = styled.div`
+  max-width: 1200px;
+  margin: 0 auto;
   display: flex;
   flex-wrap: wrap;
   justify-content: space-between;
-  max-width: 1100px;
-  margin: 0 auto;
 
   @media (max-width: 768px) {
     flex-direction: column;
     align-items: center;
+    text-align: center;
+    gap: 30px;
   }
 `;
 
-const LogoContainer = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  img {
-    width: 120px;
-    height: auto;
+const LeftColumn = styled.div`
+  flex: 1;
+  min-width: 250px;
+
+  p {
+    margin: 20px 18px 1px 1px;
+    max-width: 320px;
   }
+
   @media (max-width: 768px) {
     align-items: center;
-    margin-bottom: 20px;
   }
 `;
 
-const LinksContainer = styled.div`
+const SocialIcons = styled.div`
   display: flex;
-  gap: 50px;
+  gap: 15px;
+  margin-top: 10px;
 
-  @media (max-width: 768px) {
-    flex-direction: column;
-    align-items: center;
-    gap: 20px;
-  }
-`;
-
-const LinksColumn = styled.div`
-  h3 {
+  a {
+    color: #6b4fd5;
     font-size: 1.2rem;
+
+    &:hover {
+      color: #7a4adb;
+    }
+  }
+`;
+
+const LinkColumn = styled.div`
+  flex: 1;
+  min-width: 160px;
+
+  h3 {
+    font-size: 1.1rem;
     font-weight: bold;
     margin-bottom: 10px;
     color: #6b4fd5;
@@ -68,103 +77,50 @@ const LinksColumn = styled.div`
     list-style: none;
     padding: 0;
   }
+
+  li {
+    margin-bottom: 8px;
+  }
 `;
 
 const FooterLink = styled(Link)`
   text-decoration: none;
   color: ${({ theme }) => theme.text};
   font-size: 0.9rem;
-  display: block;
-  margin-bottom: 8px;
-  transition: color 0.3s ease;
 
   &:hover {
     color: #7a4adb;
   }
 `;
 
-const SocialIcons = styled.div`
-  display: flex;
-  gap: 15px;
-  margin-top: 15px;
-
-  a {
-    color: #6b4fd5;
-    font-size: 1.2rem;
-    transition: color 0.3s ease;
-
-    &:hover {
-      color: #7a4adb;
-    }
-  }
-`;
-
 const FooterBottom = styled.div`
+  max-width: 1200px;
+  margin: 30px auto 0;
+  padding-top: 20px;
+  border-top: 1px solid #8a7eb9;
+  font-size: 0.85rem;
   display: flex;
   justify-content: space-between;
-  align-items: center;
-  max-width: 1100px;
-  margin: 30px auto 0;
-  padding-top: 15px;
-  border-top: 1px solid #8a7eb9;
 
   @media (max-width: 768px) {
     flex-direction: column;
+    gap: 10px;
     text-align: center;
   }
 `;
 
-const LegalLinks = styled.div`
-  display: flex;
-  gap: 15px;
-  font-size: 0.85rem;
-
-  a {
-    color: ${({ theme }) => theme.text};
-    text-decoration: none;
-
-    &:hover {
-      text-decoration: underline;
-      color: #7a4adb;
-    }
-  }
-
-  @media (max-width: 768px) {
-    flex-direction: column;
-    gap: 8px;
-  }
-`;
-
-const LanguageSelect = styled.div`
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  font-size: 0.9rem;
-
-  select {
-    border: none;
-    background: none;
-    font-size: 0.9rem;
-    color: ${({ theme }) => theme.text};
-    cursor: pointer;
-  }
-`;
-
-const Copyright = styled.p`
-  text-align: center;
-  margin-top: 40px;
-  font-size: 0.9rem;
-  color: ${({ theme }) => (theme.name === "dark" ? "#b8a7ff" : "#6b4fd5")};
-`;
-
+// ✅ Final, clean component
 export default function Footer() {
   return (
     <FooterContainer>
       <FooterContent>
-        {/* Logo and Short Description */}
-        <LogoContainer>
-          <Logo /> {/* ✅ Using your imported Logo component */}
-          <p>Enhancing AI-driven customer retention and CRM solutions.</p>
+        {/* LEFT: Logo, Description, Social */}
+        <LeftColumn>
+          <Logo />
+          <p>
+            AI-powered customer retention platform that helps businesses predict
+            and prevent churn before it happens.
+          </p>
           <SocialIcons>
             <a href="#">
               <FaFacebookF />
@@ -173,73 +129,76 @@ export default function Footer() {
               <FaTwitter />
             </a>
             <a href="#">
-              <FaLinkedin />
-            </a>
-            <a href="#">
               <FaInstagram />
             </a>
+            <a href="#">
+              <FaLinkedin />
+            </a>
           </SocialIcons>
-        </LogoContainer>
+        </LeftColumn>
 
-        {/* Quick Links */}
-        <LinksContainer>
-          <LinksColumn>
-            <h3>Company</h3>
-            <ul>
-              <li>
-                <FooterLink to="/about">About Us</FooterLink>
-              </li>
-              <li>
-                <FooterLink to="/careers">Careers</FooterLink>
-              </li>
-              <li>
-                <FooterLink to="/contact">Contact</FooterLink>
-              </li>
-              <li>
-                <FooterLink to="/blog">Blog</FooterLink>
-              </li>
-            </ul>
-          </LinksColumn>
+        {/* CENTER & RIGHT: Links */}
+        <LinkColumn>
+          <h3>Product</h3>
+          <ul>
+            <li>
+              <FooterLink to="/features">Features</FooterLink>
+            </li>
+            <li>
+              <FooterLink to="/pricing">Pricing</FooterLink>
+            </li>
+            <li>
+              <FooterLink to="/docs">Documentation</FooterLink>
+            </li>
+            <li>
+              <FooterLink to="/api">API</FooterLink>
+            </li>
+          </ul>
+        </LinkColumn>
 
-          <LinksColumn>
-            <h3>Resources</h3>
-            <ul>
-              <li>
-                <FooterLink to="/help-center">Help Center</FooterLink>
-              </li>
-              <li>
-                <FooterLink to="/privacy">Privacy Policy</FooterLink>
-              </li>
-              <li>
-                <FooterLink to="/terms">Terms of Service</FooterLink>
-              </li>
-              <li>
-                <FooterLink to="/faq">FAQs</FooterLink>
-              </li>
-            </ul>
-          </LinksColumn>
-        </LinksContainer>
+        <LinkColumn>
+          <h3>Company</h3>
+          <ul>
+            <li>
+              <FooterLink to="/about">About Us</FooterLink>
+            </li>
+
+            <li>
+              <FooterLink to="/contact">Contact</FooterLink>
+            </li>
+          </ul>
+        </LinkColumn>
+
+        <LinkColumn>
+          <h3>Legal</h3>
+          <ul>
+            <li>
+              <FooterLink to="/privacy">Privacy Policy</FooterLink>
+            </li>
+            <li>
+              <FooterLink to="/terms">Terms of Service</FooterLink>
+            </li>
+            <li>
+              <FooterLink to="/cookie-policy">Cookie Policy</FooterLink>
+            </li>
+            <li>
+              <FooterLink to="/data-processing">Data Processing</FooterLink>
+            </li>
+            <li>
+              <FooterLink to="/gdpr">GDPR Compliance</FooterLink>
+            </li>
+          </ul>
+        </LinkColumn>
       </FooterContent>
 
-      {/* Footer Bottom Section */}
       <FooterBottom>
-        <LanguageSelect>
-          <FaGlobe />
-          <select>
-            <option>English</option>
-            <option>French</option>
-            <option>Spanish</option>
-          </select>
-        </LanguageSelect>
-
-        <LegalLinks>
-          <Link to="/security">Security</Link>
-          <Link to="/privacy">Privacy Policy</Link>
-          <Link to="/terms">Terms of Service</Link>
-          <Link to="/status">Status</Link>
-        </LegalLinks>
+        <span>© 2025 NESTCRM. All rights reserved.</span>
+        <div>
+          <FooterLink to="/privacy">Privacy</FooterLink> |{" "}
+          <FooterLink to="/terms">Terms</FooterLink> |{" "}
+          <FooterLink to="/cookiePopup">Cookies</FooterLink>
+        </div>
       </FooterBottom>
-      <Copyright>© 2025 NestCRM. All Rights Reserved.</Copyright>
     </FooterContainer>
   );
 }
